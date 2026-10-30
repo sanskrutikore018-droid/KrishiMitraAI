@@ -322,6 +322,7 @@ export const VoiceInputBar: React.FC<VoiceInputBarProps> = ({
             onKeyDown={handleKeyDown}
             disabled={isLoading}
             placeholder={dict.inputPlaceholder}
+            suppressHydrationWarning
             className="flex-1 px-4 py-3 text-xs sm:text-sm border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent bg-gray-50/70 focus:bg-white text-gray-900 transition"
           />
 

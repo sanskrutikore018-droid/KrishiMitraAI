@@ -178,6 +178,7 @@ export const LoginModal: React.FC = () => {
                 placeholder={dict.identifierPlaceholder}
                 autoFocus
                 disabled={isLoading}
+                suppressHydrationWarning
                 className="w-full px-4 py-3 rounded-2xl bg-emerald-950/80 border border-emerald-500/40 text-white placeholder-emerald-400/40 text-sm font-medium focus:outline-none focus:border-lime-400 focus:ring-2 focus:ring-lime-400/40 shadow-inner transition"
               />
             </div>
@@ -199,6 +200,7 @@ export const LoginModal: React.FC = () => {
                 }}
                 placeholder={dict.passwordPlaceholder}
                 disabled={isLoading}
+                suppressHydrationWarning
                 className="w-full px-4 py-3 pr-11 rounded-2xl bg-emerald-950/80 border border-emerald-500/40 text-white placeholder-emerald-400/40 text-sm font-medium focus:outline-none focus:border-lime-400 focus:ring-2 focus:ring-lime-400/40 shadow-inner transition font-mono"
               />
               <button
@@ -218,6 +220,7 @@ export const LoginModal: React.FC = () => {
                 type="checkbox"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
+                suppressHydrationWarning
                 className="w-4 h-4 rounded text-lime-500 focus:ring-lime-400 focus:ring-offset-0 border-emerald-600 bg-emerald-950"
               />
               <span>{dict.rememberMe}</span>
@@ -277,3 +280,4 @@ export const LoginModal: React.FC = () => {
     </div>
   );
 };
+

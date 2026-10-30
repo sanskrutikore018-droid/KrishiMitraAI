@@ -678,6 +678,7 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
                 onChange={(e) => setInputText(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSendText()}
                 placeholder={dict.typePlaceholder}
+                suppressHydrationWarning
                 className="flex-1 bg-transparent text-sm text-white placeholder-emerald-300/45 focus:outline-none px-2 font-medium"
               />
 

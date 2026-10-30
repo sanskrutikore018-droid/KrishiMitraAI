@@ -165,6 +165,7 @@ export const CinematicHero: React.FC<CinematicHeroProps> = ({
                   onChange={(e) => setLanguage(e.target.value as SupportedLanguage)}
                   className="bg-transparent text-emerald-100 font-extrabold focus:outline-none cursor-pointer"
                   aria-label="Choose Language"
+                  suppressHydrationWarning
                 >
                   {availableLanguages.map((opt) => (
                     <option key={opt.code} value={opt.code} className="bg-[#041209] text-white py-1">

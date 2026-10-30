@@ -244,6 +244,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({ onProfileSynced }) => 
                     }}
                     placeholder={dict.farmerNamePlaceholder}
                     autoFocus
+                    suppressHydrationWarning
                     className="w-full px-4 py-2.5 rounded-2xl bg-emerald-950/80 border border-emerald-500/40 text-white placeholder-emerald-400/40 text-sm font-medium focus:outline-none focus:border-lime-400 focus:ring-2 focus:ring-lime-400/40 shadow-inner"
                   />
                 </div>
@@ -262,6 +263,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({ onProfileSynced }) => 
                       setErrorAlert(null);
                     }}
                     placeholder={dict.identifierPlaceholder}
+                    suppressHydrationWarning
                     className="w-full px-4 py-2.5 rounded-2xl bg-emerald-950/80 border border-emerald-500/40 text-white placeholder-emerald-400/40 text-sm font-medium focus:outline-none focus:border-lime-400 focus:ring-2 focus:ring-lime-400/40 shadow-inner"
                   />
                 </div>
@@ -281,6 +283,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({ onProfileSynced }) => 
                         setErrorAlert(null);
                       }}
                       placeholder={dict.passwordPlaceholder}
+                      suppressHydrationWarning
                       className="w-full px-4 py-2.5 pr-11 rounded-2xl bg-emerald-950/80 border border-emerald-500/40 text-white placeholder-emerald-400/40 text-sm font-medium focus:outline-none focus:border-lime-400 focus:ring-2 focus:ring-lime-400/40 shadow-inner font-mono"
                     />
                     <button
@@ -324,6 +327,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({ onProfileSynced }) => 
                       setErrorAlert(null);
                     }}
                     placeholder={dict.confirmPasswordPlaceholder}
+                    suppressHydrationWarning
                     className="w-full px-4 py-2.5 rounded-2xl bg-emerald-950/80 border border-emerald-500/40 text-white placeholder-emerald-400/40 text-sm font-medium focus:outline-none focus:border-lime-400 focus:ring-2 focus:ring-lime-400/40 shadow-inner font-mono"
                   />
                 </div>
@@ -379,6 +383,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({ onProfileSynced }) => 
                       value={district}
                       onChange={(e) => setDistrict(e.target.value)}
                       placeholder={dict.districtPlaceholder}
+                      suppressHydrationWarning
                       className="w-full px-3.5 py-2.5 rounded-xl bg-emerald-950/80 border border-emerald-500/40 text-white placeholder-emerald-400/40 text-sm focus:outline-none focus:ring-2 focus:ring-lime-400/40"
                     />
                   </div>
@@ -396,6 +401,7 @@ export const SignupModal: React.FC<SignupModalProps> = ({ onProfileSynced }) => 
                       value={landArea}
                       onChange={(e) => setLandArea(e.target.value)}
                       placeholder={dict.landSizePlaceholder}
+                      suppressHydrationWarning
                       className="w-full px-3.5 py-2.5 rounded-xl bg-emerald-950/80 border border-emerald-500/40 text-white placeholder-emerald-400/40 text-sm focus:outline-none focus:ring-2 focus:ring-lime-400/40"
                     />
                   </div>
@@ -496,3 +502,4 @@ export const SignupModal: React.FC<SignupModalProps> = ({ onProfileSynced }) => 
     </div>
   );
 };
+

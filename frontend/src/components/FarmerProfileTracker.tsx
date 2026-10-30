@@ -159,6 +159,7 @@ export const FarmerProfileTracker: React.FC<FarmerProfileTrackerProps> = ({
               value={tempProfile.district || ''}
               onChange={(e) => setTempProfile({ ...tempProfile, district: e.target.value })}
               placeholder="e.g. Belagavi"
+              suppressHydrationWarning
               className="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg focus:ring-1 focus:ring-emerald-500"
             />
           </div>
@@ -170,6 +171,7 @@ export const FarmerProfileTracker: React.FC<FarmerProfileTrackerProps> = ({
               value={tempProfile.land_area_acres || ''}
               onChange={(e) => setTempProfile({ ...tempProfile, land_area_acres: parseFloat(e.target.value) || null })}
               placeholder="e.g. 3.5"
+              suppressHydrationWarning
               className="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg focus:ring-1 focus:ring-emerald-500"
             />
           </div>
@@ -178,6 +180,7 @@ export const FarmerProfileTracker: React.FC<FarmerProfileTrackerProps> = ({
             <select
               value={tempProfile.ownership_type || ''}
               onChange={(e) => setTempProfile({ ...tempProfile, ownership_type: (e.target.value as any) || null })}
+              suppressHydrationWarning
               className="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg focus:ring-1 focus:ring-emerald-500"
             >
               <option value="">-- {dict.missingTag} --</option>
@@ -198,6 +201,7 @@ export const FarmerProfileTracker: React.FC<FarmerProfileTrackerProps> = ({
                 })
               }
               placeholder="paddy, sugarcane, ragi"
+              suppressHydrationWarning
               className="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg focus:ring-1 focus:ring-emerald-500"
             />
           </div>
@@ -211,6 +215,7 @@ export const FarmerProfileTracker: React.FC<FarmerProfileTrackerProps> = ({
                   has_irrigation: e.target.value === 'yes' ? true : e.target.value === 'no' ? false : null
                 })
               }
+              suppressHydrationWarning
               className="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg focus:ring-1 focus:ring-emerald-500"
             >
               <option value="">-- {dict.missingTag} --</option>
