@@ -61,9 +61,11 @@ class SarvamVoiceService:
             files = {
                 "file": (filename, audio_bytes, "audio/wav")
             }
+            # Official current Sarvam STT model (Saaras) with transcribe mode
             data = {
-                "model": "saarika:v2",
-                "language_code": lang_param
+                "model": "saaras:v2",
+                "language_code": lang_param,
+                "mode": "transcribe"
             }
 
             async with httpx.AsyncClient(timeout=15.0) as client:
@@ -75,10 +77,10 @@ class SarvamVoiceService:
                         transcript=transcript,
                         language_code=lang_param,
                         confidence=0.95,
-                        provider="sarvam:saarika:v2"
+                        provider="sarvam:saaras:v2"
                     )
                 else:
-                    logger.warning(f"Sarvam STT failed with status {resp.status_code}: {resp.text}")
+                    logger.warning(f"Sarvam STT returned status {resp.status_code}")
                     return STTResponse(
                         transcript="",
                         language_code=lang_param,

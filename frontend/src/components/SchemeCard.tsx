@@ -146,7 +146,7 @@ export const SchemeCard: React.FC<SchemeCardProps> = ({
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
                       <span className="font-semibold text-gray-800">
-                        {language === 'kn' ? rule.rule_label_kn : rule.rule_label_en}
+                        {dict.ruleLabels?.[rule.rule_key] || (language === 'kn' ? rule.rule_label_kn : rule.rule_label_en)}
                       </span>
                       <span
                         className={`text-[10px] font-bold px-1.5 py-0.2 rounded ${
@@ -165,7 +165,9 @@ export const SchemeCard: React.FC<SchemeCardProps> = ({
                       </span>
                     </div>
                     <p className="text-[11px] text-gray-500 mt-0.5 leading-tight">
-                      {language === 'kn' ? rule.explanation_kn : rule.explanation_en}
+                      {(language === 'hi' && (rule as any).explanation_hi) ||
+                       (language === 'mr' && (rule as any).explanation_mr) ||
+                       (language === 'kn' ? rule.explanation_kn : rule.explanation_en)}
                     </p>
                   </div>
                 </div>

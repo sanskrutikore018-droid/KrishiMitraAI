@@ -40,7 +40,7 @@ export const EligibilityAssessmentView: React.FC<EligibilityAssessmentViewProps>
   const criteriaList = [
     {
       label: profile.land_area_acres
-        ? `${dict.slots.land_area_acres}: ${profile.land_area_acres}`
+        ? `${dict.slots.land_area_acres}: ${profile.land_area_acres} ${dict.acresUnit}`
         : dict.ruleLand,
       satisfied: profile.land_area_acres ? profile.land_area_acres > 0 : true
     },

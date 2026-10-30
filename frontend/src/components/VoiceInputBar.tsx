@@ -131,11 +131,14 @@ export const VoiceInputBar: React.FC<VoiceInputBarProps> = ({
     audioChunksRef.current = [];
     try {
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        alert(
-          language === 'kn'
-            ? 'ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಧ್ವನಿ ಗುರುತಿಸುವಿಕೆ ಲಭ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ಪಠ್ಯದಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ.'
-            : 'Speech recognition is not supported in this browser. Please type your message.'
-        );
+        const notSupportedMap: Record<Language, string> = {
+          kn: 'ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಧ್ವನಿ ಗುರುತಿಸುವಿಕೆ ಲಭ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ಪಠ್ಯದಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ.',
+          hi: 'आपके ब्राउज़र में वॉइस इनपुट समर्थित नहीं है। कृपया लिखकर भेजें।',
+          mr: 'आपल्या ब्राउझरमध्ये व्हॉइस इनपुट समर्थित नाही. कृपया मजकूर टाइप करा.',
+          te: 'మీ బ್ರೌజర్‌లో వాయిస్ ఇన్‌పుట్ అందుబాటులో లేదు. దయచేసి టైప్ చేయండి.',
+          en: 'Speech recognition is not supported in this browser. Please type your message.'
+        };
+        alert(notSupportedMap[language] || notSupportedMap.en);
         setIsRecording(false);
         return;
       }
@@ -298,7 +301,7 @@ export const VoiceInputBar: React.FC<VoiceInputBarProps> = ({
         <div className="flex items-center justify-center space-x-2 py-3 text-emerald-800 bg-emerald-50 rounded-xl border border-emerald-200">
           <Loader2 className="w-5 h-5 animate-spin text-emerald-600" />
           <span className="text-xs sm:text-sm font-bold">
-            ಧ್ವನಿ ಸಂಸ್ಕರಿಸಲಾಗುತ್ತಿದೆ (Sarvam AI STT)... / Converting Voice to Text...
+            {dict.voiceStateProcessing} (Sarvam AI STT)
           </span>
         </div>
       ) : (
@@ -309,7 +312,7 @@ export const VoiceInputBar: React.FC<VoiceInputBarProps> = ({
             onClick={startRecording}
             disabled={isLoading}
             className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-600 to-green-700 hover:from-emerald-500 hover:to-green-600 text-white flex items-center justify-center shadow-md transition transform active:scale-95 shrink-0 focus:ring-2 focus:ring-emerald-400 group"
-            title="Click to speak (Kannada / English)"
+            title={dict.voiceInstruction}
           >
             <Mic className="w-6 h-6 group-hover:scale-110 transition duration-200 text-white" />
           </button>

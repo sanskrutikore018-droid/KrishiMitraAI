@@ -159,7 +159,7 @@ export const CinematicHero: React.FC<CinematicHeroProps> = ({
               {/* Language Selector Pill with all 5 languages */}
               <div className="flex items-center space-x-2.5 bg-[#0a2313]/90 backdrop-blur-2xl border border-emerald-400/40 rounded-2xl px-4 py-3.5 text-xs font-bold text-white shadow-xl hover:border-lime-400 transition-all duration-300">
                 <Globe className="w-4 h-4 text-lime-400" />
-                <span className="text-emerald-300 font-medium">ಭಾಷೆ / Lang:</span>
+                <span className="text-emerald-300 font-medium">{dict.switchLanguage}:</span>
                 <select
                   value={language}
                   onChange={(e) => setLanguage(e.target.value as SupportedLanguage)}

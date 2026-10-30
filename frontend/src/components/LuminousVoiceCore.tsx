@@ -320,7 +320,14 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
 
           if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
             setVoiceState('error');
-            setLiveTranscript('Microphone permission denied. Please allow microphone access in your browser.');
+            const micErrMap: Record<SupportedLanguage, string> = {
+              kn: 'ಮೈಕ್ರೊಫೋನ್ ಅನುಮತಿ ನಿರಾಕರಿಸಲಾಗಿದೆ. ದಯವಿಟ್ಟು ಬ್ರೌಸರ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಅನುಮತಿಸಿ.',
+              hi: 'माइक्रोफ़ोन की अनुमति अस्वीकृत की गई। कृपया ब्राउज़र सेटिंग में अनुमति दें।',
+              mr: 'मायक्रोफोन परवानगी नाकारली गेली. कृपया ब्राउझर सेटिंग्जमध्ये परवानगी द्या.',
+              te: 'మైక్రోఫోన్ అనుమతి నిరాకరించబడింది. దయచేసి అనుమతించండి.',
+              en: 'Microphone permission denied. Please allow microphone access in your browser.'
+            };
+            setLiveTranscript(micErrMap[language] || micErrMap.en);
             setTimeout(() => setVoiceState('idle'), 4000);
           } else if (event.error === 'no-speech') {
             setVoiceState('idle');
@@ -360,7 +367,14 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
     try {
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
         setVoiceState('error');
-        setLiveTranscript('Microphone capture not supported in this browser. Please type.');
+        const notSuppMap: Record<SupportedLanguage, string> = {
+          kn: 'ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಧ್ವನಿ ರೆಕಾರ್ಡಿಂಗ್ ಲಭ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ಟೈಪ್ ಮಾಡಿ.',
+          hi: 'आपके ब्राउज़र में वॉइस रिकॉर्डिंग समर्थित नहीं है। कृपया टाइप करें।',
+          mr: 'आपल्या ब्राउझरमध्ये व्हॉइस रेकॉर्डिंग समर्थित नाही. कृपया टाइप करा.',
+          te: 'మీ బ్రౌజర్‌లో వాయిస్ రికార్డింగ్ అందుబాటులో లేదు. దయచేసి టైప్ చేయండి.',
+          en: 'Microphone capture not supported in this browser. Please type.'
+        };
+        setLiveTranscript(notSuppMap[language] || notSuppMap.en);
         setTimeout(() => setVoiceState('idle'), 3500);
         return;
       }
@@ -407,7 +421,14 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
     } catch (err) {
       console.warn('MediaRecorder permission error:', err);
       setVoiceState('error');
-      setLiveTranscript('Microphone permission was not granted. Please type.');
+      const micDenMap: Record<SupportedLanguage, string> = {
+        kn: 'ಮೈಕ್ರೊಫೋನ್ ಅನುಮತಿ ನೀಡಲಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ಟೈಪ್ ಮಾಡಿ.',
+        hi: 'माइक्रोफ़ोन की अनुमति नहीं दी गई। कृपया टाइप करें।',
+        mr: 'मायक्रोफोन परवानगी दिली गेली नाही. कृपया टाइप करा.',
+        te: 'మైక్రోఫోన్ అనుమతి లభించలేదు. దయచేసి టైప్ చేయండి.',
+        en: 'Microphone permission was not granted. Please type.'
+      };
+      setLiveTranscript(micDenMap[language] || micDenMap.en);
       setTimeout(() => setVoiceState('idle'), 3500);
     }
   };

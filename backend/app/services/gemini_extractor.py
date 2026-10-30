@@ -65,11 +65,52 @@ KANNADA_CROP_KEYWORDS = {
     "ಬಾಳೆ": "banana", "bale": "banana", "banana": "banana",
     "ದಾಳಿಂಬೆ": "pomegranate", "dalimbe": "pomegranate", "pomegranate": "pomegranate",
     "ದ್ರಾಕ್ಷಿ": "grapes", "drakshi": "grapes", "grapes": "grapes",
-    "ಗೋಧಿ": "wheat", "godhi": "wheat", "wheat": "wheat"
+    "ಗೋಧಿ": "wheat", "godhi": "wheat", "wheat": "wheat",
+    # Hindi and Marathi crop terms
+    "गेहूं": "wheat", "गहू": "wheat",
+    "धान": "paddy", "चावल": "paddy", "भात": "paddy", "तांदूळ": "paddy",
+    "गन्ना": "sugarcane", "ऊस": "sugarcane",
+    "कपास": "cotton", "कापूस": "cotton",
+    "सोयाबीन": "soybean", "सोयाबिन": "soybean",
+    "मक्का": "maize", "मका": "maize",
+    "चना": "gram", "हरभरा": "gram", "छोला": "gram",
+    "अरहर": "tur", "तूर": "tur", "दाल": "tur",
+    "मूंग": "moong", "मूग": "moong",
+    "उड़द": "urad", "उडीद": "urad",
+    "मूंगफली": "groundnut", "भुईमूग": "groundnut", "शेंगदाणा": "groundnut",
+    "बाजरा": "bajra", "बाजरी": "bajra",
+    "ज्वार": "jowar", "ज्वारी": "jowar",
+    "प्याज़": "onion", "प्याज": "onion", "कांदा": "onion",
+    "आलू": "potato", "बटाटा": "potato",
+    "टमाटर": "tomato", "टोमॅटो": "tomato",
+    "मिर्च": "chilli", "मिरची": "chilli",
+    "अनार": "pomegranate", "डाळिंब": "pomegranate",
+    "अंगूर": "grapes", "द्राक्षे": "grapes",
+    "सरसों": "mustard", "मोहरी": "mustard"
+}
+
+MULTILINGUAL_DISTRICT_MAP = {
+    # Hindi
+    "बेलगावी": "Belagavi", "बेलगाम": "Belagavi",
+    "मांड्या": "Mandya", "मंड्या": "Mandya",
+    "मैसूर": "Mysuru", "मैसुरु": "Mysuru",
+    "शिमोगा": "Shivamogga", "शिवमोग्गा": "Shivamogga",
+    "धारवाड़": "Dharwad", "धारवाड": "Dharwad",
+    "दावणगेरे": "Davanagere", "बागलकोट": "Bagalkot",
+    "बेलारी": "Ballari", "विजयनगर": "Vijayanagara",
+    "बीदर": "Bidar", "हासन": "Hassan", "हावेरी": "Haveri",
+    "कलबुर्गी": "Kalaburagi", "गुलबर्गा": "Kalaburagi",
+    "कोलार": "Kolar", "कोप्पल": "Koppal", "रायचूर": "Raichur",
+    "तुमकुर": "Tumakuru", "उडुपी": "Udupi", "उत्तर कन्नड़": "Uttara Kannada",
+    "दक्षिण कन्नड़": "Dakshina Kannada", "यादगीर": "Yadgir",
+    # Marathi
+    "बेळगाव": "Belagavi", "बेळगावी": "Belagavi",
+    "धारवाड": "Dharwad", "म्हैसूर": "Mysuru", "शिमोगा": "Shivamogga",
+    "गुलबर्गा": "Kalaburagi", "कलबुर्गी": "Kalaburagi", "रायचूर": "Raichur"
 }
 
 def extract_slots_heuristic(text: str) -> Dict[str, Any]:
-    """Deterministic regex and keyword extractor for Kannada and English."""
+    """Deterministic regex and keyword extractor for Kannada, Hindi, Marathi, and English."""
     extracted: Dict[str, Any] = {}
     lower_text = text.lower()
 
@@ -78,50 +119,80 @@ def extract_slots_heuristic(text: str) -> Dict[str, Any]:
         if k_name in lower_text:
             extracted["district"] = en_district
             break
+    if "district" not in extracted:
+        for m_name, en_district in MULTILINGUAL_DISTRICT_MAP.items():
+            if m_name in text:
+                extracted["district"] = en_district
+                break
 
     # 2. Land area extraction
-    # Patterns like: "5 ಎಕರೆ", "2.5 acre", "10 acres", "40 ಗುಂಟೆ" (1 acre = 40 gunta)
-    guntha_match = re.search(r"(\d+(?:\.\d+)?)\s*(?:ಗುಂಟೆ|ಗಂಟೆ|gunta|guntas)", text, re.IGNORECASE)
+    # Patterns like: "5 ಎಕರೆ", "2.5 acre", "10 acres", "40 ಗುಂಟೆ", "3 एकड़", "4 एकर", "20 गुंठे"
+    guntha_match = re.search(r"(\d+(?:\.\d+)?)\s*(?:ಗುಂಟೆ|ಗಂಟೆ|गुंठे|गुंठा|गुंठे|gunta|guntas)", text, re.IGNORECASE)
     if guntha_match:
         guntas = float(guntha_match.group(1))
         extracted["land_area_acres"] = round(guntas / 40.0, 2)
     else:
-        acre_match = re.search(r"(\d+(?:\.\d+)?)\s*(?:ಎಕರೆ|ಎಕ್ರೆ|acre|acres|ac)", text, re.IGNORECASE)
+        acre_match = re.search(r"(\d+(?:\.\d+)?)\s*(?:ಎಕರೆ|ಎಕ್ರೆ|एकड़|एकर|acre|acres|ac)", text, re.IGNORECASE)
         if acre_match:
             extracted["land_area_acres"] = float(acre_match.group(1))
 
     # 3. Ownership extraction
-    if any(w in lower_text for w in ["ಸ್ವಂತ", "ಮಾಲೀಕ", "ನನ್ನ ಭೂಮಿ", "own", "owner", "ownership"]):
+    if any(w in lower_text for w in [
+        "ಸ್ವಂತ", "ಮಾಲೀಕ", "ನನ್ನ ಭೂಮಿ",
+        "मालिक", "खुद की", "अपनी जमीन", "स्वयं की",
+        "मालक", "स्वतःची", "स्वतःची जमीन",
+        "own", "owner", "ownership"
+    ]):
         extracted["ownership_type"] = "owner"
-    elif any(w in lower_text for w in ["ಗೇಣಿ", "ಬಾಡಿಗೆ", "ಕೌಲು", "tenant", "lease", "rent"]):
+    elif any(w in lower_text for w in [
+        "ಗೇಣಿ", "ಬಾಡಿಗೆ", "ಕೌಲು",
+        "किरायेदार", "बटाईदार", "पट्टेदार",
+        "भाडेकरू", "कुळ", "भाडेतत्त्वावर",
+        "tenant", "lease", "rent"
+    ]):
         extracted["ownership_type"] = "tenant"
-    elif any(w in lower_text for w in ["ಪಾಲು", "ಪಾಲುದಾರ", "sharecropper"]):
+    elif any(w in lower_text for w in [
+        "ಪಾಲು", "ಪಾಲುದಾರ",
+        "बटाई", "साझेदार", "भागीदार", "हिस्सेदार",
+        "वाटणीदार", "भागीदारी",
+        "sharecropper"
+    ]):
         extracted["ownership_type"] = "sharecropper"
 
     # 4. Crop extraction
     detected_crops = set()
     for kw, crop_en in KANNADA_CROP_KEYWORDS.items():
-        if kw in lower_text:
+        if kw in lower_text or kw in text:
             detected_crops.add(crop_en)
     if detected_crops:
         extracted["crops"] = list(detected_crops)
 
     # 5. Irrigation extraction
-    if any(w in lower_text for w in ["ಬೋರ್‌ವೆಲ್", "ಬೋರ್ವೆಲ್", "ಬಾವಿ", "ಕಾಲುವೆ", "ಹನಿ ನೀರಾವರಿ", "borewell", "well", "canal", "irrigated", "drip"]):
+    if any(w in lower_text or w in text for w in [
+        "ಬೋರ್‌ವೆಲ್", "ಬೋರ್ವೆಲ್", "ಬಾವಿ", "ಕಾಲುವೆ", "ಹನಿ ನೀರಾವರಿ",
+        "बोरवेल", "नलकूप", "कुआं", "कुआँ", "नहर", "सिंचाई", "ड्रिप",
+        "कूपनलिका", "विहीर", "कालवा", "ठिबक सिंचन", "बागायत",
+        "borewell", "well", "canal", "irrigated", "drip"
+    ]):
         extracted["has_irrigation"] = True
-    elif any(w in lower_text for w in ["ಮಳೆ ಆಶ್ರಯ", "ಖುಷ್ಕಿ", "ನೀರಿಲ್ಲ", "rainfed", "dryland", "no water"]):
+    elif any(w in lower_text or w in text for w in [
+        "ಮಳೆ ಆಶ್ರಯ", "ಖುಷ್ಕಿ", "ನೀರಿಲ್ಲ",
+        "बारिश पर आधारित", "वर्षा आधारित", "असिंचित", "सूखा", "पानी नहीं है",
+        "पावसावर", "कोरडवाहू", "जिरायत", "पाणी नाही",
+        "rainfed", "dryland", "no water"
+    ]):
         extracted["has_irrigation"] = False
 
     # 6. Season extraction
-    if any(w in lower_text for w in ["ಮುಂಗಾರು", "ಖಾರೀಫ್", "kharif"]):
+    if any(w in lower_text or w in text for w in ["ಮುಂಗಾರು", "ಖಾರೀಫ್", "खरीफ", "खरीप", "kharif"]):
         extracted["season"] = "kharif"
-    elif any(w in lower_text for w in ["ಹಿಂಗಾರು", "ರಬಿ", "rabi"]):
+    elif any(w in lower_text or w in text for w in ["ಹಿಂಗಾರು", "ರಬಿ", "रबी", "रब्बी", "rabi"]):
         extracted["season"] = "rabi"
-    elif any(w in lower_text for w in ["ಬೇಸಿಗೆ", "summer"]):
+    elif any(w in lower_text or w in text for w in ["ಬೇಸಿಗೆ", "जायद", "उन्हाळी", "summer"]):
         extracted["season"] = "summer"
 
     # 7. Tax exclusion check
-    if any(w in lower_text for w in ["ತೆರಿಗೆ ಕಟ್ಟುತ್ತೇನೆ", "tax payer", "income tax"]):
+    if any(w in lower_text or w in text for w in ["ತೆರಿಗೆ ಕಟ್ಟುತ್ತೇನೆ", "इनकम टैक्स", "आयकर", "उत्पन्न कर", "tax payer", "income tax"]):
         extracted["is_income_tax_payer"] = True
 
     return extracted

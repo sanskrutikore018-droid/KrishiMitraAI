@@ -33,7 +33,7 @@ export const FarmerProfileTracker: React.FC<FarmerProfileTrackerProps> = ({
   // Calculate completion percentage based on 5 primary slots
   const slotsStatus = [
     { key: 'district', label: dict.slots.district, icon: MapPin, value: profile.district, isFilled: !!profile.district },
-    { key: 'land_area_acres', label: dict.slots.land_area_acres, icon: Maximize2, value: profile.land_area_acres ? `${profile.land_area_acres} Acres` : null, isFilled: profile.land_area_acres !== null && profile.land_area_acres !== undefined },
+    { key: 'land_area_acres', label: dict.slots.land_area_acres, icon: Maximize2, value: profile.land_area_acres ? `${profile.land_area_acres} ${dict.acresUnit}` : null, isFilled: profile.land_area_acres !== null && profile.land_area_acres !== undefined },
     { key: 'ownership_type', label: dict.slots.ownership_type, icon: FileText, value: profile.ownership_type ? dict.ownershipLabels[profile.ownership_type] : null, isFilled: !!profile.ownership_type },
     { key: 'crops', label: dict.slots.crops, icon: Wheat, value: profile.crops && profile.crops.length > 0 ? profile.crops.join(', ') : null, isFilled: profile.crops && profile.crops.length > 0 },
     { key: 'has_irrigation', label: dict.slots.has_irrigation, icon: Droplets, value: profile.has_irrigation === true ? dict.irrigationLabels.yes : profile.has_irrigation === false ? dict.irrigationLabels.no : null, isFilled: profile.has_irrigation !== null && profile.has_irrigation !== undefined }
@@ -158,7 +158,7 @@ export const FarmerProfileTracker: React.FC<FarmerProfileTrackerProps> = ({
               type="text"
               value={tempProfile.district || ''}
               onChange={(e) => setTempProfile({ ...tempProfile, district: e.target.value })}
-              placeholder="e.g. Belagavi"
+              placeholder={dict.districtPlaceholder}
               suppressHydrationWarning
               className="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg focus:ring-1 focus:ring-emerald-500"
             />
@@ -170,7 +170,7 @@ export const FarmerProfileTracker: React.FC<FarmerProfileTrackerProps> = ({
               step="0.1"
               value={tempProfile.land_area_acres || ''}
               onChange={(e) => setTempProfile({ ...tempProfile, land_area_acres: parseFloat(e.target.value) || null })}
-              placeholder="e.g. 3.5"
+              placeholder={dict.landSizePlaceholder}
               suppressHydrationWarning
               className="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg focus:ring-1 focus:ring-emerald-500"
             />
@@ -200,7 +200,7 @@ export const FarmerProfileTracker: React.FC<FarmerProfileTrackerProps> = ({
                   crops: e.target.value.split(',').map((c) => c.trim()).filter(Boolean)
                 })
               }
-              placeholder="paddy, sugarcane, ragi"
+              placeholder={dict.cropsPlaceholder}
               suppressHydrationWarning
               className="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg focus:ring-1 focus:ring-emerald-500"
             />

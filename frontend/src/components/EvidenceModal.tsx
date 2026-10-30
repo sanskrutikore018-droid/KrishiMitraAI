@@ -100,10 +100,10 @@ export const EvidenceModal: React.FC<EvidenceModalProps> = ({
           {/* Scheme Description */}
           <div>
             <h4 className="font-bold text-gray-900 mb-1.5 text-xs uppercase tracking-wider">
-              {language === 'kn' ? 'ಯೋಜನೆಯ ಸಾರಾಂಶ:' : 'Scheme Overview:'}
+              {dict.schemeOverview}
             </h4>
             <p className="text-gray-700 leading-relaxed bg-gray-50 p-3 rounded-xl border border-gray-100">
-              {language === 'kn' ? scheme.description.kn : scheme.description.en}
+              {dict.schemeCatalog?.[scheme.scheme_id]?.desc || (language === 'kn' ? scheme.description.kn : scheme.description.en)}
             </p>
           </div>
 
@@ -122,12 +122,12 @@ export const EvidenceModal: React.FC<EvidenceModalProps> = ({
                   <div className="flex items-center space-x-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                     <span className="font-medium text-gray-800 text-xs sm:text-sm">
-                      {language === 'kn' ? doc.name_kn : doc.name_en}
+                      {dict.documentCatalog?.[doc.name_en] || (language === 'kn' ? doc.name_kn : doc.name_en)}
                     </span>
                   </div>
                   {doc.mandatory && (
                     <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200 shrink-0">
-                      {language === 'kn' ? 'ಕಡ್ಡಾಯ' : 'Mandatory'}
+                      {dict.mandatoryBadge}
                     </span>
                   )}
                 </div>
@@ -155,7 +155,7 @@ export const EvidenceModal: React.FC<EvidenceModalProps> = ({
               href={`tel:${scheme.helpline.split('/')[0].trim()}`}
               className="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-emerald-950 font-bold text-xs shadow-xs transition shrink-0"
             >
-              {language === 'kn' ? 'ಕರೆ ಮಾಡಿ' : 'Call Helpline'}
+              {dict.callHelplineBtn}
             </a>
           </div>
         </div>

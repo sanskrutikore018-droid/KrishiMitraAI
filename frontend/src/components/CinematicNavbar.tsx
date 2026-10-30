@@ -139,7 +139,7 @@ export const CinematicNavbar: React.FC<CinematicNavbarProps> = ({
             {langDropdownOpen && (
               <div className="absolute right-0 mt-2.5 w-52 rounded-2xl bg-[#091f11]/95 backdrop-blur-2xl border border-emerald-400/40 shadow-[0_20px_50px_rgba(0,0,0,0.85)] p-2 z-50 text-xs animate-in fade-in zoom-in-95 duration-150">
                 <div className="px-3 py-1.5 text-[10px] uppercase tracking-wider text-emerald-400 font-bold border-b border-emerald-800/40 mb-1">
-                  ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ / Select Language
+                  {dict.switchLanguage}
                 </div>
                 {availableLanguages.map((opt) => {
                   const isSelected = language === opt.code;
@@ -224,7 +224,7 @@ export const CinematicNavbar: React.FC<CinematicNavbarProps> = ({
                     </div>
                     <div className="flex justify-between">
                       <span className="text-emerald-400/80">{dict.landSizeLabel}:</span>
-                      <span className="font-semibold text-white">{user.land_area_acres} Acres</span>
+                      <span className="font-semibold text-white">{user.land_area_acres} {dict.acresUnit}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-emerald-400/80">{dict.ownershipLabel}:</span>

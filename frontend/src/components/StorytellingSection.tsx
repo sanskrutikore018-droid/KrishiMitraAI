@@ -18,21 +18,21 @@ export const StorytellingSection: React.FC<StorytellingSectionProps> = () => {
       img: '/images/mechanization.jpg',
       title: dict.storyCard1Title,
       desc: dict.storyCard1Desc,
-      tag: 'Mechanization',
+      tag: dict.feat1,
       accent: 'border-lime-400/40'
     },
     {
       img: '/images/soil-health.jpg',
       title: dict.storyCard2Title,
       desc: dict.storyCard2Desc,
-      tag: 'Soil Health',
+      tag: dict.feat2,
       accent: 'border-emerald-400/40'
     },
     {
       img: 'https://images.unsplash.com/photo-1595974482597-4b8da8879bc5?q=80&w=800&auto=format&fit=crop',
       title: dict.storyCard3Title,
       desc: dict.storyCard3Desc,
-      tag: 'Direct Income',
+      tag: dict.feat3,
       accent: 'border-amber-400/40'
     }
   ];

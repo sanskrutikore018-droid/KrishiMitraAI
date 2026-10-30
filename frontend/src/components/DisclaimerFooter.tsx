@@ -32,7 +32,7 @@ export const DisclaimerFooter: React.FC<DisclaimerFooterProps> = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4 border-t border-emerald-950 text-xs">
           <div>
             <h5 className="font-bold text-white mb-3 uppercase tracking-wider">
-              {language === 'kn' ? 'ಅಧಿಕೃತ ಕೃಷಿ ಪೋರ್ಟಲ್‌ಗಳು' : 'Official Portals'}
+              {dict.officialPortalsTitle}
             </h5>
             <ul className="space-y-2 text-emerald-300/90">
               <li>
@@ -73,10 +73,10 @@ export const DisclaimerFooter: React.FC<DisclaimerFooterProps> = () => {
 
           <div>
             <h5 className="font-bold text-white mb-3 uppercase tracking-wider">
-              {language === 'kn' ? 'ರೈತ ಸಹಾಯವಾಣಿ ಸಂಪರ್ಕ' : 'Kisan Helplines'}
+              {dict.kisanHelplinesTitle}
             </h5>
             <div className="space-y-2 text-emerald-300/90">
-              <p>Kisan Call Centre: <strong className="text-white">1800-180-1551</strong> (Toll Free)</p>
+              <p>{dict.kisanCallCentre}: <strong className="text-white">1800-180-1551</strong> ({dict.tollFree})</p>
               <p>PM-KISAN Helpline: <strong className="text-white">155261 / 011-24300606</strong></p>
               <p>PMFBY Insurance Support: <strong className="text-white">1800-200-5142</strong></p>
             </div>
@@ -84,10 +84,10 @@ export const DisclaimerFooter: React.FC<DisclaimerFooterProps> = () => {
 
           <div>
             <h5 className="font-bold text-white mb-3 uppercase tracking-wider">
-              {language === 'kn' ? 'ತಂತ್ರಜ್ಞಾನ ಮತ್ತು ನೀತಿ' : 'Architecture & Zero-Hallucination'}
+              {dict.zeroHallucinationTitle}
             </h5>
             <p className="text-emerald-300/80 leading-relaxed font-normal">
-              Built with Next.js 15, FastAPI, and deterministic rule matrices. AI intent extraction is strictly separated from eligibility verification to prevent false policy guarantees.
+              {dict.zeroHallucinationDesc}
             </p>
           </div>
         </div>
@@ -98,7 +98,7 @@ export const DisclaimerFooter: React.FC<DisclaimerFooterProps> = () => {
           <div className="flex items-center space-x-4">
             <span className="flex items-center space-x-1 text-emerald-300">
               <Shield className="w-3.5 h-3.5 text-lime-400" />
-              <span>Gazette Verified Sources</span>
+              <span>{dict.verifiedGov}</span>
             </span>
           </div>
         </div>

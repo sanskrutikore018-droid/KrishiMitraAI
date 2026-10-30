@@ -250,6 +250,22 @@ export interface I18nDictionary {
   completeSignupBtn: string;
   backBtn: string;
   securityBadgeText: string;
+
+  // Extended Multilingual Components
+  acresUnit: string;
+  cropsPlaceholder: string;
+  schemeOverview: string;
+  mandatoryBadge: string;
+  optionalBadge: string;
+  callHelplineBtn: string;
+  officialPortalsTitle: string;
+  kisanHelplinesTitle: string;
+  zeroHallucinationTitle: string;
+  zeroHallucinationDesc: string;
+  kisanCallCentre: string;
+  tollFree: string;
+  ruleLabels: Record<string, string>;
+  documentCatalog: Record<string, string>;
 }
 
 export const i18n: Record<SupportedLanguage, I18nDictionary> = {
@@ -495,7 +511,47 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     nextStepBtn: "ಮುಂದಿನ ಹಂತ: ಕೃಷಿ ಮಾಹಿತಿ →",
     completeSignupBtn: "ನೋಂದಣಿ ಪೂರ್ಣಗೊಳಿಸಿ & AI ಪ್ರಾರಂಭಿಸಿ →",
     backBtn: "ಹಿಂದಕ್ಕೆ",
-    securityBadgeText: "256-ಬಿಟ್ ಸುರಕ್ಷಿತ ಗೂಢಲಿಪೀಕರಣ • ಶೂನ್ಯ ಡೇಟಾ ಸೋರಿಕೆ"
+    securityBadgeText: "256-ಬಿಟ್ ಸುರಕ್ಷಿತ ಗೂಢಲಿಪೀಕರಣ • ಶೂನ್ಯ ಡೇಟಾ ಸೋರಿಕೆ",
+    acresUnit: "ಎಕರೆ",
+    cropsPlaceholder: "ಉದಾ: ಭತ್ತ, ಕಬ್ಬು, ರಾಗಿ, ಮೆಕ್ಕೆಜೋಳ",
+    schemeOverview: "ಯೋಜನೆಯ ಸಾರಾಂಶ:",
+    mandatoryBadge: "ಕಡ್ಡಾಯ",
+    optionalBadge: "ಐಚ್ಛಿಕ",
+    callHelplineBtn: "ಕರೆ ಮಾಡಿ",
+    officialPortalsTitle: "ಅಧಿಕೃತ ಕೃಷಿ ಪೋರ್ಟಲ್‌ಗಳು",
+    kisanHelplinesTitle: "ರೈತ ಸಹಾಯವಾಣಿ ಸಂಪರ್ಕ",
+    zeroHallucinationTitle: "ತಂತ್ರಜ್ಞಾನ ಮತ್ತು ನೀತಿ",
+    zeroHallucinationDesc: "ನೆಕ್ಸ್ಟ್.ಜೆಎಸ್ 15, ಫಾಸ್ಟ್‌ಎಪಿಐ ಮತ್ತು ಅಧಿಕೃತ ನಿಯಮಾವಳಿಗಳೊಂದಿಗೆ ನಿರ್ಮಿಸಲಾಗಿದೆ. ಸುಳ್ಳು ಭರವಸೆಗಳನ್ನು ತಡೆಯಲು ಎಐ ಸಂವಾದ ಮತ್ತು ಅರ್ಹತಾ ಪರಿಶೀಲನೆಯನ್ನು ಪ್ರತ್ಯೇಕವಾಗಿರಿಸಲಾಗಿದೆ.",
+    kisanCallCentre: "ಕಿಸಾನ್ ಕಾಲ್ ಸೆಂಟರ್",
+    tollFree: "ಉಚಿತ ಕರೆ",
+    ruleLabels: {
+      ownership_type: "ಭೂ ಮಾಲೀಕತ್ವದ ಹಕ್ಕು",
+      land_area_acres: "ಕೃಷಿ ಭೂಮಿಯ ವಿಸ್ತೀರ್ಣ",
+      land_area_range: "ಭೂಮಿ ವಿಸ್ತೀರ್ಣ ಮಿತಿ",
+      land_ceiling: "ಗರಿಷ್ಠ ಭೂಮಿ ಮಿತಿ",
+      crop_notified: "ಬೆಳೆ ವರ್ಗ ಮತ್ತು ಅಧಿಸೂಚನೆ",
+      water_source: "ಖಚಿತ ನೀರಾವರಿ ಸೌಲಭ್ಯ",
+      state_jurisdiction: "ರಾಜ್ಯ ವ್ಯಾಪ್ತಿ",
+      tax_exclusion: "ಆದಾಯ ತೆರಿಗೆ ಸ್ಥಿತಿ",
+      institutional_exclusion: "ಸಂಸ್ಥಾಗತವಲ್ಲದ ಮಾಲೀಕತ್ವ"
+    },
+    documentCatalog: {
+      "Aadhaar Card": "ಆಧಾರ್ ಕಾರ್ಡ್",
+      "Active Bank Account linked to Aadhaar (NPCI enabled)": "ಆಧಾರ್ ಜೋಡಿಸಲಾದ ಬ್ಯಾಂಕ್ ಖಾತೆ (NPCI ಸಕ್ರಿಯ)",
+      "Active Bank Passbook copy": "ಸಕ್ರಿಯ ಬ್ಯಾಂಕ್ ಪಾಸ್‌ಬುಕ್ ಪ್ರತಿ",
+      "Land Ownership Record (RTC / Pahani / Khata)": "ಭೂ ಮಾಲೀಕತ್ವ ದಾಖಲೆ (ಪಹಣಿ / ಆರ್‌ಟಿಸಿ / ಖಾತಾ)",
+      "Land RTC / Pahani / Tenancy Agreement (if tenant)": "ಆರ್‌ಟಿಸಿ / ಪಹಣಿ / ಗೇಣಿ ಒಪ್ಪಂದ (ಗೇಣಿದಾರರಾಗಿದ್ದರೆ)",
+      "Latest RTC / Pahani": "ಇತ್ತೀಚಿನ ಪಹಣಿ / ಆರ್‌ಟಿಸಿ",
+      "Mobile Number linked to Aadhaar": "ಆಧಾರ್ ಲಿಂಕ್ ಆದ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ",
+      "Sowing Certificate / Self-Declaration of Sowing": "ಬಿತ್ತನೆ ಪ್ರಮಾಣಪತ್ರ / ಸ್ವಯಂ ದೃಢೀಕರಣ ಪತ್ರ",
+      "RTC / Pahani with water source entry": "ನೀರಿನ ಮೂಲ ನಮೂದಾಗಿರುವ ಪಹಣಿ / ಆರ್‌ಟಿಸಿ",
+      "Electricity bill / Pump energisation certificate": "ವಿದ್ಯುತ್ ಬಿಲ್ / ಪಂಪ್‌ಸೆಟ್ ದೃಢೀಕರಣ ಪತ್ರ",
+      "Aadhaar Card and Caste Certificate (for 90% subsidy quota)": "ಆಧಾರ್ ಕಾರ್ಡ್ ಮತ್ತು ಜಾತಿ ಪ್ರಮಾಣಪತ್ರ (90% ಸಬ್ಸಿಡಿಗೆ)",
+      "Quotation from authorized implement dealer": "ಅಧಿಕೃತ ಡೀಲರ್‌ನಿಂದ ಉಪಕರಣ ಕೊಟೇಶನ್",
+      "Driving license (for tractor / power equipment)": "ಚಾಲನಾ ಪರವಾನಗಿ (ಟ್ರ್ಯಾಕ್ಟರ್/ಪವರ್ ಉಪಕರಣಗಳಿಗೆ)",
+      "RTC / Pahani or Land survey number details": "ಪಹಣಿ / ಆರ್‌ಟಿಸಿ ಅಥವಾ ಸರ್ವೆ ನಂಬರ್ ವಿವರಗಳು",
+      "Soil Sample collected as per RSK protocol": "ಆರ್‌ಎಸ್‌ಕೆ ನಿಯಮಾವಳಿ ಪ್ರಕಾರ ಸಂಗ್ರಹಿಸಿದ ಮಣ್ಣಿನ ಮಾದರಿ"
+    }
   },
 
   // ================= ENGLISH =================
@@ -740,7 +796,47 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     nextStepBtn: "Next: Farm Details →",
     completeSignupBtn: "Complete Registration & Launch AI →",
     backBtn: "Back",
-    securityBadgeText: "256-Bit Encrypted • Zero Data Exposure Policy"
+    securityBadgeText: "256-Bit Encrypted • Zero Data Exposure Policy",
+    acresUnit: "Acres",
+    cropsPlaceholder: "e.g., paddy, sugarcane, ragi, cotton",
+    schemeOverview: "Scheme Overview:",
+    mandatoryBadge: "Mandatory",
+    optionalBadge: "Optional",
+    callHelplineBtn: "Call Helpline",
+    officialPortalsTitle: "Official Portals",
+    kisanHelplinesTitle: "Kisan Helplines",
+    zeroHallucinationTitle: "Architecture & Reliability",
+    zeroHallucinationDesc: "Built with Next.js 15, FastAPI, and deterministic rule matrices. AI intent extraction is strictly separated from eligibility verification to prevent false policy guarantees.",
+    kisanCallCentre: "Kisan Call Centre",
+    tollFree: "Toll Free",
+    ruleLabels: {
+      ownership_type: "Land Ownership Title",
+      land_area_acres: "Cultivable Landholding",
+      land_area_range: "Landholding Range",
+      land_ceiling: "Landholding Ceiling",
+      crop_notified: "Crop Category & Notification",
+      water_source: "Assured Irrigation Source",
+      state_jurisdiction: "State Jurisdiction",
+      tax_exclusion: "Income Tax Status",
+      institutional_exclusion: "Non-Institutional Ownership"
+    },
+    documentCatalog: {
+      "Aadhaar Card": "Aadhaar Card",
+      "Active Bank Account linked to Aadhaar (NPCI enabled)": "Active Bank Account linked to Aadhaar (NPCI enabled)",
+      "Active Bank Passbook copy": "Active Bank Passbook copy",
+      "Land Ownership Record (RTC / Pahani / Khata)": "Land Ownership Record (RTC / Pahani / Khata)",
+      "Land RTC / Pahani / Tenancy Agreement (if tenant)": "Land RTC / Pahani / Tenancy Agreement (if tenant)",
+      "Latest RTC / Pahani": "Latest RTC / Pahani",
+      "Mobile Number linked to Aadhaar": "Mobile Number linked to Aadhaar",
+      "Sowing Certificate / Self-Declaration of Sowing": "Sowing Certificate / Self-Declaration of Sowing",
+      "RTC / Pahani with water source entry": "RTC / Pahani with water source entry",
+      "Electricity bill / Pump energisation certificate": "Electricity bill / Pump energisation certificate",
+      "Aadhaar Card and Caste Certificate (for 90% subsidy quota)": "Aadhaar Card and Caste Certificate (for 90% subsidy quota)",
+      "Quotation from authorized implement dealer": "Quotation from authorized implement dealer",
+      "Driving license (for tractor / power equipment)": "Driving license (for tractor / power equipment)",
+      "RTC / Pahani or Land survey number details": "RTC / Pahani or Land survey number details",
+      "Soil Sample collected as per RSK protocol": "Soil Sample collected as per RSK protocol"
+    }
   },
 
   // ================= HINDI (हिन्दी) =================
@@ -985,7 +1081,47 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     nextStepBtn: "आगे: कृषि विवरण →",
     completeSignupBtn: "पंजीकरण पूरा करें और AI शुरू करें →",
     backBtn: "पीछे",
-    securityBadgeText: "256-बिट एन्क्रिप्टेड • शून्य डेटा जोखिम नीति"
+    securityBadgeText: "256-बिट एन्क्रिप्टेड • शून्य डेटा जोखिम नीति",
+    acresUnit: "एकड़",
+    cropsPlaceholder: "जैसे: गेहूं, धान, गन्ना, कपास, सोयाबीन",
+    schemeOverview: "योजना का संक्षिप्त विवरण:",
+    mandatoryBadge: "अनिवार्य",
+    optionalBadge: "वैकल्पिक",
+    callHelplineBtn: "हेल्पलाइन कॉल करें",
+    officialPortalsTitle: "आधिकारिक सरकारी पोर्टल",
+    kisanHelplinesTitle: "किसान हेल्पलाइन संपर्क",
+    zeroHallucinationTitle: "तकनीक और विश्वसनीयता",
+    zeroHallucinationDesc: "नेक्स्ट.जेएस 15, फास्टएपीआई और आधिकारिक नियम तालिकाओं के साथ निर्मित। गलत आश्वासनों से बचने के लिए एआई चैट और पात्रता सत्यापन को पूर्णतः अलग रखा गया है।",
+    kisanCallCentre: "किसान कॉल सेंटर",
+    tollFree: "टोल फ्री",
+    ruleLabels: {
+      ownership_type: "भूमि स्वामित्व का अधिकार",
+      land_area_acres: "कृषि भूमि का क्षेत्रफल",
+      land_area_range: "भूमि जोत की सीमा",
+      land_ceiling: "अधिकतम भूमि जोत सीमा",
+      crop_notified: "फसल श्रेणी एवं अधिसूचना",
+      water_source: "सुनिश्चित सिंचाई स्रोत",
+      state_jurisdiction: "राज्य अधिकार क्षेत्र",
+      tax_exclusion: "आयकर बहिष्करण स्थिति",
+      institutional_exclusion: "गैर-संस्थागत स्वामित्व"
+    },
+    documentCatalog: {
+      "Aadhaar Card": "आधार कार्ड",
+      "Active Bank Account linked to Aadhaar (NPCI enabled)": "आधार से जुड़ा सक्रिय बैंक खाता (NPCI सक्षम)",
+      "Active Bank Passbook copy": "सक्रिय बैंक पासबुक की प्रति",
+      "Land Ownership Record (RTC / Pahani / Khata)": "भूमि स्वामित्व अभिलेख (खतौनी / पहानी / खाता)",
+      "Land RTC / Pahani / Tenancy Agreement (if tenant)": "भूमि अभिलेख / पहानी / पट्टा समझौता (किरायेदार हेतु)",
+      "Latest RTC / Pahani": "नवीनतम भू-अभिलेख / पहानी",
+      "Mobile Number linked to Aadhaar": "आधार से जुड़ा मोबाइल नंबर",
+      "Sowing Certificate / Self-Declaration of Sowing": "बुवाई प्रमाण पत्र / स्व-घोषणा पत्र",
+      "RTC / Pahani with water source entry": "जल स्रोत प्रविष्टि सहित भू-अभिलेख",
+      "Electricity bill / Pump energisation certificate": "बिजली बिल / पंप ऊर्जीकरण प्रमाण पत्र",
+      "Aadhaar Card and Caste Certificate (for 90% subsidy quota)": "आधार कार्ड एवं जाति प्रमाण पत्र (विशेष सब्सिडी कोटा हेतु)",
+      "Quotation from authorized implement dealer": "अधिकृत डीलर से कृषि उपकरण कोटेशन",
+      "Driving license (for tractor / power equipment)": "ड्राइविंग लाइसेंस (ट्रैक्टर / पावर उपकरण हेतु)",
+      "RTC / Pahani or Land survey number details": "खसरा / सर्वे नंबर विवरण",
+      "Soil Sample collected as per RSK protocol": "आरएसके नियमानुसार संकलित मिट्टी का नमूना"
+    }
   },
 
   // ================= TELUGU (తెలుగు) =================
@@ -1230,7 +1366,47 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     nextStepBtn: "తరువాత: వ్యవసాయ వివరాలు →",
     completeSignupBtn: "నమోదు పూర్తి చేసి AI ప్రారంభించండి →",
     backBtn: "వెనుకకు",
-    securityBadgeText: "256-బిట్ ఎన్‌క్రిప్ట్ చేయబడింది • జీరో డేటా లీకేజ్ విధానం"
+    securityBadgeText: "256-బిట్ ఎన్‌క్రిప్ట్ చేయబడింది • జీరో డేటా లీకేజ్ విధానం",
+    acresUnit: "ఎకరాలు",
+    cropsPlaceholder: "ఉదా: వరి, చెరకు, రాగి, పత్తి",
+    schemeOverview: "పథకం సారాంశం:",
+    mandatoryBadge: "తప్పనిసరి",
+    optionalBadge: "ఐచ్ఛికం",
+    callHelplineBtn: "హెల్ప్‌లైన్‌కు కాల్ చేయండి",
+    officialPortalsTitle: "అధికారిక ప్రభుత్వ పోర్టల్స్",
+    kisanHelplinesTitle: "కిసాన్ హెల్ప్‌లైన్ సంప్రదింపు",
+    zeroHallucinationTitle: "సాంకేతికత & విశ్వసనీయత",
+    zeroHallucinationDesc: "నెక్స్ట్.జెఎస్ 15, ఫాస్ట్‌ఏపీఐ మరియు అధికారిక నియమాలతో నిర్మించబడింది. తప్పుడు సమాచారాన్ని నివారించడానికి ఏఐ సంభాషణ మరియు అర్హత పరిశీలన వేరుగా ఉంచబడ్డాయి.",
+    kisanCallCentre: "కిసాన్ కాల్ సెంటర్",
+    tollFree: "టోల్ ఫ్రీ",
+    ruleLabels: {
+      ownership_type: "భూమి యాజమాన్య హక్కు",
+      land_area_acres: "సాగు భూమి విస్తీర్ణం",
+      land_area_range: "భూమి పరిమితి పరిధి",
+      land_ceiling: "గరిష్ట భూపరిమితి",
+      crop_notified: "పంట వర్గం & నోటిఫికేషన్",
+      water_source: "నిర్ధారిత నీటిపారుదల వనరు",
+      state_jurisdiction: "రాష్ట్ర పరిధి",
+      tax_exclusion: "ఆదాయపు పన్ను స్థితి",
+      institutional_exclusion: "సంస్థాగతం కాని యాజమాన్యం"
+    },
+    documentCatalog: {
+      "Aadhaar Card": "ఆధార్ కార్డు",
+      "Active Bank Account linked to Aadhaar (NPCI enabled)": "ఆధార్‌తో లింక్ చేయబడిన సక్రియ బ్యాంక్ ఖాతా (NPCI ప్రారంభించబడింది)",
+      "Active Bank Passbook copy": "సక్రియ బ్యాంక్ పాస్‌బుక్ కాపీ",
+      "Land Ownership Record (RTC / Pahani / Khata)": "భూమి యాజమాన్య రికార్డు (పహాణీ / పట్టాదారు పాస్‌బుక్)",
+      "Land RTC / Pahani / Tenancy Agreement (if tenant)": "భూమి పహాణీ / కౌలు ఒప్పందం (కౌలుదారైతే)",
+      "Latest RTC / Pahani": "తాజా పహాణీ రికార్డు",
+      "Mobile Number linked to Aadhaar": "ఆధార్‌తో లింక్ చేయబడిన మొబైల్ నంబర్",
+      "Sowing Certificate / Self-Declaration of Sowing": "విత్తన ధృవీకరణ పత్రం / స్వయం ప్రకటన",
+      "RTC / Pahani with water source entry": "నీటి వనరు నమోదుతో కూడిన పహాణీ",
+      "Electricity bill / Pump energisation certificate": "విద్యుత్ బిల్లు / పంపు ధృవీకరణ పత్రం",
+      "Aadhaar Card and Caste Certificate (for 90% subsidy quota)": "ఆధార్ కార్డు మరియు కుల ధృవీకరణ పత్రం",
+      "Quotation from authorized implement dealer": "అధికారిక డీలర్ నుండి యంత్రాల కొటేషన్",
+      "Driving license (for tractor / power equipment)": "డ్రైవింగ్ లైసెన్స్ (ట్రాక్టర్/పవర్ పరికరాల కోసం)",
+      "RTC / Pahani or Land survey number details": "సర్వే నంబర్ వివరాలు",
+      "Soil Sample collected as per RSK protocol": "సేకరించిన నేల నమూనా"
+    }
   },
 
   // ================= MARATHI (मराठी) =================
@@ -1475,7 +1651,47 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     nextStepBtn: "पुढे: शेती तपशील →",
     completeSignupBtn: "नोंदणी पूर्ण करा आणि AI सुरू करा →",
     backBtn: "मागे",
-    securityBadgeText: "256-बिट एन्क्रिप्टेड • शून्य डेटा गळती धोरण"
+    securityBadgeText: "256-बिट एन्क्रिप्टेड • शून्य डेटा गळती धोरण",
+    acresUnit: "एकर",
+    cropsPlaceholder: "उदा: ऊस, सोयाबीन, भात, कापूस, ज्वारी",
+    schemeOverview: "योजनेचा तपशील:",
+    mandatoryBadge: "अनिवार्य",
+    optionalBadge: "पर्यायी",
+    callHelplineBtn: "हेल्पलाइनवर कॉल करा",
+    officialPortalsTitle: "अधिकृत शासकीय पोर्टल्स",
+    kisanHelplinesTitle: "शेतकरी हेल्पलाइन संपर्क",
+    zeroHallucinationTitle: "तंत्रज्ञान आणि विश्वासार्हता",
+    zeroHallucinationDesc: "नेक्स्ट.जेएस 15, फास्टएपीआय आणि अधिकृत नियमावलीवर आधारित. चुकीची माहिती टाळण्यासाठी एआय संवाद आणि पात्रता पडताळणी पूर्णपणे स्वतंत्र ठेवण्यात आली आहे.",
+    kisanCallCentre: "किसान कॉल सेंटर",
+    tollFree: "टोल फ्री",
+    ruleLabels: {
+      ownership_type: "जमीन मालकी हक्क",
+      land_area_acres: "शेतजमिनीचे क्षेत्रफळ",
+      land_area_range: "जमीन क्षेत्रफळ मर्यादा",
+      land_ceiling: "कमाल जमीन मर्यादा",
+      crop_notified: "पीक वर्ग व अधिसूचना",
+      water_source: "खात्रीशीर सिंचन सुविधा",
+      state_jurisdiction: "राज्य कार्यक्षेत्र",
+      tax_exclusion: "आयकर वगळण्याची स्थिती",
+      institutional_exclusion: "असंस्थात्मक मालकी"
+    },
+    documentCatalog: {
+      "Aadhaar Card": "आधार कार्ड",
+      "Active Bank Account linked to Aadhaar (NPCI enabled)": "आधारशी जोडलेले सक्रिय बँक खाते (NPCI सक्षम)",
+      "Active Bank Passbook copy": "सक्रिय बँक पासबुकची प्रत",
+      "Land Ownership Record (RTC / Pahani / Khata)": "जमीन मालकी नोंद (7/12 उतारा / 8-अ / पहानी)",
+      "Land RTC / Pahani / Tenancy Agreement (if tenant)": "7/12 उतारा / भाडेकरार (शेतकरी कुळ असल्यास)",
+      "Latest RTC / Pahani": "नवीनतम 7/12 उतारा",
+      "Mobile Number linked to Aadhaar": "आधारशी जोडलेला मोबाईल क्रमांक",
+      "Sowing Certificate / Self-Declaration of Sowing": "पेरणी प्रमाणपत्र / स्वयं-घोषणापत्र",
+      "RTC / Pahani with water source entry": "पाण्याच्या स्त्रोताची नोंद असलेला 7/12 उतारा",
+      "Electricity bill / Pump energisation certificate": "वीज बिल / कृषी पंप जोडणी प्रमाणपत्र",
+      "Aadhaar Card and Caste Certificate (for 90% subsidy quota)": "आधार कार्ड आणि जात प्रमाणपत्र (विशेष अनुदानासाठी)",
+      "Quotation from authorized implement dealer": "अधिकृत विक्रेत्याकडून कृषी अवजाराचे कोटेशन",
+      "Driving license (for tractor / power equipment)": "वाहन चालक परवाना (ट्रॅक्टर/पॉवर अवजारांसाठी)",
+      "RTC / Pahani or Land survey number details": "गट नंबर / सर्व्हे नंबर तपशील",
+      "Soil Sample collected as per RSK protocol": "कृषी नियमावलीनुसार गोळा केलेला मातीचा नमुना"
+    }
   }
 };
 

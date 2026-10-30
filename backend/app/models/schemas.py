@@ -25,11 +25,15 @@ class RuleCheckResult(BaseModel):
     rule_key: str
     rule_label_en: str
     rule_label_kn: str
+    rule_label_hi: Optional[str] = None
+    rule_label_mr: Optional[str] = None
     status: Literal["satisfied", "not_satisfied", "unknown", "not_applicable"]
     farmer_value: Any = None
     required_value: Any = None
     explanation_en: str
     explanation_kn: str
+    explanation_hi: Optional[str] = None
+    explanation_mr: Optional[str] = None
 
 class SchemeEvaluation(BaseModel):
     scheme_id: str
