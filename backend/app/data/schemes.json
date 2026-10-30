@@ -1,0 +1,362 @@
+[
+  {
+    "id": "pm-kisan",
+    "name": {
+      "en": "Pradhan Mantri Kisan Samman Nidhi (PM-KISAN)",
+      "kn": "ಪ್ರಧಾನ ಮಂತ್ರಿ ಕಿಸಾನ್ ಸಮ್ಮಾನ್ ನಿಧಿ (ಪಿಎಂ-ಕಿಸಾನ್)"
+    },
+    "short_name": "PM-KISAN",
+    "category": "direct_income_support",
+    "is_demo": false,
+    "verification_status": "verified",
+    "verification_date": "October 2026",
+    "verified_by": "Ministry of Agriculture & Farmers Welfare (MoA&FW), Govt of India",
+    "official_source_url": "https://pmkisan.gov.in/",
+    "application_portal": "https://pmkisan.gov.in/RegistrationFormUpdated.aspx",
+    "helpline": "155261 / 011-24300606",
+    "description": {
+      "en": "Central sector scheme providing income support of ₹6,000 per year in three equal installments of ₹2,000 directly into the bank accounts of all landholding farmer families.",
+      "kn": "ಎಲ್ಲಾ ಕೃಷಿ ಭೂಮಿ ಹೊಂದಿರುವ ರೈತ ಕುಟುಂಬಗಳಿಗೆ ವರ್ಷಕ್ಕೆ ₹6,000 ಆದಾಯ ಬೆಂಬಲವನ್ನು ಮೂರು ಸಮಾನ ಕಂತುಗಳಲ್ಲಿ (ತಲಾ ₹2,000) ನೇರವಾಗಿ ಬ್ಯಾಂಕ್ ಖಾತೆಗೆ ಜಮೆ ಮಾಡುವ ಕೇಂದ್ರ ಸರ್ಕಾರದ ಯೋಜನೆ."
+    },
+    "benefits": {
+      "amount": "₹6,000 / year",
+      "installments": "3 installments of ₹2,000 every 4 months (Direct Benefit Transfer - DBT)",
+      "en": "Direct cash transfer of ₹6,000 per annum into Aadhaar-seeded bank account.",
+      "kn": "ಆಧಾರ್ ಜೋಡಿಸಲಾದ ಬ್ಯಾಂಕ್ ಖಾತೆಗೆ ವಾರ್ಷಿಕ ₹6,000 ನೇರ ನಗದು ವರ್ಗಾವಣೆ."
+    },
+    "eligibility_rules": {
+      "ownership_type": ["owner"],
+      "max_land_acres": null,
+      "min_land_acres": 0.01,
+      "crops": "all",
+      "districts": "all_india",
+      "states": "all"
+    },
+    "exclusions": [
+      {
+        "code": "INSTITUTIONAL",
+        "description_en": "Institutional landholders",
+        "description_kn": "ಸಂಸ್ಥಾಗತ ಭೂಮಾಲೀಕರು"
+      },
+      {
+        "code": "CONSTITUTIONAL_POST",
+        "description_en": "Former and present holders of constitutional posts",
+        "description_kn": "ಸಂವಿಧಾನಾತ್ಮಕ ಹುದ್ದೆಗಳನ್ನು ಹೊಂದಿರುವ/ಹೊಂದಿದ್ದ ವ್ಯಕ್ತಿಗಳು"
+      },
+      {
+        "code": "INCOME_TAX_PAYER",
+        "description_en": "All persons who paid Income Tax in last assessment year",
+        "description_kn": "ಹಿಂದಿನ ಮೌಲ್ಯಮಾಪನ ವರ್ಷದಲ್ಲಿ ಆದಾಯ ತೆರಿಗೆ ಪಾವತಿಸಿದವರು"
+      },
+      {
+        "code": "HIGH_PENSIONER",
+        "description_en": "Retired persons/pensioners whose monthly pension is ₹10,000 or more",
+        "description_kn": "ತಿಂಗಳಿಗೆ ₹10,000 ಅಥವಾ ಅದಕ್ಕಿಂತ ಹೆಚ್ಚಿನ ಪಿಂಚಣಿ ಪಡೆಯುವ ನಿವೃತ್ತರು"
+      },
+      {
+        "code": "PROFESSIONALS",
+        "description_en": "Practicing Doctors, Engineers, Lawyers, Chartered Accountants, and Architects",
+        "description_kn": "ವೈದ್ಯರು, ಇಂಜಿನಿಯರ್‌ಗಳು, ವಕೀಲರು, ಸಿಎಗಳು ಮತ್ತು ವಾಸ್ತುಶಿಲ್ಪಿಗಳು"
+      }
+    ],
+    "required_documents": [
+      {
+        "name_en": "Aadhaar Card",
+        "name_kn": "ಆಧಾರ್ ಕಾರ್ಡ್",
+        "mandatory": true
+      },
+      {
+        "name_en": "Land Ownership Record (RTC / Pahani / Khata)",
+        "name_kn": "ಭೂ ಮಾಲೀಕತ್ವ ದಾಖಲೆ (ಪಹಣಿ / ಆರ್‌ಟಿಸಿ / ಖಾತಾ)",
+        "mandatory": true
+      },
+      {
+        "name_en": "Active Bank Account linked to Aadhaar (NPCI enabled)",
+        "name_kn": "ಆಧಾರ್ ಜೋಡಿಸಲಾದ ಬ್ಯಾಂಕ್ ಖಾತೆ (NPCI ಸಕ್ರಿಯ)",
+        "mandatory": true
+      },
+      {
+        "name_en": "Mobile Number linked to Aadhaar",
+        "name_kn": "ಆಧಾರ್ ಲಿಂಕ್ ಆದ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ",
+        "mandatory": true
+      }
+    ]
+  },
+  {
+    "id": "pmfby",
+    "name": {
+      "en": "Pradhan Mantri Fasal Bima Yojana (PMFBY)",
+      "kn": "ಪ್ರಧಾನ ಮಂತ್ರಿ ಫಸಲ್ ಬಿಮಾ ಯೋಜನೆ (ಪಿಎಂಎಫ್‌ಬಿವೈ)"
+    },
+    "short_name": "PMFBY",
+    "category": "crop_insurance",
+    "is_demo": false,
+    "verification_status": "verified",
+    "verification_date": "October 2026",
+    "verified_by": "Ministry of Agriculture & Farmers Welfare (MoA&FW), Govt of India & Dept of Agriculture, Karnataka",
+    "official_source_url": "https://pmfby.gov.in/",
+    "application_portal": "https://pmfby.gov.in/farmerRegistrationForm",
+    "helpline": "14447 / 1800-180-1551",
+    "description": {
+      "en": "Comprehensive crop insurance scheme providing financial support and risk cover against non-preventable natural risks (drought, flood, pests, unseasonal rain) from pre-sowing to post-harvest.",
+      "kn": "ಬಿತ್ತನೆಯಿಂದ ಕಟಾವಿನ ನಂತರದ ಹಂತದವರೆಗೆ ನೈಸರ್ಗಿಕ ವಿಕೋಪಗಳು (ಬರ, ಪ್ರವಾಹ, ಕೀಟಬಾಧೆ, ಅಕಾಲಿಕ ಮಳೆ) ವಿರುದ್ಧ ಸಮಗ್ರ ಬೆಳೆ ವಿಮೆ ಮತ್ತು ಆರ್ಥಿಕ ರಕ್ಷಣೆ ಒದಗಿಸುವ ಯೋಜನೆ."
+    },
+    "benefits": {
+      "amount": "Full Sum Insured for crop loss with highly subsidized farmer premiums (1.5% Rabi, 2% Kharif, 5% Commercial/Horticulture)",
+      "premium_subsidy": "Up to 90% premium paid by Central & State Governments",
+      "en": "Farmers pay only 2% for Kharif crops, 1.5% for Rabi food/oilseed crops, and 5% for annual commercial/horticultural crops. Balance premium is subsidized by Government.",
+      "kn": "ರೈತರು ಮುಂಗಾರು (ಖಾರೀಫ್) ಬೆಳೆಗಳಿಗೆ ಕೇವಲ 2%, ಹಿಂಗಾರು (ರಬಿ) ಆಹಾರ ಬೆಳೆಗಳಿಗೆ 1.5%, ಮತ್ತು ತೋಟಗಾರಿಕೆ ಬೆಳೆಗಳಿಗೆ 5% ಪ್ರೀಮಿಯಂ ಮಾತ್ರ ಪಾವತಿಸಬೇಕು. ಉಳಿದ ಪ್ರೀಮಿಯಂ ಅನ್ನು ಸರ್ಕಾರ ಭರಿಸುತ್ತದೆ."
+    },
+    "eligibility_rules": {
+      "ownership_type": ["owner", "tenant", "sharecropper"],
+      "max_land_acres": null,
+      "min_land_acres": 0.01,
+      "crops": [
+        "paddy", "rice", "wheat", "maize", "jowar", "ragi", "cotton", "sugarcane",
+        "groundnut", "sunflower", "soybean", "pulses", "gram", "tur", "moong",
+        "onion", "potato", "chilli", "tomato", "arecanut", "coffee", "bhatta", "jola"
+      ],
+      "districts": "all_notified_areas",
+      "states": "all"
+    },
+    "exclusions": [
+      {
+        "code": "WAR_NUCLEAR",
+        "description_en": "Losses arising out of war and nuclear risks",
+        "description_kn": "ಯುದ್ಧ ಮತ್ತು ಪರಮಾಣು ಅಪಾಯಗಳಿಂದ ಉಂಟಾಗುವ ನಷ್ಟ"
+      },
+      {
+        "code": "MALICIOUS_DAMAGE",
+        "description_en": "Malicious damage or preventable human neglect",
+        "description_kn": "ದುರುದ್ದೇಶಪೂರಿತ ಹಾನಿ ಅಥವಾ ನಿರ್ಲಕ್ಷ್ಯ"
+      },
+      {
+        "code": "GRAZING_ANIMALS",
+        "description_en": "Domestic and stray animal grazing damage",
+        "description_kn": "ಸಾಕು ಅಥವಾ ದನಕರುಗಳ ಮೇಯಿಸುವಿಕೆಯಿಂದಾದ ಹಾನಿ"
+      },
+      {
+        "code": "POST_HARVEST_AFTER_14D",
+        "description_en": "Post-harvest losses occurring beyond 14 days from harvest",
+        "description_kn": "ಕಟಾವು ಮಾಡಿದ 14 ದಿನಗಳ ನಂತರ ಸಂಭವಿಸುವ ನಷ್ಟ"
+      }
+    ],
+    "required_documents": [
+      {
+        "name_en": "Aadhaar Card",
+        "name_kn": "ಆಧಾರ್ ಕಾರ್ಡ್",
+        "mandatory": true
+      },
+      {
+        "name_en": "Land RTC / Pahani / Tenancy Agreement (if tenant)",
+        "name_kn": "ಆರ್‌ಟಿಸಿ / ಪಹಣಿ / ಗೇಣಿ ಒಪ್ಪಂದ (ಗೇಣಿದಾರರಾಗಿದ್ದರೆ)",
+        "mandatory": true
+      },
+      {
+        "name_en": "Sowing Certificate / Self-Declaration of Sowing",
+        "name_kn": "ಬಿತ್ತನೆ ಪ್ರಮಾಣಪತ್ರ / ಸ್ವಯಂ ದೃಢೀಕರಣ ಪತ್ರ",
+        "mandatory": true
+      },
+      {
+        "name_en": "Active Bank Passbook copy",
+        "name_kn": "ಸಕ್ರಿಯ ಬ್ಯಾಂಕ್ ಪಾಸ್‌ಬುಕ್ ಪ್ರತಿ",
+        "mandatory": true
+      }
+    ]
+  },
+  {
+    "id": "demo-micro-irrigation",
+    "name": {
+      "en": "[DEMO] Micro-Irrigation Support Scheme (Drip & Sprinkler)",
+      "kn": "[ಡೆಮೊ] ಸೂಕ್ಷ್ಮ ನೀರಾವರಿ ಪ್ರೋತ್ಸಾಹ ಯೋಜನೆ (ಹನಿ ಮತ್ತು ತುಂತುರು ನೀರಾವರಿ)"
+    },
+    "short_name": "Demo Micro-Irrigation",
+    "category": "irrigation_subsidy",
+    "is_demo": true,
+    "watermark_notice": "DEMO WATERMARK: Prototype scheme data for technical demonstration purposes only. Verify with Dept of Horticulture/Agriculture before actual filing.",
+    "verification_status": "demo_prototype",
+    "verification_date": "October 2026",
+    "verified_by": "Krishi Mitra Demo Benchmark Suite",
+    "official_source_url": "https://raitamitra.karnataka.gov.in/",
+    "application_portal": "https://kripa.karnataka.gov.in/",
+    "helpline": "080-22212345",
+    "description": {
+      "en": "Watermarked prototype scheme providing up to 90% capital subsidy on installation of drip and sprinkler irrigation systems for small and marginal farmers (<= 5 acres).",
+      "kn": "ಸಣ್ಣ ಮತ್ತು ಅತಿ ಸಣ್ಣ ರೈತರಿಗೆ (<= 5 ಎಕರೆ) ಹನಿ ಮತ್ತು ತುಂತುರು ನೀರಾವರಿ ಅಳವಡಿಕೆಗೆ ಶೇಕಡಾ 90 ರವರೆಗೆ ಸಹಾಯಧನ ಒದಗಿಸುವ ಪ್ರಾಯೋಗಿಕ ಯೋಜನೆ."
+    },
+    "benefits": {
+      "amount": "90% subsidy for SC/ST/Small/Marginal farmers (up to 5 acres); 45-50% for general farmers above 5 acres",
+      "en": "90% government subsidy on certified drip/sprinkler equipment packages.",
+      "kn": "ಪ್ರಮಾಣೀಕೃತ ಹನಿ/ತುಂತುರು ನೀರಾವರಿ ಉಪಕರಣಗಳಿಗೆ ಶೇಕಡಾ 90 ರಷ್ಟು ಸರ್ಕಾರಿ ಸಹಾಯಧನ."
+    },
+    "eligibility_rules": {
+      "ownership_type": ["owner", "tenant"],
+      "max_land_acres": 12.5,
+      "min_land_acres": 0.5,
+      "small_farmer_cap_acres": 5.0,
+      "crops": [
+        "sugarcane", "banana", "arecanut", "cotton", "maize", "vegetables", "tomato",
+        "pomegranate", "grapes", "chilli", "onion", "horticulture", "all"
+      ],
+      "water_source_required": true,
+      "districts": "all_karnataka",
+      "states": ["karnataka"]
+    },
+    "exclusions": [
+      {
+        "code": "NO_WATER_SOURCE",
+        "description_en": "Land without assured borewell, open well, or canal water source",
+        "description_kn": "ಖಚಿತ ಬೋರ್‌ವೆಲ್, ಬಾವಿ ಅಥವಾ ಕಾಲುವೆ ನೀರಿನ ಮೂಲವಿಲ್ಲದ ಭೂಮಿ"
+      },
+      {
+        "code": "ALREADY_SUBSIDIZED_7Y",
+        "description_en": "Beneficiaries who availed micro-irrigation subsidy in the last 7 years on the same survey number",
+        "description_kn": "ಅದೇ ಸರ್ವೆ ನಂಬರ್‌ನಲ್ಲಿ ಕಳೆದ 7 ವರ್ಷಗಳಲ್ಲಿ ನೀರಾವರಿ ಸಬ್ಸಿಡಿ ಪಡೆದವರು"
+      }
+    ],
+    "required_documents": [
+      {
+        "name_en": "RTC / Pahani with water source entry",
+        "name_kn": "ನೀರಿನ ಮೂಲ ನಮೂದಾಗಿರುವ ಪಹಣಿ / ಆರ್‌ಟಿಸಿ",
+        "mandatory": true
+      },
+      {
+        "name_en": "Aadhaar Card and Caste Certificate (for 90% subsidy quota)",
+        "name_kn": "ಆಧಾರ್ ಕಾರ್ಡ್ ಮತ್ತು ಜಾತಿ ಪ್ರಮಾಣಪತ್ರ (90% ಸಬ್ಸಿಡಿಗೆ)",
+        "mandatory": true
+      },
+      {
+        "name_en": "Electricity bill / Pump energisation certificate",
+        "name_kn": "ವಿದ್ಯುತ್ ಬಿಲ್ / ಪಂಪ್‌ಸೆಟ್ ದೃಢೀಕರಣ ಪತ್ರ",
+        "mandatory": true
+      }
+    ]
+  },
+  {
+    "id": "demo-agri-equipment",
+    "name": {
+      "en": "[DEMO] Farm Mechanization & Equipment Assistance",
+      "kn": "[ಡೆಮೊ] ಕೃಷಿ ಯಾಂತ್ರೀಕರಣ ಮತ್ತು ಉಪಕರಣಗಳ ನೆರವು ಯೋಜನೆ"
+    },
+    "short_name": "Demo Farm Mechanization",
+    "category": "equipment_subsidy",
+    "is_demo": true,
+    "watermark_notice": "DEMO WATERMARK: Prototype scheme data for technical demonstration purposes only. Verify with Krishi Vigyan Kendra or RSK before actual filing.",
+    "verification_status": "demo_prototype",
+    "verification_date": "October 2026",
+    "verified_by": "Krishi Mitra Demo Benchmark Suite",
+    "official_source_url": "https://raitamitra.karnataka.gov.in/",
+    "application_portal": "https://raitamitra.karnataka.gov.in/farm-machinery",
+    "helpline": "080-22223456",
+    "description": {
+      "en": "Watermarked prototype scheme providing 50% to 75% financial subsidy for purchasing power tillers, rotavators, weeders, and mini tractors for eligible farmers.",
+      "kn": "ಅರ್ಹ ರೈತರಿಗೆ ಪವರ್ ಟಿಲ್ಲರ್‌ಗಳು, ರೋಟಾವೇಟರ್‌ಗಳು, ಕಳೆ ತೆಗೆಯುವ ಯಂತ್ರಗಳು ಮತ್ತು ಮಿನಿ ಟ್ರ್ಯಾಕ್ಟರ್‌ಗಳನ್ನು ಖರೀದಿಸಲು ಶೇಕಡಾ 50 ರಿಂದ 75 ರವರೆಗೆ ಸಹಾಯಧನ ಒದಗಿಸುವ ಪ್ರಾಯೋಗಿಕ ಯೋಜನೆ."
+    },
+    "benefits": {
+      "amount": "Subsidy of ₹50,000 to ₹1,50,000 depending on machine category",
+      "en": "50% subsidy for general category and 75% for SC/ST/women farmers on approved farm machinery.",
+      "kn": "ಅನುಮೋದಿತ ಕೃಷಿ ಯಂತ್ರೋಪಕರಣಗಳಿಗೆ ಸಾಮಾನ್ಯ ವರ್ಗಕ್ಕೆ 50% ಮತ್ತು ಪರಿಶಿಷ್ಟ ಜಾತಿ/ಪಂಗಡ/ಮಹಿಳಾ ರೈತರಿಗೆ 75% ಸಬ್ಸಿಡಿ."
+    },
+    "eligibility_rules": {
+      "ownership_type": ["owner"],
+      "max_land_acres": 25.0,
+      "min_land_acres": 1.0,
+      "crops": "all",
+      "districts": "all_karnataka",
+      "states": ["karnataka"]
+    },
+    "exclusions": [
+      {
+        "code": "COMMERCIAL_OPERATORS",
+        "description_en": "Commercial custom hiring center operators without direct agricultural land",
+        "description_kn": "ಸ್ವಂತ ಕೃಷಿ ಭೂಮಿ ಇಲ್ಲದ ವಾಣಿಜ್ಯ ಬಾಡಿಗೆ ಕೇಂದ್ರದ ಆಪರೇಟರ್‌ಗಳು"
+      },
+      {
+        "code": "PREVIOUS_MACHINERY_SUBSIDY",
+        "description_en": "Farmers who availed tractor/tiller subsidy in the preceding 5 financial years",
+        "description_kn": "ಕಳೆದ 5 ಆರ್ಥಿಕ ವರ್ಷಗಳಲ್ಲಿ ಟ್ರ್ಯಾಕ್ಟರ್/ಟಿಲ್ಲರ್ ಸಬ್ಸಿಡಿ ಪಡೆದ ರೈತರು"
+      }
+    ],
+    "required_documents": [
+      {
+        "name_en": "Aadhaar Card",
+        "name_kn": "ಆಧಾರ್ ಕಾರ್ಡ್",
+        "mandatory": true
+      },
+      {
+        "name_en": "Latest RTC / Pahani",
+        "name_kn": "ಇತ್ತೀಚಿನ ಪಹಣಿ / ಆರ್‌ಟಿಸಿ",
+        "mandatory": true
+      },
+      {
+        "name_en": "Quotation from authorized implement dealer",
+        "name_kn": "ಅಧಿಕೃತ ಡೀಲರ್‌ನಿಂದ ಉಪಕರಣ ಕೊಟೇಶನ್",
+        "mandatory": true
+      },
+      {
+        "name_en": "Driving license (for tractor / power equipment)",
+        "name_kn": "ಚಾಲನಾ ಪರವಾನಗಿ (ಟ್ರ್ಯಾಕ್ಟರ್/ಪವರ್ ಉಪಕರಣಗಳಿಗೆ)",
+        "mandatory": false
+      }
+    ]
+  },
+  {
+    "id": "demo-soil-improvement",
+    "name": {
+      "en": "[DEMO] Soil Health & Micronutrient Assistance Scheme",
+      "kn": "[ಡೆಮೊ] ಮಣ್ಣು ಆರೋಗ್ಯ ಮತ್ತು ಸೂಕ್ಷ್ಮ ಪೋಷಕಾಂಶ ಬೆಂಬಲ ಯೋಜನೆ"
+    },
+    "short_name": "Demo Soil Health",
+    "category": "soil_health",
+    "is_demo": true,
+    "watermark_notice": "DEMO WATERMARK: Prototype scheme data for technical demonstration purposes only. Consult local Raitha Samparka Kendra for soil testing schedule.",
+    "verification_status": "demo_prototype",
+    "verification_date": "October 2026",
+    "verified_by": "Krishi Mitra Demo Benchmark Suite",
+    "official_source_url": "https://soilhealth.dac.gov.in/",
+    "application_portal": "https://soilhealth.dac.gov.in/farmer-services",
+    "helpline": "1800-180-1551",
+    "description": {
+      "en": "Watermarked prototype scheme providing 100% free soil testing, Soil Health Card generation, and 50% subsidy on gypsum, zinc sulfate, and bio-fertilizers.",
+      "kn": "ರೈತರಿಗೆ 100% ಉಚಿತ ಮಣ್ಣು ಪರೀಕ್ಷೆ, ಮಣ್ಣಿನ ಆರೋಗ್ಯ ಕಾರ್ಡ್ ಮತ್ತು ಜಿಪ್ಸಮ್, ಸತು ಸಲ್ಫೇಟ್ ಹಾಗೂ ಜೈವಿಕ ಗೊಬ್ಬರಗಳ ಮೇಲೆ 50% ಸಬ್ಸಿಡಿ ನೀಡುವ ಪ್ರಾಯೋಗಿಕ ಯೋಜನೆ."
+    },
+    "benefits": {
+      "amount": "Free Soil Health Card + ₹2,500/acre input subsidy for micronutrients (up to 5 acres)",
+      "en": "Free laboratory soil analysis covering 12 nutrient parameters and customized fertilizer recommendations.",
+      "kn": "12 ಪೋಷಕಾಂಶ ನಿಯತಾಂಕಗಳನ್ನು ಒಳಗೊಂಡ ಉಚಿತ ಪ್ರಯೋಗಾಲಯ ಮಣ್ಣು ವಿಶ್ಲೇಷಣೆ ಮತ್ತು ರಸಗೊಬ್ಬರ ಶಿಫಾರಸುಗಳು."
+    },
+    "eligibility_rules": {
+      "ownership_type": ["owner", "tenant", "sharecropper"],
+      "max_land_acres": 50.0,
+      "min_land_acres": 0.1,
+      "crops": "all",
+      "districts": "all_india",
+      "states": "all"
+    },
+    "exclusions": [
+      {
+        "code": "NON_AGRICULTURAL_LAND",
+        "description_en": "Land classified as converted/industrial/residential non-agricultural",
+        "description_kn": "ಕೃಷಿಯೇತರ (ಕೈಗಾರಿಕಾ/ವಸತಿ) ಎಂದು ಪರಿವರ್ತಿಸಲಾದ ಭೂಮಿ"
+      }
+    ],
+    "required_documents": [
+      {
+        "name_en": "Aadhaar Card",
+        "name_kn": "ಆಧಾರ್ ಕಾರ್ಡ್",
+        "mandatory": true
+      },
+      {
+        "name_en": "RTC / Pahani or Land survey number details",
+        "name_kn": "ಪಹಣಿ / ಆರ್‌ಟಿಸಿ ಅಥವಾ ಸರ್ವೆ ನಂಬರ್ ವಿವರಗಳು",
+        "mandatory": true
+      },
+      {
+        "name_en": "Soil Sample collected as per RSK protocol",
+        "name_kn": "ಆರ್‌ಎಸ್‌ಕೆ ನಿಯಮಾವಳಿ ಪ್ರಕಾರ ಸಂಗ್ರಹಿಸಿದ ಮಣ್ಣಿನ ಮಾದರಿ",
+        "mandatory": true
+      }
+    ]
+  }
+]
+
