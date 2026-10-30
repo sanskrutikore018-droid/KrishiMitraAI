@@ -271,7 +271,13 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
     }
   }, [speakerMuted]);
 
-  const MAX_RECORDING_SECONDS = 30;
+  const MAX_RECORDING_SECONDS = 300; // 5 minutes for natural 500-600 word speech
+
+  const formatDuration = (sec: number) => {
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    return `${m}:${s < 10 ? '0' : ''}${s}`;
+  };
 
   // Cleanup helper to stop microphone stream tracks
   const stopMediaStreamTracks = () => {
@@ -515,7 +521,7 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
   const getStateText = () => {
     switch (voiceState) {
       case 'listening':
-        return `${dict.voiceStateRecording} (${recordingSeconds}s / ${MAX_RECORDING_SECONDS}s)`;
+        return `${dict.voiceStateRecording} (${formatDuration(recordingSeconds)} / ${formatDuration(MAX_RECORDING_SECONDS)})`;
       case 'transcribing':
         return dict.voiceStateTranscribing;
       case 'review':
@@ -696,7 +702,7 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
                       {dict.voiceStateRecording}
                     </span>
                     <span className="text-emerald-300 font-mono text-xs sm:text-sm bg-black/50 px-2.5 py-0.5 rounded-lg border border-emerald-500/30">
-                      {recordingSeconds}s / {MAX_RECORDING_SECONDS}s
+                      {formatDuration(recordingSeconds)} / {formatDuration(MAX_RECORDING_SECONDS)}
                     </span>
                   </div>
 
@@ -766,9 +772,16 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
                       <Sparkles className="w-4 h-4 text-emerald-400" />
                       {dict.voiceStateReview}
                     </span>
-                    <span className="text-[10px] text-emerald-400/80 font-mono">
-                      {dict.editTranscript}
-                    </span>
+                    <div className="flex items-center space-x-2">
+                      {inputText.trim() && (
+                        <span className="text-[11px] font-mono text-emerald-300 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-500/40">
+                          {inputText.trim().split(/\s+/).length} words
+                        </span>
+                      )}
+                      <span className="text-[10px] text-emerald-400/80 font-mono">
+                        {dict.editTranscript}
+                      </span>
+                    </div>
                   </div>
 
                   <textarea
@@ -777,8 +790,8 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
                       setInputText(e.target.value);
                       setLiveTranscript(e.target.value);
                     }}
-                    rows={3}
-                    className="w-full p-3 bg-black/60 border border-emerald-500/40 rounded-xl text-xs sm:text-sm text-emerald-50 placeholder-emerald-300/40 focus:outline-none focus:border-emerald-400 font-medium resize-none leading-relaxed"
+                    rows={6}
+                    className="w-full max-h-64 overflow-y-auto p-3.5 bg-black/60 border border-emerald-500/40 rounded-xl text-xs sm:text-sm text-emerald-50 placeholder-emerald-300/40 focus:outline-none focus:border-emerald-400 font-medium resize-none leading-relaxed"
                     placeholder={dict.typePlaceholder}
                   />
 

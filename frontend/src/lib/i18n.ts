@@ -574,8 +574,8 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     retryRecording: "ಮತ್ತೊಮ್ಮೆ ಮಾತನಾಡಿ",
     clearInput: "ತೆರವುಗೊಳಿಸಿ",
     editTranscript: "ಪಠ್ಯವನ್ನು ಸಂಪಾದಿಸಿ",
-    maxDurationReached: "ಗರಿಷ್ಠ 30 ಸೆಕೆಂಡುಗಳ ಮಿತಿ ಮುಗಿದಿದೆ",
-    recordingTip: "ನಿಮ್ಮ ಸಂಪೂರ್ಣ ಕೃಷಿ ಪ್ರಶ್ನೆಯನ್ನು ಸಹಜವಾಗಿ ಮಾತನಾಡಿ, ನಂತರ ನಿಲ್ಲಿಸಿ ಬಟನ್ ಒತ್ತಿರಿ.",
+    maxDurationReached: "ಗರಿಷ್ಠ 5 ನಿಮಿಷಗಳ ಮಿತಿ ತಲುಪಿದೆ",
+    recordingTip: "ನಿಮ್ಮ ಸಂಪೂರ್ಣ ಕೃಷಿ ಪ್ರಶ್ನೆಯನ್ನು ವಿವರವಾಗಿ ಮಾತನಾಡಿ (ಗರಿಷ್ಠ 5 ನಿಮಿಷ / ~600 ಪದಗಳು). ನಂತರ ನಿಲ್ಲಿಸಿ ಬಟನ್ ಒತ್ತಿರಿ.",
   },
 
   // ================= ENGLISH =================

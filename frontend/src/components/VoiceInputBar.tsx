@@ -32,7 +32,13 @@ export const VoiceInputBar: React.FC<VoiceInputBarProps> = ({
   const recognitionRef = useRef<any>(null);
   const accumulatedTranscriptRef = useRef<string>('');
 
-  const MAX_RECORDING_SECONDS = 30;
+  const MAX_RECORDING_SECONDS = 300; // 5 minutes for natural 500-600 word speech
+
+  const formatDuration = (sec: number) => {
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    return `${m}:${s < 10 ? '0' : ''}${s}`;
+  };
 
   const speechLangMap: Record<Language, string> = {
     kn: 'kn-IN',
@@ -276,20 +282,26 @@ export const VoiceInputBar: React.FC<VoiceInputBarProps> = ({
               <Sparkles className="w-4 h-4 text-emerald-600" />
               {dict.voiceStateReview || dict.transcriptPreview}
             </span>
-            <span className="text-[11px] text-emerald-700/70">
-              {dict.editTranscript}
-            </span>
+            <div className="flex items-center space-x-2">
+              {inputText.trim() && (
+                <span className="text-[11px] font-mono text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded border border-emerald-300">
+                  {inputText.trim().split(/\s+/).length} words
+                </span>
+              )}
+              <span className="text-[11px] text-emerald-700/70">
+                {dict.editTranscript}
+              </span>
+            </div>
           </div>
           
-          <input
-            type="text"
+          <textarea
             value={inputText}
             onChange={(e) => {
               setInputText(e.target.value);
               setPreviewTranscript(e.target.value);
             }}
-            onKeyDown={handleKeyDown}
-            className="w-full px-3 py-2 text-xs sm:text-sm bg-white border border-emerald-300 rounded-lg text-gray-900 font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            rows={4}
+            className="w-full max-h-48 overflow-y-auto px-3 py-2 text-xs sm:text-sm bg-white border border-emerald-300 rounded-lg text-gray-900 font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 leading-relaxed"
           />
 
           <div className="flex items-center justify-between gap-2 pt-1">
@@ -334,7 +346,7 @@ export const VoiceInputBar: React.FC<VoiceInputBarProps> = ({
               </span>
               <div>
                 <span className="text-xs sm:text-sm font-bold text-rose-900">
-                  {dict.voiceStateRecording || dict.recording} ({recordingSeconds}s / {MAX_RECORDING_SECONDS}s)
+                  {dict.voiceStateRecording || dict.recording} ({formatDuration(recordingSeconds)} / {formatDuration(MAX_RECORDING_SECONDS)})
                 </span>
                 <p className="text-[11px] text-rose-700">
                   {dict.recordingTip || dict.recordingInstruction}
