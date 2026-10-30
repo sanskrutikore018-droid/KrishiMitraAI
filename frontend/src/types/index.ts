@@ -88,8 +88,11 @@ export interface ChatResponse {
 }
 
 export interface FarmerUser {
+  id: string;
   phone: string;
+  email?: string;
   name: string;
+  passwordHash?: string;
   district?: string;
   land_area_acres?: number;
   crops?: string[];
@@ -97,5 +100,19 @@ export interface FarmerUser {
   has_irrigation?: boolean;
   is_income_tax_payer?: boolean;
   isLoggedIn: boolean;
+  sessionToken?: string;
   loginTimestamp: number;
+  registeredAt?: number;
+}
+
+export interface SignupData {
+  name: string;
+  phone: string;
+  email?: string;
+  password: string;
+  district: string;
+  land_area_acres: number;
+  crops: string[];
+  ownership_type: 'owner' | 'tenant' | 'sharecropper';
+  has_irrigation?: boolean;
 }

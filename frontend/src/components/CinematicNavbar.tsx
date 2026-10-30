@@ -16,7 +16,7 @@ export const CinematicNavbar: React.FC<CinematicNavbarProps> = ({
   isBackendHealthy
 }) => {
   const { language, setLanguage, dict, availableLanguages, currentLanguageMeta } = useTranslation();
-  const { user, isAuthenticated, openLogin, logout } = useAuth();
+  const { user, isAuthenticated, openLogin, openSignup, logout } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
@@ -213,13 +213,21 @@ export const CinematicNavbar: React.FC<CinematicNavbarProps> = ({
               )}
             </div>
           ) : (
-            <button
-              onClick={openLogin}
-              className="px-4 py-1.5 rounded-full bg-gradient-to-r from-emerald-600 via-green-600 to-lime-600 hover:from-emerald-500 hover:to-lime-500 text-white font-extrabold text-xs shadow-[0_0_20px_rgba(16,185,129,0.35)] flex items-center space-x-1.5 border border-emerald-400/40 transition-all duration-200 hover:scale-105 cursor-pointer"
-            >
-              <User className="w-3.5 h-3.5 text-white" />
-              <span>{dict.login}</span>
-            </button>
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={openLogin}
+                className="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-emerald-600 via-green-600 to-lime-600 hover:from-emerald-500 hover:to-lime-500 text-white font-extrabold text-xs shadow-[0_0_20px_rgba(16,185,129,0.35)] flex items-center space-x-1.5 border border-emerald-400/40 transition-all duration-200 hover:scale-105 cursor-pointer"
+              >
+                <User className="w-3.5 h-3.5 text-white" />
+                <span>{dict.login}</span>
+              </button>
+              <button
+                onClick={openSignup}
+                className="hidden sm:flex px-3.5 py-1.5 rounded-full bg-emerald-950/80 hover:bg-emerald-900/90 text-emerald-200 border border-emerald-500/40 font-bold text-xs transition-all duration-200 hover:border-lime-400 cursor-pointer"
+              >
+                <span>{dict.signup}</span>
+              </button>
+            </div>
           )}
 
           {/* Settings Modal Button */}

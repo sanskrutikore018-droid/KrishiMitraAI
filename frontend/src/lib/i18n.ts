@@ -219,6 +219,37 @@ export interface I18nDictionary {
   invalidOtp: string;
   profileSummary: string;
   verifiedFarmerBadge: string;
+
+  // Dedicated High-Security Login & Signup Modals
+  loginTitle: string;
+  loginSubtitle: string;
+  signupTitle: string;
+  signupSubtitle: string;
+  identifierLabel: string;
+  identifierPlaceholder: string;
+  passwordLabel: string;
+  passwordPlaceholder: string;
+  confirmPasswordLabel: string;
+  confirmPasswordPlaceholder: string;
+  rememberMe: string;
+  dontHaveAccount: string;
+  alreadyHaveAccount: string;
+  accountNotFoundAlert: string;
+  invalidCredentialsAlert: string;
+  passwordStrengthLabel: string;
+  strengthWeak: string;
+  strengthMedium: string;
+  strengthStrong: string;
+  passwordsMismatch: string;
+  bruteForceLocked: string;
+  demoCredentialsPill: string;
+  fillDemoBtn: string;
+  step1Credentials: string;
+  step2FarmProfile: string;
+  nextStepBtn: string;
+  completeSignupBtn: string;
+  backBtn: string;
+  securityBadgeText: string;
 }
 
 export const i18n: Record<SupportedLanguage, I18nDictionary> = {
@@ -434,7 +465,37 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     invalidPhone: "ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ 10 ಅಂಕಿಯ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ನಮೂದಿಸಿ",
     invalidOtp: "ತಪ್ಪಾದ OTP. ದಯವಿಟ್ಟು 123456 ಅಥವಾ ನಿಮ್ಮ ಮೊಬೈಲ್‌ಗೆ ಬಂದ ಕೋಡ್ ಬಳಸಿ.",
     profileSummary: "ರೈತರ ಮಾಹಿತಿ",
-    verifiedFarmerBadge: "ಪರಿಶೀಲಿತ ರೈತ"
+    verifiedFarmerBadge: "ಪರಿಶೀಲಿತ ರೈತ",
+
+    loginTitle: "ರೈತ ಸುರಕ್ಷಿತ ಲಾಗಿನ್",
+    loginSubtitle: "ಭಾರತೀಯ ರೈತರಿಗಾಗಿ ಉನ್ನತ ಭದ್ರತೆಯ ಡಿಜಿಟಲ್ ಪ್ರವೇಶ",
+    signupTitle: "ರೈತರ ನೋಂದಣಿ & ಪ್ರೊಫೈಲ್",
+    signupSubtitle: "ಸರ್ಕಾರಿ ಸಬ್ಸಿಡಿ ಮತ್ತು ಯೋಜನೆಗಳ ಅರ್ಹತೆಯನ್ನು ತಕ್ಷಣ ತಿಳಿಯಿರಿ",
+    identifierLabel: "ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಅಥವಾ ಇಮೇಲ್",
+    identifierPlaceholder: "ಉದಾ: 9876543210 ಅಥವಾ farmer@gmail.com",
+    passwordLabel: "ಪಾಸ್‌ವರ್ಡ್",
+    passwordPlaceholder: "ನಿಮ್ಮ ಸುರಕ್ಷಿತ ಪಾಸ್‌ವರ್ಡ್",
+    confirmPasswordLabel: "ಪಾಸ್‌ವರ್ಡ್ ದೃಢೀಕರಿಸಿ",
+    confirmPasswordPlaceholder: "ಪಾಸ್‌ವರ್ಡ್ ಮರು-ನಮೂದಿಸಿ",
+    rememberMe: "ನನ್ನ ಸೆಷನ್ ಸುರಕ್ಷಿತವಾಗಿ ನೆನಪಿಡಿ",
+    dontHaveAccount: "ಹೊಸಬರೇ? ಇಲ್ಲಿ ನೋಂದಣಿ ಮಾಡಿಕೊಳ್ಳಿ →",
+    alreadyHaveAccount: "ಖಾತೆ ಇದೆಯೇ? ಇಲ್ಲಿ ಲಾಗಿನ್ ಆಗಿ →",
+    accountNotFoundAlert: "ಖಾತೆ ಕಂಡುಬಂದಿಲ್ಲ! ಕೃಷಿ ಮಿತ್ರ AI ಪ್ರವೇಶಿಸಲು ದಯವಿಟ್ಟು ಮೊದಲು ನೋಂದಣಿ (Sign Up) ಮಾಡಿ.",
+    invalidCredentialsAlert: "ತಪ್ಪಾದ ಪಾಸ್‌ವರ್ಡ್ ಅಥವಾ ವಿವರಗಳು. ದಯವಿಟ್ಟು ಪರಿಶೀಲಿಸಿ.",
+    passwordStrengthLabel: "ಪಾಸ್‌ವರ್ಡ್ ಸಾಮರ್ಥ್ಯ",
+    strengthWeak: "ದುರ್ಬಲ",
+    strengthMedium: "ಸಾಧಾರಣ",
+    strengthStrong: "ಬಲಿಷ್ಠ",
+    passwordsMismatch: "ಪಾಸ್‌ವರ್ಡ್‌ಗಳು ಹೊಂದಿಕೆಯಾಗುತ್ತಿಲ್ಲ",
+    bruteForceLocked: "ಹೆಚ್ಚು ಬಾರಿ ತಪ್ಪಾದ ಯತ್ನ! ಭದ್ರತಾ ಕೂಲ್‌ಡೌನ್ ಬಾಕಿ ಇದೆ:",
+    demoCredentialsPill: "ಡೆಮೊ ಲಾಗಿನ್: 9876543210 / Krishi@2026",
+    fillDemoBtn: "ಡೆಮೊ ಮಾಹಿತಿ ಭರ್ತಿ ಮಾಡಿ",
+    step1Credentials: "ಹಂತ 1: ಭದ್ರತಾ ವಿವರಗಳು",
+    step2FarmProfile: "ಹಂತ 2: ಜಮೀನು & ಬೆಳೆ ವಿವರ",
+    nextStepBtn: "ಮುಂದಿನ ಹಂತ: ಕೃಷಿ ಮಾಹಿತಿ →",
+    completeSignupBtn: "ನೋಂದಣಿ ಪೂರ್ಣಗೊಳಿಸಿ & AI ಪ್ರಾರಂಭಿಸಿ →",
+    backBtn: "ಹಿಂದಕ್ಕೆ",
+    securityBadgeText: "256-ಬಿಟ್ ಸುರಕ್ಷಿತ ಗೂಢಲಿಪೀಕರಣ • ಶೂನ್ಯ ಡೇಟಾ ಸೋರಿಕೆ"
   },
 
   // ================= ENGLISH =================
@@ -649,7 +710,37 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     invalidPhone: "Please enter a valid 10-digit Indian mobile number",
     invalidOtp: "Invalid OTP. Use 123456 or the code sent to your phone.",
     profileSummary: "Farmer Profile",
-    verifiedFarmerBadge: "Verified Farmer"
+    verifiedFarmerBadge: "Verified Farmer",
+
+    loginTitle: "Farmer Secure Login",
+    loginSubtitle: "High-Security Access Portal for Indian Farmers",
+    signupTitle: "Farmer Registration & Onboarding",
+    signupSubtitle: "Register to Unlock Government Subsidies & Schemes",
+    identifierLabel: "Mobile Number or Email",
+    identifierPlaceholder: "e.g. 9876543210 or farmer@gmail.com",
+    passwordLabel: "Password",
+    passwordPlaceholder: "Enter your secure password",
+    confirmPasswordLabel: "Confirm Password",
+    confirmPasswordPlaceholder: "Re-enter your password",
+    rememberMe: "Remember my session securely",
+    dontHaveAccount: "New to Krishi Mitra? Create an Account →",
+    alreadyHaveAccount: "Already registered? Login here →",
+    accountNotFoundAlert: "Account not found! Please sign up first to access Krishi Mitra AI.",
+    invalidCredentialsAlert: "Invalid credentials or password. Please try again.",
+    passwordStrengthLabel: "Password Strength",
+    strengthWeak: "Weak",
+    strengthMedium: "Medium",
+    strengthStrong: "Strong",
+    passwordsMismatch: "Passwords do not match",
+    bruteForceLocked: "Too many failed attempts! Security cooldown active for",
+    demoCredentialsPill: "Demo Login: 9876543210 / Krishi@2026",
+    fillDemoBtn: "Fill Demo Credentials",
+    step1Credentials: "Step 1: Security Credentials",
+    step2FarmProfile: "Step 2: Land & Crop Mapping",
+    nextStepBtn: "Next: Farm Details →",
+    completeSignupBtn: "Complete Registration & Launch AI →",
+    backBtn: "Back",
+    securityBadgeText: "256-Bit Encrypted • Zero Data Exposure Policy"
   },
 
   // ================= HINDI (हिन्दी) =================
@@ -864,7 +955,37 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     invalidPhone: "कृपया वैध 10-अंकों का मोबाइल नंबर दर्ज करें",
     invalidOtp: "अमान्य ओटीपी। कृपया 123456 या प्राप्त कोड दर्ज करें।",
     profileSummary: "किसान प्रोफ़ाइल",
-    verifiedFarmerBadge: "सत्यापित किसान"
+    verifiedFarmerBadge: "सत्यापित किसान",
+
+    loginTitle: "किसान सुरक्षित लॉगिन",
+    loginSubtitle: "भारतीय किसानों के लिए उच्च-सुरक्षा डिजिटल पोर्टल",
+    signupTitle: "किसान पंजीकरण एवं प्रोफ़ाइल",
+    signupSubtitle: "सरकारी सब्सिडी एवं योजनाओं की पात्रता जानने हेतु पंजीकरण करें",
+    identifierLabel: "मोबाइल नंबर या ईमेल",
+    identifierPlaceholder: "उदा: 9876543210 या farmer@gmail.com",
+    passwordLabel: "पासवर्ड",
+    passwordPlaceholder: "अपना सुरक्षित पासवर्ड दर्ज करें",
+    confirmPasswordLabel: "पासवर्ड की पुष्टि करें",
+    confirmPasswordPlaceholder: "पासवर्ड पुनः दर्ज करें",
+    rememberMe: "मेरा सत्र सुरक्षित रूप से याद रखें",
+    dontHaveAccount: "नए किसान हैं? खाता बनाएं →",
+    alreadyHaveAccount: "पहले से खाता है? यहाँ लॉगिन करें →",
+    accountNotFoundAlert: "खाता नहीं मिला! कृषि मित्र AI उपयोग करने के लिए कृपया पहले साइन अप करें।",
+    invalidCredentialsAlert: "अमान्य क्रेडेंशियल या गलत पासवर्ड। कृपया पुनः प्रयास करें।",
+    passwordStrengthLabel: "पासवर्ड की मजबूती",
+    strengthWeak: "कमजोर",
+    strengthMedium: "मध्यम",
+    strengthStrong: "मजबूत",
+    passwordsMismatch: "पासवर्ड मेल नहीं खा रहे हैं",
+    bruteForceLocked: "अत्यधिक असफल प्रयास! सुरक्षा लॉकआउट सक्रिय:",
+    demoCredentialsPill: "डेमो लॉगिन: 9876543210 / Krishi@2026",
+    fillDemoBtn: "डेमो क्रेडेंशियल भरें",
+    step1Credentials: "चरण 1: सुरक्षा क्रेडेंशियल",
+    step2FarmProfile: "चरण 2: भूमि एवं फसल मैपिंग",
+    nextStepBtn: "आगे: कृषि विवरण →",
+    completeSignupBtn: "पंजीकरण पूरा करें और AI शुरू करें →",
+    backBtn: "पीछे",
+    securityBadgeText: "256-बिट एन्क्रिप्टेड • शून्य डेटा जोखिम नीति"
   },
 
   // ================= TELUGU (తెలుగు) =================
@@ -1079,7 +1200,37 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     invalidPhone: "దయచేసి సరైన 10 అంకెల మొబైల్ నంబర్ నమోదు చేయండి",
     invalidOtp: "తప్పుడు OTP. దయచేసి 123456 లేదా వచ్చిన కోడ్ ఉపయోగించండి.",
     profileSummary: "రైతు ప్రొఫైల్",
-    verifiedFarmerBadge: "ధృవీకరించబడిన రైతు"
+    verifiedFarmerBadge: "ధృవీకరించబడిన రైతు",
+
+    loginTitle: "రైతు సురక్షిత లాగిన్",
+    loginSubtitle: "భారతీయ రైతుల కోసం అత్యున్నత భద్రతా డిజిటల్ పోర్టల్",
+    signupTitle: "రైతు నమోదు & ప్రొఫైల్",
+    signupSubtitle: "ప్రభుత్వ రాయితీలు మరియు పథకాల అర్హతను తక్షణమే తెలుసుకోండి",
+    identifierLabel: "మొబైల్ నంబర్ లేదా ఇమెయిల్",
+    identifierPlaceholder: "ఉదా: 9876543210 లేదా farmer@gmail.com",
+    passwordLabel: "పాస్‌వర్డ్",
+    passwordPlaceholder: "మీ సురక్షిత పాస్‌వర్డ్ నమోదు చేయండి",
+    confirmPasswordLabel: "పాస్‌వర్డ్ నిర్ధారించండి",
+    confirmPasswordPlaceholder: "పాస్‌వర్డ్ మళ్లీ నమోదు చేయండి",
+    rememberMe: "నా సెషన్‌ను సురక్షితంగా గుర్తుంచుకో",
+    dontHaveAccount: "కొత్త రైతులా? ఖాతా సృష్టించండి →",
+    alreadyHaveAccount: "ఇప్పటికే ఖాతా ఉందా? ఇక్కడ లాగిన్ అవ్వండి →",
+    accountNotFoundAlert: "ఖాతా కనుగొనబడలేదు! కృషి మిత్ర AI యాక్సెస్ చేయడానికి దయచేసి ముందుగా నమోదు (Sign Up) చేసుకోండి.",
+    invalidCredentialsAlert: "చెల్లని వివరాలు లేదా తప్పుడు పాస్‌వర్డ్. దయచేసి మళ్లీ ప్రయత్నించండి.",
+    passwordStrengthLabel: "పాస్‌వర్డ్ బలం",
+    strengthWeak: "బలహీనమైన",
+    strengthMedium: "మధ్యస్థ",
+    strengthStrong: "బలమైన",
+    passwordsMismatch: "పాస్‌వర్డ్‌లు సరిపోలడం లేదు",
+    bruteForceLocked: "చాలా విఫల ప్రయత్నాలు! భద్రతా లాక్‌అవుట్ సమయం:",
+    demoCredentialsPill: "డెమో లాగిన్: 9876543210 / Krishi@2026",
+    fillDemoBtn: "డెమో వివరాలు నింపండి",
+    step1Credentials: "దశ 1: భద్రతా ఆధారాలు",
+    step2FarmProfile: "దశ 2: భూమి & పంట వివరాలు",
+    nextStepBtn: "తరువాత: వ్యవసాయ వివరాలు →",
+    completeSignupBtn: "నమోదు పూర్తి చేసి AI ప్రారంభించండి →",
+    backBtn: "వెనుకకు",
+    securityBadgeText: "256-బిట్ ఎన్‌క్రిప్ట్ చేయబడింది • జీరో డేటా లీకేజ్ విధానం"
   },
 
   // ================= MARATHI (मराठी) =================
@@ -1294,7 +1445,37 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     invalidPhone: "कृपया वैध 10 अंकी मोबाईल क्रमांक टाका",
     invalidOtp: "चुकीचा ओटीपी. कृपया 123456 किंवा प्राप्त कोड वापरा.",
     profileSummary: "शेतकरी माहिती",
-    verifiedFarmerBadge: "प्रमाणित शेतकरी"
+    verifiedFarmerBadge: "प्रमाणित शेतकरी",
+
+    loginTitle: "शेतकरी सुरक्षित लॉगिन",
+    loginSubtitle: "भारतीय शेतकऱ्यांसाठी उच्च-सुरक्षा डिजिटल प्रवेशद्वार",
+    signupTitle: "शेतकरी नोंदणी आणि प्रोफाईल",
+    signupSubtitle: "शासकीय योजना व अनुदानांची अचूक माहिती मिळवण्यासाठी नोंदणी करा",
+    identifierLabel: "मोबाईल क्रमांक किंवा ईमेल",
+    identifierPlaceholder: "उदा: 9876543210 किंवा farmer@gmail.com",
+    passwordLabel: "पासवर्ड",
+    passwordPlaceholder: "आपला सुरक्षित पासवर्ड टाका",
+    confirmPasswordLabel: "पासवर्ड पुष्टी करा",
+    confirmPasswordPlaceholder: "पासवर्ड पुन्हा टाका",
+    rememberMe: "माझे सत्र सुरक्षितपणे लक्षात ठेवा",
+    dontHaveAccount: "नवीन शेतकरी आहात? खाते तयार करा →",
+    alreadyHaveAccount: "आधीच खाते आहे? येथे लॉगिन करा →",
+    accountNotFoundAlert: "खाते सापडले नाही! कृषी मित्र AI वापरण्यासाठी कृपया आधी नोंदणी (Sign Up) करा.",
+    invalidCredentialsAlert: "चुकीचे क्रेडेंशियल्स किंवा पासवर्ड. कृपया पुन्हा प्रयत्न करा.",
+    passwordStrengthLabel: "पासवर्डची मजबुती",
+    strengthWeak: "कमकुवत",
+    strengthMedium: "मध्यम",
+    strengthStrong: "मजबूत",
+    passwordsMismatch: "पासवर्ड जुळत नाहीत",
+    bruteForceLocked: "अनेक अयशस्वी प्रयत्न! सुरक्षा कुलूप सक्रिय:",
+    demoCredentialsPill: "डेमो लॉगिन: 9876543210 / Krishi@2026",
+    fillDemoBtn: "डेमो माहिती भरा",
+    step1Credentials: "टप्पा 1: सुरक्षा तपशील",
+    step2FarmProfile: "टप्पा 2: शेतजमीन व पीक माहिती",
+    nextStepBtn: "पुढे: शेती तपशील →",
+    completeSignupBtn: "नोंदणी पूर्ण करा आणि AI सुरू करा →",
+    backBtn: "मागे",
+    securityBadgeText: "256-बिट एन्क्रिप्टेड • शून्य डेटा गळती धोरण"
   }
 };
 

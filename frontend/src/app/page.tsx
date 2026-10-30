@@ -11,7 +11,8 @@ import { SchemesShowcase } from '../components/SchemesShowcase';
 import { EligibilityAssessmentView } from '../components/EligibilityAssessmentView';
 import { EvidenceModal } from '../components/EvidenceModal';
 import { SettingsModal } from '../components/SettingsModal';
-import { AuthModal } from '../components/AuthModal';
+import { LoginModal } from '../components/LoginModal';
+import { SignupModal } from '../components/SignupModal';
 import { DisclaimerFooter } from '../components/DisclaimerFooter';
 import { MobileBottomNav } from '../components/MobileBottomNav';
 import {
@@ -232,8 +233,9 @@ export default function Home() {
         onClose={() => setIsSettingsOpen(false)}
       />
 
-      {/* Vantara-Inspired Glassmorphic Farmer Auth Modal */}
-      <AuthModal onProfileSynced={handleManualProfileUpdate} />
+      {/* High-Security Vantara Glassmorphic Farmer Authentication Modals */}
+      <LoginModal />
+      <SignupModal onProfileSynced={handleManualProfileUpdate} />
 
       {/* Statutory Disclaimer & Footer */}
       <DisclaimerFooter />
