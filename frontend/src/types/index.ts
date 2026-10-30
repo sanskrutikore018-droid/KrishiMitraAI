@@ -85,6 +85,7 @@ export interface ChatResponse {
   suggested_quick_replies: string[];
   slot_just_filled?: string | null;
   voice_provider?: string | null;
+  speaking_style?: string | null;
 }
 
 export interface FarmerUser {

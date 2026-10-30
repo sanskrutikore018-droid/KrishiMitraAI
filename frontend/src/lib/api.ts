@@ -55,7 +55,8 @@ export async function sendChatMessage(
   message: string,
   sessionId?: string,
   language: Language = 'kn',
-  profileOverride?: FarmerProfile
+  profileOverride?: FarmerProfile,
+  speakingStyle: string = 'standard'
 ): Promise<ChatResponse | null> {
   try {
     const res = await fetch(`${API_BASE_URL}/api/chat`, {
@@ -65,7 +66,8 @@ export async function sendChatMessage(
         message,
         session_id: sessionId,
         language,
-        profile_override: profileOverride
+        profile_override: profileOverride,
+        speaking_style: speakingStyle
       })
     });
     if (res.ok) {
@@ -75,6 +77,20 @@ export async function sendChatMessage(
   } catch (err) {
     console.error('Chat API error:', err);
     return null;
+  }
+}
+
+export async function resetChatSession(sessionId: string): Promise<boolean> {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/chat/reset`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ session_id: sessionId })
+    });
+    return res.ok;
+  } catch (err) {
+    console.warn('Failed to reset session on backend:', err);
+    return false;
   }
 }
 

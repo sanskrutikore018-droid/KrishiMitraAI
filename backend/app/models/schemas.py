@@ -66,6 +66,7 @@ class ChatRequest(BaseModel):
     message: str
     language: Literal["kn", "hi", "mr", "te", "en"] = "kn"
     profile_override: Optional[FarmerProfile] = None
+    speaking_style: Optional[str] = Field("standard", description="Regional speaking style or dialect preference")
 
 class ChatResponse(BaseModel):
     session_id: str
@@ -80,6 +81,7 @@ class ChatResponse(BaseModel):
     suggested_quick_replies: List[str] = Field(default_factory=list)
     slot_just_filled: Optional[str] = None
     voice_provider: Optional[str] = None
+    speaking_style: Optional[str] = "standard"
 
 class STTResponse(BaseModel):
     transcript: str

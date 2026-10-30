@@ -31,16 +31,30 @@ interface LuminousVoiceCoreProps {
   isLoading: boolean;
   messages: ChatMessage[];
   currentProfile: FarmerProfile;
+  speakingStyle?: string;
+  onSpeakingStyleChange?: (style: string) => void;
+  onResetChat?: () => void;
 }
 
 export type VoiceState = 'idle' | 'listening' | 'transcribing' | 'review' | 'processing' | 'speaking' | 'error';
+
+export const KANNADA_DIALECTS = [
+  { key: 'standard', label: '🌿 ಸಾಮಾನ್ಯ ಸಂಭಾಷಣೆ', title: 'Standard Conversational' },
+  { key: 'north_karnataka', label: '🌾 ಉತ್ತರ ಕರ್ನಾಟಕ', title: 'Dharwad / Belagavi style (ರೀ, ನೋಡ್ರೀ, ಮಾಡ್ರೀ)' },
+  { key: 'south_karnataka', label: '🌱 ದಕ್ಷಿಣ ಕರ್ನಾಟಕ', title: 'Mandya / Mysuru style (ಸ್ವಾಮಿ, ಕಣ್ರೀ)' },
+  { key: 'coastal', label: '🌊 ಕರಾವಳಿ ಕರ್ನಾಟಕ', title: 'Mangaluru / Udupi style (ಮಾರೆರೆ)' },
+  { key: 'kalyana_karnataka', label: '☀️ ಕಲ್ಯಾಣ ಕರ್ನಾಟಕ', title: 'Kalaburagi / Raichur style (ಐತ್ರಿ, ಮಾಡ್ರಿ)' }
+];
 
 export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
   language: propLang,
   onSendMessage,
   isLoading,
   messages,
-  currentProfile
+  currentProfile,
+  speakingStyle = 'standard',
+  onSpeakingStyleChange,
+  onResetChat
 }) => {
   const { language: ctxLanguage, dict } = useTranslation();
   const language = propLang || ctxLanguage;
@@ -562,6 +576,30 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
               <p className="font-editorial italic text-xl sm:text-3xl text-lime-300 font-light drop-shadow-sm">
                 {dict.voiceSubheading}
               </p>
+              {language === 'kn' && (
+                <div className="pt-2 flex flex-col items-center space-y-1.5">
+                  <span className="text-[11px] font-semibold text-emerald-400 tracking-wide uppercase">
+                    ಭಾಷಾ ಶೈಲಿ / Regional Speaking Style:
+                  </span>
+                  <div className="flex items-center justify-center flex-wrap gap-1.5 p-1 bg-black/40 border border-emerald-500/30 rounded-2xl max-w-xl mx-auto backdrop-blur-md">
+                    {KANNADA_DIALECTS.map((d) => (
+                      <button
+                        key={d.key}
+                        type="button"
+                        onClick={() => onSpeakingStyleChange?.(d.key)}
+                        className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer flex items-center space-x-1 ${
+                          speakingStyle === d.key
+                            ? 'bg-gradient-to-r from-emerald-500 to-green-400 text-emerald-950 shadow-md font-black'
+                            : 'text-emerald-200/80 hover:text-white hover:bg-emerald-900/50'
+                        }`}
+                        title={d.title}
+                      >
+                        <span>{d.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* THE LIVING, BREATHING, HYPER-REALISTIC GLOWING GREEN CORE */}
@@ -951,9 +989,22 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
                   {dict.recentConversations}
                 </h3>
               </div>
-              <span className="text-[10px] text-emerald-300 bg-emerald-900/70 px-2.5 py-0.5 rounded-full font-mono border border-emerald-500/30">
-                Live Feed
-              </span>
+              <div className="flex items-center space-x-2">
+                {onResetChat && (
+                  <button
+                    type="button"
+                    onClick={onResetChat}
+                    className="text-[10px] text-emerald-300 hover:text-white bg-emerald-900/80 hover:bg-emerald-800 px-2.5 py-1 rounded-full font-bold border border-emerald-500/40 transition flex items-center space-x-1 cursor-pointer"
+                    title="Start a fresh conversation / ಹೊಸ ಸಂಭಾಷಣೆ"
+                  >
+                    <RotateCcw className="w-2.5 h-2.5" />
+                    <span>ಹೊಸ ಸಂಭಾಷಣೆ</span>
+                  </button>
+                )}
+                <span className="text-[10px] text-emerald-300 bg-emerald-900/70 px-2.5 py-0.5 rounded-full font-mono border border-emerald-500/30">
+                  Live Feed
+                </span>
+              </div>
             </div>
 
             {/* Conversation History Cards with Spring Hover */}

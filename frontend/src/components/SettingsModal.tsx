@@ -18,17 +18,22 @@ import {
 } from 'lucide-react';
 import { useTranslation } from '../context/LanguageContext';
 import { SupportedLanguage } from '../lib/i18n';
+import { KANNADA_DIALECTS } from './LuminousVoiceCore';
 import { getVoiceStatus, saveSarvamApiKey, testSarvamVoice, VoiceStatus } from '../lib/api';
 
 interface SettingsModalProps {
   isOpen: boolean;
   onClose: () => void;
   language?: SupportedLanguage;
+  speakingStyle?: string;
+  onSpeakingStyleChange?: (style: string) => void;
 }
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({
   isOpen,
-  onClose
+  onClose,
+  speakingStyle = 'standard',
+  onSpeakingStyleChange
 }) => {
   const { language, setLanguage, dict, availableLanguages } = useTranslation();
 
@@ -153,6 +158,38 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                 );
               })}
             </div>
+
+            {/* Regional Kannada Dialect Preferences */}
+            {language === 'kn' && (
+              <div className="pt-3 border-t border-emerald-800/40 space-y-2">
+                <span className="text-[11px] font-bold text-lime-400 uppercase tracking-wider block">
+                  ಪ್ರಾದೇಶಿಕ ಕನ್ನಡ ಭಾಷಾ ಶೈಲಿ / Regional Speaking Style
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {KANNADA_DIALECTS.map((dialect) => {
+                    const isDialectSelected = speakingStyle === dialect.key;
+                    return (
+                      <button
+                        key={dialect.key}
+                        type="button"
+                        onClick={() => onSpeakingStyleChange?.(dialect.key)}
+                        className={`p-2.5 rounded-xl border text-left transition cursor-pointer flex flex-col justify-between ${
+                          isDialectSelected
+                            ? 'bg-gradient-to-r from-emerald-700/80 to-green-700/80 border-lime-400 text-white shadow-md'
+                            : 'bg-[#041209]/60 border-emerald-800/40 text-emerald-200/90 hover:bg-emerald-900/50'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between w-full">
+                          <span className="text-xs font-bold">{dialect.label}</span>
+                          {isDialectSelected && <Check className="w-3.5 h-3.5 text-lime-300 stroke-[3]" />}
+                        </div>
+                        <span className="text-[10px] text-emerald-300/70 mt-1">{dialect.title}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Section: Sarvam AI Voice Engine */}

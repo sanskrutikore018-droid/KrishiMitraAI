@@ -25,7 +25,8 @@ import { useAuth } from '../context/AuthContext';
 import {
   checkBackendHealth,
   evaluateProfile,
-  sendChatMessage
+  sendChatMessage,
+  resetChatSession
 } from '../lib/api';
 
 export default function Home() {
@@ -34,6 +35,7 @@ export default function Home() {
   const [isBackendHealthy, setIsBackendHealthy] = useState<boolean>(true);
   const [sessionId, setSessionId] = useState<string>('');
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
+  const [speakingStyle, setSpeakingStyle] = useState<string>('standard');
 
   const [profile, setProfile] = useState<FarmerProfile>({
     district: null,
@@ -98,6 +100,21 @@ export default function Home() {
     });
   }, [dict.welcomeMessage]);
 
+  const handleResetChat = async () => {
+    if (sessionId) {
+      await resetChatSession(sessionId);
+    }
+    setSessionId('');
+    setMessages([
+      {
+        id: `welcome-${Date.now()}`,
+        role: 'assistant',
+        content: dict.welcomeMessage,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      }
+    ]);
+  };
+
   const handleStartJourney = () => {
     const el = document.getElementById('voice-core');
     if (el) {
@@ -118,8 +135,14 @@ export default function Home() {
     setMessages((prev) => [...prev, userMsg]);
     setIsLoading(true);
 
-    // 2. Call backend chat API with active language
-    const response = await sendChatMessage(text, sessionId || undefined, language as any);
+    // 2. Call backend chat API with active language and speaking style
+    const response = await sendChatMessage(
+      text,
+      sessionId || undefined,
+      language as any,
+      undefined,
+      speakingStyle
+    );
 
     if (response) {
       if (response.session_id) {
@@ -196,6 +219,9 @@ export default function Home() {
         isLoading={isLoading}
         messages={messages}
         currentProfile={profile}
+        speakingStyle={speakingStyle}
+        onSpeakingStyleChange={setSpeakingStyle}
+        onResetChat={handleResetChat}
       />
 
       {/* 5. Farmer Profile Progressive Slot Status Tracker */}
@@ -231,6 +257,8 @@ export default function Home() {
       <SettingsModal
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
+        speakingStyle={speakingStyle}
+        onSpeakingStyleChange={setSpeakingStyle}
       />
 
       {/* High-Security Vantara Glassmorphic Farmer Authentication Modals */}

@@ -135,6 +135,39 @@ AGRONOMIC_ADVISORY = {
             "• Do the spots have dark concentric target-like rings?"
         )
     },
+    "tomato_followup_treatment": {
+        "kn": (
+            "ಧನ್ಯವಾದಗಳು! ನೀವು ತಿಳಿಸಿದಂತೆ ಕೆಳಗಿನ ಎಲೆಗಳಲ್ಲಿ ಹಳದಿ ಬಣ್ಣ ಹಾಗೂ ಕಪ್ಪು ಚುಕ್ಕೆಗಳು ಕಂಡುಬಂದರೆ, "
+            "ಇದು 'ಮುಂಚಿನ ಅಂಗಮಾರಿ' (Early Blight) ರೋಗದ ನಿಖರ ಹಂತವಾಗಿದೆ.\n\n"
+            "ಮುಂದಿನ ತ್ವರಿತ ಕ್ರಮಗಳು (UAS ಧಾರವಾಡ & ಕೃಷಿ ವಿಜ್ಞಾನ ಕೇಂದ್ರದ ಶಿಫಾರಸು):\n"
+            "1. **ಸಿಂಪಡಣೆ ವೇಳಾಪಟ್ಟಿ**: ಇಂದೇ ಸಂಜೆ 4:30ರ ನಂತರ 'ಮ್ಯಾಂಕೋಜೆಬ್' (Mancozeb 75 WP @ 2 ಗ್ರಾಂ/ಲೀಟರ್) "
+            "ಅಥವಾ 'ಕ್ಲೋರೋಥಲೋನಿಲ್' (Chlorothalonil @ 2 ಗ್ರಾಂ/ಲೀಟರ್) ಸಿಂಪಡಿಸಿ. 8–10 ದಿನಗಳ ನಂತರ ಮತ್ತೊಮ್ಮೆ ಸಿಂಪಡಿಸಿ.\n"
+            "2. **ನೀರಾವರಿ ನಿಯಮ**: ಎಲೆಗಳ ಮೇಲೆ ನೀರು ಸಿಡಿಯದಂತೆ ಬುಡಕ್ಕೆ ಮಾತ್ರ ಹನಿ ನೀರಾವರಿ ನೀಡಿ. "
+            "ತೇವಾಂಶ ಹೆಚ್ಚಾಗಿದ್ದರೆ 2 ದಿನ ನೀರು ನಿಲ್ಲಿಸಿ.\n"
+            "3. **ಪೋಷಕಾಂಶ**: ರೋಗ ನಿರೋಧಕ ಶಕ್ತಿಗಾಗಿ ಪೊಟ್ಯಾಶ್ (SOP 0:0:50 @ 5 ಗ್ರಾಂ/ಲೀಟರ್) ಸಿಂಪಡಿಸಿ."
+        ),
+        "hi": (
+            "धन्यवाद! निचली पत्तियों में पीलापन और काले धब्बे शुरुआती झुलसा (Early Blight) की पुष्टि करते हैं।\n\n"
+            "त्वरित उपचार (ICAR दिशानिर्देश):\n"
+            "1. मेंकोज़ेब (Mancozeb 2 ग्राम प्रति लीटर पानी) का छिड़काव आज शाम को करें और 8-10 दिन बाद दोहराएं।\n"
+            "2. सिंचाई केवल पौधों की जड़ों में दें, पत्तियों को गीला न होने दें।\n"
+            "3. पौधों की प्रतिरोधक क्षमता बढ़ाने हेतु पोटाश का छिड़काव करें।"
+        ),
+        "mr": (
+            "धन्यवाद! खालच्या पानांवरील पिवळेपणा आणि काळे ठिपके हे करपा रोगाची (Early Blight) लक्षणे आहेत.\n\n"
+            "तातडीचे उपाय (कृषी विद्यापीठ शिफारस):\n"
+            "1. मॅन्कोझेब (2 ग्रॅम/लिटर) आज संध्याकाळी फवारा आणि 8-10 दिवसांनी पुन्हा फवारणी करा.\n"
+            "2. फक्त मुळाशी पाणी द्या, पानांवर पाणी उडू देऊ नका.\n"
+            "3. प्रतिकारशक्ती वाढवण्यासाठी पोटॅशची फवारणी करा."
+        ),
+        "en": (
+            "Thank you! Yellowing on lower leaves with concentric dark spots confirms early-stage Early Blight (Alternaria solani).\n\n"
+            "Immediate Action Plan (UAS Dharwad & ICAR Guidelines):\n"
+            "1. **Spray Schedule**: Spray Mancozeb (2g/L) or Chlorothalonil (2g/L) this evening after 4:30 PM. Repeat after 8–10 days.\n"
+            "2. **Irrigation Control**: Apply water strictly to the root zone via drip. Do not wet leaves.\n"
+            "3. **Nutrient Boost**: Spray Potassium (0:0:50 @ 5g/L) to strengthen plant cell walls."
+        )
+    },
     "general_schemes": {
         "kn": (
             "ಭಾರತ ಸರ್ಕಾರದ ಮತ್ತು ಕರ್ನಾಟಕದ ಪ್ರಮುಖ ರೈತ ಯೋಜನೆಗಳು:\n"
@@ -163,9 +196,146 @@ AGRONOMIC_ADVISORY = {
     }
 }
 
-def detect_advisory_inquiry(message: str) -> Optional[str]:
+def detect_dialect_preference(message: str) -> Optional[str]:
+    """Auto-detects regional Kannada dialect preference from vocabulary markers."""
+    lowered = message.lower()
+    
+    # North Karnataka markers (Dharwad, Belagavi, Hubballi, Haveri)
+    nk_markers = [
+        "ಹೊಲದಾಗ", "ಐತ್ರಿ", "ಸಿಗ್ತದ್ರಿ", "ಮಾಡ್ರಿ", "ಆಗ್ಯಾವ", "ಹೌದ್ರೀ", "ಮಾಡ್ದೆನ್ರಿ",
+        "ಏನ್ ಮಾಡ್ಬೇಕ್ರಿ", "ಬಂದೈತಿ", "ನೋಡ್ರಿ", "ಬೆಳಗಾಂ", "ಧಾರವಾಡ", "ಹುಬ್ಬಳ್ಳಿ",
+        "ಖುಷ್ಕಿ ಹೊಲ", "ತಗೋರಿ", "ಮಾಡ್ಯಾರ"
+    ]
+    if any(m in lowered for m in nk_markers):
+        return "north_karnataka"
+
+    # South Karnataka markers (Mandya, Mysuru, Hassan)
+    sk_markers = [
+        "ಕಣ್ರೀ", "ಸ್ವಾಮಿ", "ಮದ್ದೂರು", "ಮಂಡ್ಯ", "ಮೈಸೂರು", "ಗದ್ದೆ", "ನಾಟಿ ಮಾಡಿದ್ದೇವೆ"
+    ]
+    if any(m in lowered for m in sk_markers):
+        return "south_karnataka"
+
+    # Kalyana Karnataka markers (Kalaburagi, Bidar, Raichur)
+    kk_markers = [
+        "ಜೇವರ್ಗಿ", "ಕಲಬುರಗಿ", "ಗುಲ್ಬರ್ಗ", "ಹೊಲದ್ನ್ಯಾಗ", "ತೊಗರಿಯ", "ರಾಯಚೂರು", "ಬೀದರ್"
+    ]
+    if any(m in lowered for m in kk_markers):
+        return "kalyana_karnataka"
+
+    # Coastal markers (Dakshina Kannada, Udupi, Puttur)
+    coastal_markers = [
+        "ಮಾರೆರೆ", "ಪುತ್ತೂರು", "ದಕ್ಷಿಣ ಕನ್ನಡ", "ಉಡುಪಿ", "ಮಂಗಳೂರು", "ಅಡಿಕೆ ತೋಟ"
+    ]
+    if any(m in lowered for m in coastal_markers):
+        return "coastal"
+
+    return None
+
+def adapt_text_to_dialect(text: str, dialect: Optional[str], language: str = "kn") -> str:
+    """Adapts standard response text to regional Kannada conversational styling."""
+    if language != "kn" or not dialect or dialect == "standard":
+        return text
+
+    if dialect == "north_karnataka":
+        replacements = [
+            ("ನಮಸ್ಕಾರ!", "ನಮಸ್ಕಾರ್ರೀ!"),
+            ("ನಮಸ್ಕಾರ,", "ನಮಸ್ಕಾರ್ರೀ,"),
+            ("ತಿಳಿಸಿ", "ತಿಳಿಸ್ರೀ"),
+            ("ಮಾಡಿದೆ", "ಮಾಡ್ದೆನ್ರಿ"),
+            ("ಮಾಡಿ", "ಮಾಡ್ರೀ"),
+            ("ನೋಡಿ", "ನೋಡ್ರೀ"),
+            ("ಸಿಂಪಡಿಸಿ", "ಸ್ಪ್ರೇ ಮಾಡ್ರೀ"),
+            ("ಬಳಸಿ", "ಬಳಸ್ರೀ"),
+            ("ಹಾಕಿ", "ಹಾಕ್ರಿ"),
+            ("ಕೊಡಿ", "ಕೊಡ್ರೀ"),
+            ("ಆಗಿದೆ", "ಆಗೈತಿ"),
+            ("ಆಗಿದ್ದರೆ", "ಆಗಿದ್ರ"),
+            ("ಇದೆ", "ಐತಿ"),
+            ("ಬಂದಿದೆ", "ಬಂದೈತಿ"),
+            ("ಕಂಡುಬಂದರೆ", "ಕಂಡುಬಂದ್ರ"),
+            ("ಚಿಂತೆ ಬೇಡ", "ಚಿಂತೆ ಮಾಡ್ಬ್ಯಾಡ್ರಿ"),
+            ("ಆಶ್ರಯವೇ?", "ಆಶ್ರಯವೇನ್ರೀ?"),
+            ("ಶಿಫಾರಸು:", "ಕೃಷಿ ವಿವಿ ಧಾರವಾಡ (UAS Dharwad) & ಕೆವಿಕೆ ಶಿಫಾರಸು ನೋಡ್ರೀ:")
+        ]
+        res = text
+        for old, new in replacements:
+            res = res.replace(old, new)
+        return res
+
+    elif dialect == "south_karnataka":
+        replacements = [
+            ("ನಮಸ್ಕಾರ!", "ನಮಸ್ಕಾರ ಸ್ವಾಮಿ!"),
+            ("ನಮಸ್ಕಾರ,", "ನಮಸ್ಕಾರ ಸ್ವಾಮಿ,"),
+            ("ತಿಳಿಸಿ", "ತಿಳಿಸಿ ಸ್ವಾಮಿ"),
+            ("ಮಾಡಿ", "ಮಾಡಿ ಸ್ವಾಮಿ"),
+            ("ನೋಡಿ", "ನೋಡಿ ಕಣ್ರೀ"),
+            ("ಸಿಂಪಡಿಸಿ", "ಸಿಂಪಡಿಸಿ ಸ್ವಾಮಿ"),
+            ("ಬಳಸಿ", "ಬಳಸಿ ಸ್ವಾಮಿ"),
+            ("ಹಾಕಿ", "ಹಾಕಿ ಕಣ್ರೀ"),
+            ("ಕೊಡಿ", "ಕೊಡಿ ಸ್ವಾಮಿ"),
+            ("ಆಗಿದೆ", "ಆಗಿದೆ ಕಣ್ರೀ"),
+            ("ಬಂದಿದೆ", "ಬಂದಿದೆ ಕಣ್ರೀ"),
+            ("ಆಶ್ರಯವೇ?", "ಆಶ್ರಯವೇ ಸ್ವಾಮಿ?"),
+            ("ಶಿಫಾರಸು:", "ವಿಸಿ ಫಾರ್ಮ್ ಮಂಡ್ಯ & ಕೃಷಿ ವಿವಿ ಬೆಂಗಳೂರು (UAS Bengaluru) ಶಿಫಾರಸು:")
+        ]
+        res = text
+        for old, new in replacements:
+            res = res.replace(old, new)
+        return res
+
+    elif dialect == "coastal":
+        replacements = [
+            ("ನಮಸ್ಕಾರ!", "ನಮಸ್ಕಾರ ಮಾರೆರೆ!"),
+            ("ನಮಸ್ಕಾರ,", "ನಮಸ್ಕಾರ ಮಾರೆರೆ,"),
+            ("ತಿಳಿಸಿ", "ತಿಳಿಸುಲೆ"),
+            ("ಮಾಡಿ", "ಮಾಡಿ ಮಾರೆರೆ"),
+            ("ನೋಡಿ", "ನೋಡುಲೆ"),
+            ("ಸಿಂಪಡಿಸಿ", "ಸಿಂಪಡಿಸುಲೆ"),
+            ("ಬಳಸಿ", "ಬಳಸಿ ಮಾರೆರೆ"),
+            ("ಕೊಡಿ", "ಕೊರ್ಲೆ"),
+            ("ಶಿಫಾರಸು:", "ಕರಾವಳಿ ವಲಯ ಕೃಷಿ ಸಂಶೋಧನಾ ಕೇಂದ್ರದ ಶಿಫಾರಸು:")
+        ]
+        res = text
+        for old, new in replacements:
+            res = res.replace(old, new)
+        return res
+
+    elif dialect == "kalyana_karnataka":
+        replacements = [
+            ("ನಮಸ್ಕಾರ!", "ನಮಸ್ಕಾರ್ರೀ!"),
+            ("ನಮಸ್ಕಾರ,", "ನಮಸ್ಕಾರ್ರೀ,"),
+            ("ತಿಳಿಸಿ", "ಹೇಳ್ರಿ"),
+            ("ಮಾಡಿ", "ಮಾಡ್ರಿ"),
+            ("ನೋಡಿ", "ನೋಡ್ರಿ"),
+            ("ಸಿಂಪಡಿಸಿ", "ಸಿಂಪಡಿಸ್ರಿ"),
+            ("ಬಳಸಿ", "ಬಳಸ್ರಿ"),
+            ("ಹಾಕಿ", "ಹಾಕ್ರಿ"),
+            ("ಕೊಡಿ", "ಕೊಡ್ರಿ"),
+            ("ಆಗಿದೆ", "ಆಗೈತಿ"),
+            ("ಇದೆ", "ಐತಿ"),
+            ("ಬಂದಿದೆ", "ಬಂದೈತಿ"),
+            ("ಶಿಫಾರಸು:", "ರಾಯಚೂರು ಕೃಷಿ ವಿವಿ (UAS Raichur) ಹಾಗೂ ಕೆವಿಕೆ ಕಲಬುರಗಿ ಶಿಫಾರಸು:")
+        ]
+        res = text
+        for old, new in replacements:
+            res = res.replace(old, new)
+        return res
+
+    return text
+
+def detect_advisory_inquiry(message: str, last_topic: Optional[str] = None) -> Optional[str]:
     """Detects if farmer's query contains a specific agricultural problem or scheme question."""
     lowered = message.lower()
+
+    # Check multi-turn follow-up if last topic was tomato_disease
+    if last_topic in ("tomato_disease", "tomato_followup_treatment"):
+        followup_signals = [
+            "ಕೆಳಗಿನ", "ಚುಕ್ಕೆ", "ಕಪ್ಪು", "ಕಂದು", "ದಿನದಲ್ಲಿ", "ಔಷಧ", "ಸಿಂಪಡಿಸಬೇಕು",
+            "ನೀರು", "ಹನಿ", "ಹಳದಿ", "spots", "lower", "leaves", "spray", "days", "water"
+        ]
+        if any(s in lowered for s in followup_signals):
+            return "tomato_followup_treatment"
     
     # Pure Kannada & Regional Dialect keywords (North Karnataka, South Karnataka, Coastal):
     kn_crops = [
@@ -222,13 +392,21 @@ class ConversationManager:
             SESSIONS[new_id] = {
                 "profile": FarmerProfile(),
                 "history": [],
-                "language": language
+                "language": language,
+                "speaking_style": "standard",
+                "last_advisory_topic": None
             }
             return new_id, SESSIONS[new_id]
         session = SESSIONS[session_id]
         if language:
             session["language"] = language
         return session_id, session
+
+    @staticmethod
+    def reset_session(session_id: str) -> None:
+        """Resets conversation history and memory store for a session."""
+        if session_id in SESSIONS:
+            del SESSIONS[session_id]
 
     @staticmethod
     def get_missing_slots(profile: FarmerProfile) -> List[str]:
@@ -251,9 +429,18 @@ class ConversationManager:
         message: str,
         session_id: Optional[str] = None,
         language: str = "kn",
-        profile_override: Optional[FarmerProfile] = None
+        profile_override: Optional[FarmerProfile] = None,
+        speaking_style: Optional[str] = "standard"
     ) -> ChatResponse:
         sid, session = cls.get_or_create_session(session_id, language)
+
+        # Determine active speaking style (respect explicit style or auto-detect from colloquial speech)
+        active_style = speaking_style or session.get("speaking_style", "standard")
+        if active_style == "standard" and language == "kn":
+            detected = detect_dialect_preference(message)
+            if detected:
+                active_style = detected
+        session["speaking_style"] = active_style
 
         # 1. Start with current profile or override
         current_profile = profile_override if profile_override else session["profile"]
@@ -271,7 +458,10 @@ class ConversationManager:
         is_complete = len(missing) == 0
 
         # 5. Formulate response
-        advisory_type = detect_advisory_inquiry(message)
+        last_topic = session.get("last_advisory_topic")
+        advisory_type = detect_advisory_inquiry(message, last_topic)
+        if advisory_type:
+            session["last_advisory_topic"] = advisory_type
         advisory_prefix = ""
         if advisory_type and advisory_type in AGRONOMIC_ADVISORY:
             advisory_prefix = AGRONOMIC_ADVISORY[advisory_type].get(language, AGRONOMIC_ADVISORY[advisory_type]["en"]) + "\n\n"
@@ -326,19 +516,23 @@ class ConversationManager:
 
             quick_replies = QUICK_REPLIES.get(next_slot, {}).get(language, [])
 
+        # Adapt final text to the regional dialect style if Kannada
+        final_response_text = adapt_text_to_dialect(response_text, active_style, language)
+
         # Record history
         session["history"].append({"role": "user", "content": message})
-        session["history"].append({"role": "assistant", "content": response_text})
+        session["history"].append({"role": "assistant", "content": final_response_text})
 
         return ChatResponse(
             session_id=sid,
-            response_text=response_text,
+            response_text=final_response_text,
             language=language,
             extracted_profile=updated_profile,
             missing_slots=missing,
             is_profile_complete=is_complete,
             scheme_evaluations=evaluations,
             suggested_quick_replies=quick_replies,
-            slot_just_filled=next_slot
+            slot_just_filled=next_slot,
+            speaking_style=active_style
         )
 

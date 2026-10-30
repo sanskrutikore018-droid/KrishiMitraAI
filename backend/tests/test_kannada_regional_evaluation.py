@@ -70,3 +70,44 @@ def test_conversational_botanical_follow_up():
     assert "ಟೊಮೆಟೊ" in res.response_text or "ಅಂಗಮಾರಿ" in res.response_text or "ಶಿಲೀಂಧ್ರ" in res.response_text
     assert "ಟ್ರೈಕೋಡರ್ಮಾ" in res.response_text or "ಮ್ಯಾಂಕೋಜೆಬ್" in res.response_text
     assert "ಹಳದಿ" in res.response_text
+
+def test_north_karnataka_dialect_style():
+    """Verifies North Karnataka conversational dialect tuning."""
+    q = "ನನ್ನ ಟೊಮೇಟೊ ಗಿಡದ ಎಲೆ ಹಳದಿ ಆಗ್ತಾ ಇದೆ. ಏನ್ ಮಾಡ್ಬೇಕ್ರಿ?"
+    res = asyncio.run(ConversationManager.process_farmer_message(
+        q, language="kn", speaking_style="north_karnataka"
+    ))
+    assert res.speaking_style == "north_karnataka"
+    # Verifies regional honorifics and dialect tone
+    assert "ಮಾಡ್ರೀ" in res.response_text or "ಸ್ಪ್ರೇ ಮಾಡ್ರೀ" in res.response_text or "ನೋಡ್ರೀ" in res.response_text or "ಹಾಕ್ರಿ" in res.response_text
+
+def test_south_karnataka_dialect_style():
+    """Verifies South Karnataka (Mandya/Mysuru) dialect tuning."""
+    q = "ಮಂಡ್ಯ ಜಿಲ್ಲೆ, 3 ಎಕರೆ ಸ್ವಂತ ಗದ್ದೆ, ಭತ್ತ. ಯಾವ ಯೋಜನೆ ಸಿಗುತ್ತೆ?"
+    res = asyncio.run(ConversationManager.process_farmer_message(
+        q, language="kn", speaking_style="south_karnataka"
+    ))
+    assert res.speaking_style == "south_karnataka"
+    assert "ಸ್ವಾಮಿ" in res.response_text or "ಕಣ್ರೀ" in res.response_text
+
+def test_multi_turn_conversational_memory():
+    """Verifies multi-turn memory retains context for follow-up inquiries."""
+    session_id = "test-multi-turn-session-123"
+    # Turn 1: Farmer mentions initial tomato symptom
+    t1_msg = "ನನ್ನ ಟೊಮೇಟೊ ಗಿಡದ ಎಲೆ ಹಳದಿ ಆಗ್ತಾ ಇದೆ. ಏನು ಮಾಡ್ಬೇಕು?"
+    res1 = asyncio.run(ConversationManager.process_farmer_message(
+        t1_msg, session_id=session_id, language="kn"
+    ))
+    assert "ಅಂಗಮಾರಿ" in res1.response_text or "ಟೊಮೆಟೊ" in res1.response_text
+
+    # Turn 2: Farmer replies to the diagnostic questions with specific details (without repeating crop name)
+    t2_msg = "ಕೆಳಗಿನ ಎಲೆಗಳಲ್ಲಿ ಕಪ್ಪು ಚುಕ್ಕೆಗಳು ಕಾಣ್ತಾ ಇವೆ. ಎಷ್ಟು ದಿನದಲ್ಲಿ ಔಷಧ ಸಿಂಪಡಿಸಬೇಕು?"
+    res2 = asyncio.run(ConversationManager.process_farmer_message(
+        t2_msg, session_id=session_id, language="kn"
+    ))
+    # System should connect turn 2 to turn 1's disease topic and give precise spray timeline
+    assert "ಮ್ಯಾಂಕೋಜೆಬ್" in res2.response_text or "ಸಿಂಪಡಣೆ" in res2.response_text or "ದಿನಗಳ ನಂತರ" in res2.response_text
+    
+    # Cleanup session
+    ConversationManager.reset_session(session_id)
+

@@ -99,7 +99,8 @@ async def chat_interaction(request: ChatRequest):
         message=request.message,
         session_id=request.session_id,
         language=request.language,
-        profile_override=request.profile_override
+        profile_override=request.profile_override,
+        speaking_style=request.speaking_style
     )
 
     # Optional: If Sarvam TTS is active, also synthesize audio for the response
@@ -111,6 +112,14 @@ async def chat_interaction(request: ChatRequest):
             response.voice_provider = tts_res.provider
 
     return response
+
+class ChatResetPayload(BaseModel):
+    session_id: str
+
+@app.post("/api/chat/reset")
+def reset_chat_session(payload: ChatResetPayload):
+    ConversationManager.reset_session(payload.session_id)
+    return {"status": "success", "message": "Session reset successfully"}
 
 class SarvamConfigPayload(BaseModel):
     api_key: str
