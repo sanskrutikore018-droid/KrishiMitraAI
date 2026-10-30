@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CinematicNavbar } from '../components/CinematicNavbar';
 import { CinematicHero } from '../components/CinematicHero';
+import { LiquidGlassCapsule } from '../components/LiquidGlassCapsule';
 import { StorytellingSection } from '../components/StorytellingSection';
 import { LuminousVoiceCore } from '../components/LuminousVoiceCore';
 import { FarmerProfileTracker } from '../components/FarmerProfileTracker';
@@ -168,6 +169,9 @@ export default function Home() {
             onLanguageChange={setLanguage}
             onStartJourney={handleStartJourney}
           />
+
+          {/* Liquid Glass Capsule Quick Navigator (Image 2 style) */}
+          <LiquidGlassCapsule language={language} />
 
           {/* 3. Scrolling Transition Storytelling Section (Panel 2) */}
           <StorytellingSection language={language} />
