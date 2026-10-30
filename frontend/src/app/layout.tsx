@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "KRISHI MITRA AI | ಕೃಷಿ ಮಿತ್ರ - Agricultural Scheme Assistant",
-  description: "Natural Voice & Deterministic Decision-Support System for Indian Farmers. Verified Government Scheme Retrieval for PM-KISAN, PMFBY, and Karnataka Agritech Subsidies.",
-  keywords: ["PM-KISAN", "PMFBY", "Karnataka Farmers", "Krishi Mitra", "Agricultural Schemes", "Kannada Voice AI", "Crop Insurance"],
+  title: "KRISHI MITRA AI | ಕೃಷಿ ಮಿತ್ರ — An Initiative for Indian Agriculture",
+  description: "A world-class, voice-first agricultural government scheme assistant and deterministic decision-support system for Indian farmers. PM-KISAN, PMFBY, and Karnataka Agritech Subsidies.",
+  keywords: ["PM-KISAN", "PMFBY", "Karnataka Farmers", "Krishi Mitra AI", "Agricultural Schemes", "Kannada Voice AI", "Vantara Agriculture"],
 };
 
 export default function RootLayout({
@@ -13,8 +13,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="kn" className="h-full antialiased">
-      <body className="min-h-full flex flex-col bg-[#f8faf8] text-gray-900 font-sans">
+    <html lang="kn" className="h-full antialiased scroll-smooth dark">
+      <body className="min-h-full flex flex-col bg-[#041209] text-[#f0f4f0] font-sans overflow-x-hidden selection:bg-emerald-500/30 selection:text-emerald-200">
         {children}
       </body>
     </html>

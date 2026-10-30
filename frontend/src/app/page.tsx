@@ -145,7 +145,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#07160b] text-[#f0f4f0] font-sans selection:bg-emerald-500 selection:text-white">
+    <div className="min-h-screen bg-[#041209] text-[#f0f4f0] font-sans selection:bg-emerald-500/40 selection:text-white">
       {/* 1. Cinematic Sticky Navigation Bar */}
       <CinematicNavbar
         language={language}
@@ -186,8 +186,8 @@ export default function Home() {
           />
 
           {/* 5. Farmer Profile Progressive Slot Status Tracker */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
-            <div className="bg-[#091f11] p-1 rounded-3xl border border-emerald-500/20 shadow-2xl">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+            <div className="vantara-panel p-2 sm:p-3 rounded-3xl border border-emerald-500/25 shadow-2xl">
               <FarmerProfileTracker
                 profile={profile}
                 language={language as any}

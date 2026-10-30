@@ -265,21 +265,21 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
   return (
     <section
       id="voice-core"
-      className="relative py-20 sm:py-28 bg-gradient-to-b from-[#07160b] via-[#092211] to-[#07160b] text-white overflow-hidden border-t border-emerald-900/40"
+      className="relative py-24 sm:py-32 bg-gradient-to-b from-[#041209] via-[#092211] to-[#041209] text-white overflow-hidden border-t border-emerald-950/80"
     >
       {/* Background radial spotlight */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-emerald-500/12 rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[850px] bg-emerald-500/12 rounded-full blur-[170px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Main Left/Center: Luminous AI Voice Assistant Orb & Kinetic Waves (8 cols) */}
-          <div className="lg:col-span-8 flex flex-col items-center text-center space-y-7">
-            {/* Header Titles with Smooth Entrance */}
-            <div className="space-y-2">
-              <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight drop-shadow-lg">
+          <div className="lg:col-span-8 flex flex-col items-center text-center space-y-8">
+            {/* Header Titles with Editorial Styling */}
+            <div className="space-y-3">
+              <h2 className="font-editorial text-3xl sm:text-5xl font-normal text-white tracking-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]">
                 {dict.voiceHeading}
               </h2>
-              <p className="text-lg sm:text-2xl text-emerald-300 font-bold drop-shadow-sm">
+              <p className="font-editorial italic text-xl sm:text-3xl text-lime-300 font-light drop-shadow-sm">
                 {dict.voiceSubheading}
               </p>
             </div>

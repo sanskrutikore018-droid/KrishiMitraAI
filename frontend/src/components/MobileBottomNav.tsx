@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Home, Landmark, Mic, CheckCircle2 } from 'lucide-react';
+import { Home, Landmark, Mic, ShieldCheck, Sparkles } from 'lucide-react';
 import { SupportedLanguage, getDictionary } from '../lib/i18n';
 
 interface MobileBottomNavProps {
@@ -12,48 +12,47 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ language }) =>
   const dict = getDictionary(language);
 
   return (
-    <div className="md:hidden fixed bottom-3 left-4 right-4 z-40 bg-[#07190d]/95 backdrop-blur-xl border border-emerald-500/40 rounded-3xl shadow-2xl py-2 px-3 flex items-center justify-around text-[10px] text-emerald-200">
+    <div className="md:hidden fixed bottom-4 left-4 right-4 z-40 vantara-panel rounded-3xl shadow-[0_15px_40px_rgba(0,0,0,0.85)] py-2.5 px-4 flex items-center justify-around text-[10px] font-bold text-emerald-200 border border-emerald-400/40">
       <a
         href="#hero"
-        className="flex flex-col items-center space-y-0.5 hover:text-emerald-300 transition"
+        className="flex flex-col items-center space-y-1 hover:text-lime-300 transition"
       >
-        <Home className="w-5 h-5 text-emerald-400" />
+        <Home className="w-5 h-5 text-emerald-300 stroke-[2.2]" />
         <span>{dict.navHome}</span>
       </a>
 
       <a
         href="#schemes"
-        className="flex flex-col items-center space-y-0.5 hover:text-emerald-300 transition"
+        className="flex flex-col items-center space-y-1 hover:text-lime-300 transition"
       >
-        <Landmark className="w-5 h-5 text-emerald-400" />
+        <Landmark className="w-5 h-5 text-emerald-300 stroke-[2.2]" />
         <span>{dict.navSchemes}</span>
       </a>
 
-      {/* Prominent Center Voice AI Button */}
+      {/* Prominent Center Voice AI Glowing Button (Panel 6 exact style) */}
       <a
         href="#voice-core"
-        className="-mt-5 w-12 h-12 rounded-full bg-gradient-to-tr from-emerald-500 to-green-400 text-emerald-950 flex items-center justify-center shadow-lg shadow-emerald-500/40 border-2 border-[#07190d] animate-bounce"
+        className="-mt-7 w-14 h-14 rounded-full bg-gradient-to-tr from-emerald-500 via-green-500 to-lime-400 text-emerald-950 flex items-center justify-center shadow-[0_0_25px_rgba(132,204,22,0.6)] border-3 border-[#041209] transition-transform active:scale-95"
         title={dict.navVoice}
       >
         <Mic className="w-6 h-6 stroke-[2.5]" />
       </a>
 
       <a
-        href="#story"
-        className="flex flex-col items-center space-y-0.5 hover:text-emerald-300 transition"
+        href="#eligibility"
+        className="flex flex-col items-center space-y-1 hover:text-lime-300 transition"
       >
-        <CheckCircle2 className="w-5 h-5 text-emerald-400" />
-        <span>{dict.navStory}</span>
+        <ShieldCheck className="w-5 h-5 text-emerald-300 stroke-[2.2]" />
+        <span>{dict.navEligibility}</span>
       </a>
 
       <a
-        href="#eligibility"
-        className="flex flex-col items-center space-y-0.5 hover:text-emerald-300 transition"
+        href="#story"
+        className="flex flex-col items-center space-y-1 hover:text-lime-300 transition"
       >
-        <CheckCircle2 className="w-5 h-5 text-emerald-400" />
-        <span>{dict.navEligibility}</span>
+        <Sparkles className="w-5 h-5 text-amber-300 stroke-[2.2]" />
+        <span>{dict.navStory}</span>
       </a>
     </div>
   );
 };
-
