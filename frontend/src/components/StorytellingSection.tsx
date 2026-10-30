@@ -14,7 +14,7 @@ export const StorytellingSection: React.FC<StorytellingSectionProps> = ({ langua
 
   const storyCards = [
     {
-      img: 'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?q=80&w=800&auto=format&fit=crop',
+      img: '/images/mechanization.jpg',
       title: dict.storyCard1Title,
       desc: dict.storyCard1Desc,
       tag: 'Mechanization'
