@@ -185,6 +185,40 @@ export interface I18nDictionary {
   saveChatSetting: string;
   privacyPolicy: string;
   helpSupport: string;
+
+  // Auth & Farmer Portal
+  login: string;
+  signup: string;
+  logout: string;
+  authModalTitle: string;
+  authModalSubtitle: string;
+  mobileInputTitle: string;
+  mobileInputDesc: string;
+  mobilePlaceholder: string;
+  sendOtpBtn: string;
+  otpVerificationTitle: string;
+  otpSentTo: string;
+  resendOtp: string;
+  verifyOtpBtn: string;
+  changeNumber: string;
+  farmerOnboardingTitle: string;
+  farmerOnboardingDesc: string;
+  farmerNameLabel: string;
+  farmerNamePlaceholder: string;
+  districtLabel: string;
+  districtPlaceholder: string;
+  landSizeLabel: string;
+  landSizePlaceholder: string;
+  cropsLabel: string;
+  ownershipLabel: string;
+  ownerOption: string;
+  tenantOption: string;
+  completeSetupBtn: string;
+  simulatedOtpNotice: string;
+  invalidPhone: string;
+  invalidOtp: string;
+  profileSummary: string;
+  verifiedFarmerBadge: string;
 }
 
 export const i18n: Record<SupportedLanguage, I18nDictionary> = {
@@ -367,7 +401,40 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     autoPlaySetting: "ಉತ್ತರವನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಆಲಿಸಿ",
     saveChatSetting: "ಸಂಭಾಷಣೆಯನ್ನು ಉಳಿಸಿ",
     privacyPolicy: "ಗೌಪ್ಯತಾ ನೀತಿ",
-    helpSupport: "ಸಹಾಯ ಮತ್ತು ಸಂಪರ್ಕ"
+    helpSupport: "ಸಹಾಯ ಮತ್ತು ಸಂಪರ್ಕ",
+
+    login: "ಲಾಗಿನ್",
+    signup: "ನೋಂದಣಿ (ಸೈನ್ ಅಪ್)",
+    logout: "ಲಾಗ್‌ಔಟ್",
+    authModalTitle: "ರೈತ ಸುರಕ್ಷಿತ ಪ್ರವೇಶ ದ್ವಾರ",
+    authModalSubtitle: "OTP ಮೂಲಕ ಪಾಸ್‌ವರ್ಡ್ ಮುಕ್ತ ಪ್ರವೇಶ",
+    mobileInputTitle: "ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ನಮೂದಿಸಿ",
+    mobileInputDesc: "ನಿಮ್ಮ ಮೊಬೈಲ್‌ಗೆ 6-ಅಂಕಿಯ ಸುರಕ್ಷಿತ OTP ಕಳುಹಿಸಲಾಗುವುದು",
+    mobilePlaceholder: "10-ಅಂಕಿಯ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ",
+    sendOtpBtn: "OTP ಕಳುಹಿಸಿ →",
+    otpVerificationTitle: "OTP ಪರಿಶೀಲನೆ",
+    otpSentTo: "OTP ಕಳುಹಿಸಲಾದ ಸಂಖ್ಯೆ:",
+    resendOtp: "OTP ಮರುಕಳುಹಿಸಿ",
+    verifyOtpBtn: "ದೃಢೀಕರಿಸಿ ಮುಂದುವರಿಯಿರಿ →",
+    changeNumber: "ಸಂಖ್ಯೆ ಬದಲಿಸಿ",
+    farmerOnboardingTitle: "ರೈತರ ಪ್ರೊಫೈಲ್ ಮಾಹಿತಿ",
+    farmerOnboardingDesc: "ಸರ್ಕಾರಿ ಸಬ್ಸಿಡಿ ಅರ್ಹತೆಯನ್ನು ತಕ್ಷಣ ತಿಳಿಯಲು ನಿಮ್ಮ ಕೃಷಿ ವಿವರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ",
+    farmerNameLabel: "ರೈತರ ಪೂರ್ಣ ಹೆಸರು",
+    farmerNamePlaceholder: "ಉದಾ: ರಮೇಶ್ ಪಾಟೀಲ್",
+    districtLabel: "ಜಿಲ್ಲೆ",
+    districtPlaceholder: "ಉದಾ: ಬೆಳಗಾವಿ, ಧಾರವಾಡ",
+    landSizeLabel: "ಒಟ್ಟು ಜಮೀನು (ಎಕರೆಗಳಲ್ಲಿ)",
+    landSizePlaceholder: "ಉದಾ: 2.5",
+    cropsLabel: "ಬೆಳೆಯುವ ಪ್ರಮುಖ ಬೆಳೆಗಳು",
+    ownershipLabel: "ಭೂ ಮಾಲೀಕತ್ವದ ವಿವರ",
+    ownerOption: "ಸ್ವಂತ ಜಮೀನುದಾರ (ಆರ್‌ಟಿಸಿ / ಪಟ್ಟಾದಾರ)",
+    tenantOption: "ಗೇಣಿ / ಪಾಲುದಾರ ರೈತ",
+    completeSetupBtn: "ಪ್ರೊಫೈಲ್ ಉಳಿಸಿ & ಯೋಜನೆಗಳನ್ನು ನೋಡಿ →",
+    simulatedOtpNotice: "ತಕ್ಷಣದ ಪರೀಕ್ಷೆಗಾಗಿ ಡೆಮೊ OTP: 123456",
+    invalidPhone: "ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ 10 ಅಂಕಿಯ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ನಮೂದಿಸಿ",
+    invalidOtp: "ತಪ್ಪಾದ OTP. ದಯವಿಟ್ಟು 123456 ಅಥವಾ ನಿಮ್ಮ ಮೊಬೈಲ್‌ಗೆ ಬಂದ ಕೋಡ್ ಬಳಸಿ.",
+    profileSummary: "ರೈತರ ಮಾಹಿತಿ",
+    verifiedFarmerBadge: "ಪರಿಶೀಲಿತ ರೈತ"
   },
 
   // ================= ENGLISH =================
@@ -549,7 +616,40 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     autoPlaySetting: "Auto-Play Spoken Audio",
     saveChatSetting: "Persist Conversation Locally",
     privacyPolicy: "Privacy Policy",
-    helpSupport: "Help & Helplines"
+    helpSupport: "Help & Helplines",
+
+    login: "Farmer Login",
+    signup: "Register / Sign Up",
+    logout: "Logout",
+    authModalTitle: "Farmer Secure Portal",
+    authModalSubtitle: "Password-free instant access with Mobile OTP",
+    mobileInputTitle: "Enter Mobile Number",
+    mobileInputDesc: "A 6-digit secure verification code (OTP) will be sent",
+    mobilePlaceholder: "10-digit mobile number",
+    sendOtpBtn: "Send Verification OTP →",
+    otpVerificationTitle: "Enter Verification Code",
+    otpSentTo: "OTP code sent to",
+    resendOtp: "Resend Code",
+    verifyOtpBtn: "Verify & Proceed →",
+    changeNumber: "Change Mobile Number",
+    farmerOnboardingTitle: "Farmer Profile Setup",
+    farmerOnboardingDesc: "Set up your land and crop details to automatically evaluate government subsidy eligibility",
+    farmerNameLabel: "Farmer Full Name",
+    farmerNamePlaceholder: "e.g. Ramesh Patil",
+    districtLabel: "District",
+    districtPlaceholder: "e.g. Belagavi, Dharwad, Pune",
+    landSizeLabel: "Total Land Size (Acres)",
+    landSizePlaceholder: "e.g. 2.5",
+    cropsLabel: "Primary Crops Grown",
+    ownershipLabel: "Land Ownership Status",
+    ownerOption: "Land Owner (Pattadar / RTC Title Holder)",
+    tenantOption: "Tenant Farmer / Sharecropper",
+    completeSetupBtn: "Save Profile & Explore Eligible Schemes →",
+    simulatedOtpNotice: "Simulated test OTP for instant access: 123456",
+    invalidPhone: "Please enter a valid 10-digit Indian mobile number",
+    invalidOtp: "Invalid OTP. Use 123456 or the code sent to your phone.",
+    profileSummary: "Farmer Profile",
+    verifiedFarmerBadge: "Verified Farmer"
   },
 
   // ================= HINDI (हिन्दी) =================
@@ -731,7 +831,40 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     autoPlaySetting: "आवाज अपने आप सुनें",
     saveChatSetting: "बातचीत स्थानीय रूप से सहेजें",
     privacyPolicy: "गोपनीयता नीति",
-    helpSupport: "मदद और हेल्पलाइन"
+    helpSupport: "मदद और हेल्पलाइन",
+
+    login: "किसान लॉगिन",
+    signup: "पंजीकरण / साइन अप",
+    logout: "लॉगआउट",
+    authModalTitle: "किसान सुरक्षित पोर्टल",
+    authModalSubtitle: "मोबाइल ओटीपी के साथ पासवर्ड-मुक्त आसान प्रवेश",
+    mobileInputTitle: "मोबाइल नंबर दर्ज करें",
+    mobileInputDesc: "आपके नंबर पर 6-अंकों का सुरक्षित ओटीपी भेजा जाएगा",
+    mobilePlaceholder: "10 अंकों का मोबाइल नंबर",
+    sendOtpBtn: "ओटीपी भेजें →",
+    otpVerificationTitle: "ओटीपी सत्यापन",
+    otpSentTo: "ओटीपी भेजा गया:",
+    resendOtp: "ओटीपी पुनः भेजें",
+    verifyOtpBtn: "सत्यापित करें और आगे बढ़ें →",
+    changeNumber: "नंबर बदलें",
+    farmerOnboardingTitle: "किसान प्रोफ़ाइल सेटअप",
+    farmerOnboardingDesc: "सरकारी योजनाओं की पात्रता जांचने के लिए अपनी जमीन और फसल का विवरण दें",
+    farmerNameLabel: "किसान का पूरा नाम",
+    farmerNamePlaceholder: "उदा: रमेश पाटिल",
+    districtLabel: "ज़िला",
+    districtPlaceholder: "उदा: बेलगावी, धारवाड़, पुणे",
+    landSizeLabel: "कुल कृषि भूमि (एकड़ में)",
+    landSizePlaceholder: "उदा: 2.5",
+    cropsLabel: "मुख्य उगाई जाने वाली फसलें",
+    ownershipLabel: "भूमि स्वामित्व की स्थिति",
+    ownerOption: "भूमि स्वामी (खतौनी / पट्टाधारक)",
+    tenantOption: "बटाईदार / किरायेदार किसान",
+    completeSetupBtn: "प्रोफ़ाइल सहेजें और योजनाएं देखें →",
+    simulatedOtpNotice: "त्वरित परीक्षण के लिए डेमो ओटीपी: 123456",
+    invalidPhone: "कृपया वैध 10-अंकों का मोबाइल नंबर दर्ज करें",
+    invalidOtp: "अमान्य ओटीपी। कृपया 123456 या प्राप्त कोड दर्ज करें।",
+    profileSummary: "किसान प्रोफ़ाइल",
+    verifiedFarmerBadge: "सत्यापित किसान"
   },
 
   // ================= TELUGU (తెలుగు) =================
@@ -913,7 +1046,40 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     autoPlaySetting: "సమాధానం స్వయంచాలకంగా వినండి",
     saveChatSetting: "సంభాషణను భద్రపరచండి",
     privacyPolicy: "గోప్యతా విధానం",
-    helpSupport: "సహాయం & హెల్ప్‌లైన్"
+    helpSupport: "సహాయం & హెల్ప్‌లైన్",
+
+    login: "రైతు లాగిన్",
+    signup: "నమోదు / సైన్ అప్",
+    logout: "లాగ్ అవుట్",
+    authModalTitle: "రైతు భద్రతా పోర్టల్",
+    authModalSubtitle: "మొబైల్ OTP ద్వారా పాస్‌వర్డ్ లేని సులభ ప్రవేశం",
+    mobileInputTitle: "మొబైల్ నంబర్ నమోదు చేయండి",
+    mobileInputDesc: "మీ మొబైల్‌కు 6-అంకెల సురక్షిత OTP పంపబడుతుంది",
+    mobilePlaceholder: "10-అంకెల మొబైల్ నంబర్",
+    sendOtpBtn: "OTP పంపండి →",
+    otpVerificationTitle: "OTP ధృవీకరణ",
+    otpSentTo: "OTP పంపబడిన నంబర్:",
+    resendOtp: "OTP మళ్లీ పంపండి",
+    verifyOtpBtn: "ధృవీకరించి ముందుకు సాగండి →",
+    changeNumber: "నంబర్ మార్చండి",
+    farmerOnboardingTitle: "రైతు ప్రొఫైల్ వివరాలు",
+    farmerOnboardingDesc: "ప్రభుత్వ పథకాల అర్హతను తక్షణమే తెలుసుకోవడానికి మీ భూమి మరియు పంట వివరాలను నమోదు చేయండి",
+    farmerNameLabel: "రైతు పూర్తి పేరు",
+    farmerNamePlaceholder: "ఉదా: రమేష్ పాటిల్",
+    districtLabel: "జిల్లా",
+    districtPlaceholder: "ఉదా: వరంగల్, కర్నూలు",
+    landSizeLabel: "మొత్తం భూమి (ఎకరాలలో)",
+    landSizePlaceholder: "ఉదా: 2.5",
+    cropsLabel: "పండించే ప్రధాన పంటలు",
+    ownershipLabel: "భూమి యాజమాన్య వివరాలు",
+    ownerOption: "భూ యజమాని (పట్టాదారు / పాస్‌బుక్)",
+    tenantOption: "కౌలు రైతు / భాగస్వామి",
+    completeSetupBtn: "వివరాలు సేవ్ చేసి పథకాలను చూడండి →",
+    simulatedOtpNotice: "పరీక్ష కోసం డెమో OTP: 123456",
+    invalidPhone: "దయచేసి సరైన 10 అంకెల మొబైల్ నంబర్ నమోదు చేయండి",
+    invalidOtp: "తప్పుడు OTP. దయచేసి 123456 లేదా వచ్చిన కోడ్ ఉపయోగించండి.",
+    profileSummary: "రైతు ప్రొఫైల్",
+    verifiedFarmerBadge: "ధృవీకరించబడిన రైతు"
   },
 
   // ================= MARATHI (मराठी) =================
@@ -1095,7 +1261,40 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     autoPlaySetting: "आवाज आपोआप ऐका",
     saveChatSetting: "संभाषण जतन करा",
     privacyPolicy: "गोपनीयता धोरण",
-    helpSupport: "मदत आणि संपर्क"
+    helpSupport: "मदत आणि संपर्क",
+
+    login: "शेतकरी लॉगिन",
+    signup: "नोंदणी / साइन अप",
+    logout: "लॉगआउट",
+    authModalTitle: "शेतकरी सुरक्षित पोर्टल",
+    authModalSubtitle: "मोबाईल ओटीपीद्वारे पासवर्ड-मुक्त सुलभ प्रवेश",
+    mobileInputTitle: "मोबाईल क्रमांक टाका",
+    mobileInputDesc: "आपल्या मोबाईलवर 6 अंकी सुरक्षित ओटीपी पाठवला जाईल",
+    mobilePlaceholder: "10 अंकी मोबाईल क्रमांक",
+    sendOtpBtn: "ओटीपी पाठवा →",
+    otpVerificationTitle: "ओटीपी पडताळणी",
+    otpSentTo: "ओटीपी पाठवला आहे:",
+    resendOtp: "ओटीपी पुन्हा पाठवा",
+    verifyOtpBtn: "पडताळणी करा आणि पुढे जा →",
+    changeNumber: "क्रमांक बदला",
+    farmerOnboardingTitle: "शेतकरी प्रोफाइल तपशील",
+    farmerOnboardingDesc: "शासकीय योजनांची पात्रता तपासण्यासाठी आपल्या शेतजमीन व पिकांची माहिती द्या",
+    farmerNameLabel: "शेतकऱ्याचे संपूर्ण नाव",
+    farmerNamePlaceholder: "उदा: रमेश पाटील",
+    districtLabel: "जिल्हा",
+    districtPlaceholder: "उदा: पुणे, सातारा, बेळगाव",
+    landSizeLabel: "एकूण शेतजमीन (एकरमध्ये)",
+    landSizePlaceholder: "उदा: 2.5",
+    cropsLabel: "पिकवली जाणारी मुख्य पिके",
+    ownershipLabel: "जमीन मालकी हक्क",
+    ownerOption: "स्वतःची जमीन (7/12 खातेदार)",
+    tenantOption: "कुळ / बटाईदार शेतकरी",
+    completeSetupBtn: "माहिती जतन करा आणि योजना तपासा →",
+    simulatedOtpNotice: "चाचणीसाठी डेमो ओटीपी: 123456",
+    invalidPhone: "कृपया वैध 10 अंकी मोबाईल क्रमांक टाका",
+    invalidOtp: "चुकीचा ओटीपी. कृपया 123456 किंवा प्राप्त कोड वापरा.",
+    profileSummary: "शेतकरी माहिती",
+    verifiedFarmerBadge: "प्रमाणित शेतकरी"
   }
 };
 

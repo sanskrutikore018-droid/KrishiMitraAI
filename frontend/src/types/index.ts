@@ -86,3 +86,16 @@ export interface ChatResponse {
   slot_just_filled?: string | null;
   voice_provider?: string | null;
 }
+
+export interface FarmerUser {
+  phone: string;
+  name: string;
+  district?: string;
+  land_area_acres?: number;
+  crops?: string[];
+  ownership_type?: 'owner' | 'tenant' | 'sharecropper';
+  has_irrigation?: boolean;
+  is_income_tax_payer?: boolean;
+  isLoggedIn: boolean;
+  loginTimestamp: number;
+}

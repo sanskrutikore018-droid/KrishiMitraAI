@@ -11,6 +11,7 @@ import { SchemesShowcase } from '../components/SchemesShowcase';
 import { EligibilityAssessmentView } from '../components/EligibilityAssessmentView';
 import { EvidenceModal } from '../components/EvidenceModal';
 import { SettingsModal } from '../components/SettingsModal';
+import { AuthModal } from '../components/AuthModal';
 import { DisclaimerFooter } from '../components/DisclaimerFooter';
 import { MobileBottomNav } from '../components/MobileBottomNav';
 import {
@@ -19,6 +20,7 @@ import {
   ChatMessage
 } from '../types';
 import { useTranslation } from '../context/LanguageContext';
+import { useAuth } from '../context/AuthContext';
 import {
   checkBackendHealth,
   evaluateProfile,
@@ -27,6 +29,7 @@ import {
 
 export default function Home() {
   const { language, dict } = useTranslation();
+  const { user } = useAuth();
   const [isBackendHealthy, setIsBackendHealthy] = useState<boolean>(true);
   const [sessionId, setSessionId] = useState<string>('');
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
@@ -44,6 +47,23 @@ export default function Home() {
   const [schemes, setSchemes] = useState<SchemeEvaluation[]>([]);
   const [selectedScheme, setSelectedScheme] = useState<SchemeEvaluation | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  // Synchronize authenticated farmer profile with eligibility engine
+  useEffect(() => {
+    if (user && user.isLoggedIn) {
+      const syncedProfile: FarmerProfile = {
+        district: user.district || 'Belagavi',
+        land_area_acres: user.land_area_acres || 2.5,
+        crops: user.crops && user.crops.length > 0 ? user.crops : ['Paddy'],
+        ownership_type: user.ownership_type || 'owner',
+        has_irrigation: user.has_irrigation !== undefined ? user.has_irrigation : true
+      };
+      setProfile(syncedProfile);
+      evaluateProfile(syncedProfile).then((evals) => {
+        if (evals && evals.length > 0) setSchemes(evals);
+      });
+    }
+  }, [user]);
 
   // Initialize on mount
   useEffect(() => {
@@ -211,6 +231,9 @@ export default function Home() {
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
       />
+
+      {/* Vantara-Inspired Glassmorphic Farmer Auth Modal */}
+      <AuthModal onProfileSynced={handleManualProfileUpdate} />
 
       {/* Statutory Disclaimer & Footer */}
       <DisclaimerFooter />
