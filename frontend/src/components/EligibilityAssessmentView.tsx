@@ -73,13 +73,13 @@ export const EligibilityAssessmentView: React.FC<EligibilityAssessmentViewProps>
           <div className="space-y-2">
             <div className="flex items-center space-x-2 text-xs font-bold text-lime-400 uppercase tracking-widest">
               <Sparkles className="w-4 h-4" />
-              <span>ಅರ್ಹತೆ ಪರಿಶೀಲನೆ • Deterministic Rules Engine</span>
+              <span>{dict.eligibilityTitle} • {dict.zeroHallucinationTag}</span>
             </div>
             <h2 className="font-editorial text-3xl sm:text-5xl font-normal text-white tracking-tight">
               {dict.eligibilityTitle}
             </h2>
             <p className="text-xs sm:text-sm text-emerald-300 font-medium">
-              Zero Hallucination Policy • Verified Against Statutory Gazette Guidelines
+              {dict.auditStamp}
             </p>
           </div>
 
@@ -157,8 +157,8 @@ export const EligibilityAssessmentView: React.FC<EligibilityAssessmentViewProps>
               </div>
 
               <div className="pt-3 border-t border-emerald-800/40 text-[10px] text-emerald-400 font-mono flex items-center justify-between">
-                <span>Audit: Verified by Govt Sources</span>
-                <span className="text-amber-300 font-bold">Oct 2026</span>
+                <span>{dict.auditStamp}</span>
+                <span className="text-amber-300 font-bold shrink-0 ml-2">100% OK</span>
               </div>
             </div>
           </div>

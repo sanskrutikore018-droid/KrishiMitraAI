@@ -37,7 +37,7 @@ export const EvidenceModal: React.FC<EvidenceModalProps> = ({
             <ShieldCheck className="w-6 h-6 text-amber-400" />
             <div>
               <h3 className="text-base sm:text-lg font-bold leading-tight">
-                {language === 'kn' ? scheme.scheme_name.kn : scheme.scheme_name.en}
+                {dict.schemeCatalog?.[scheme.scheme_id]?.name || (language === 'kn' ? scheme.scheme_name.kn : scheme.scheme_name.en)}
               </h3>
               <p className="text-xs text-emerald-200 font-medium">
                 {dict.modalTitle}

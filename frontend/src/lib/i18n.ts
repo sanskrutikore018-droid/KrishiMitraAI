@@ -63,6 +63,8 @@ export interface I18nDictionary {
   recentQ2: string;
   recentQ3: string;
   recentQ4: string;
+  recognizedVoiceLabel: string;
+  latestAiResponseLabel: string;
 
   // Chat & Voice Input Controls
   chatTitle: string;
@@ -111,6 +113,10 @@ export interface I18nDictionary {
   schemesSubheading: string;
   schemesTitle: string;
   schemesSubtitle: string;
+  verifiedNationalSchemes: string;
+  demoSchemesHeading: string;
+  auditStamp: string;
+  zeroHallucinationTag: string;
   tabs: {
     all: string;
     eligible: string;
@@ -138,6 +144,9 @@ export interface I18nDictionary {
   verifiedGov: string;
   lastUpdated: string;
   officialLinks: string;
+
+  // Scheme Catalog Translations
+  schemeCatalog: Record<string, { name: string; desc: string }>;
 
   // Eligibility View
   eligibilityTitle: string;
@@ -182,7 +191,7 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
   // ================= KANNADA (ಕನ್ನಡ) =================
   kn: {
     appTitle: "ಕೃಷಿ ಮಿತ್ರ AI",
-    appSubtitle: "ನಿಮ್ಮ ಕೃಷಿ ಒಡನಾಡಿ • An Initiative for Indian Agriculture",
+    appSubtitle: "ನಿಮ್ಮ AI ಕೃಷಿ ಒಡನಾಡಿ • An Initiative for Indian Agriculture",
     govIndia: "ಭಾರತ ಸರ್ಕಾರ • ಅಧಿಕೃತ ಯೋಜನೆಗಳು",
     govHeader: "ಭಾರತ ಸರ್ಕಾರ ಮತ್ತು ಕರ್ನಾಟಕ ಸರ್ಕಾರದ ಅಧಿಕೃತ ಯೋಜನೆಗಳು",
     voiceFirstTag: "ಧ್ವನಿ ಆಧಾರಿತ ನಿರ್ಧಾರ ಸಹಾಯಕ ವ್ಯವಸ್ಥೆ",
@@ -224,6 +233,8 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     recentQ2: "ನನ್ನ ಅರ್ಹತೆ ಹೇಗೆ ತಿಳಿಯುವುದು?",
     recentQ3: "PMFBY ಬೆಳೆ ವಿಮೆ ವಿವರ",
     recentQ4: "ಯಾವ ದಾಖಲೆಗಳು ಬೇಕು?",
+    recognizedVoiceLabel: "ಗುರುತಿಸಿದ ಧ್ವನಿ",
+    latestAiResponseLabel: "ಸಕ್ರಿಯ ಪ್ರತಿಕ್ರಿಯೆ",
 
     chatTitle: "ಕೃಷಿ ಸಂವಾದ",
     welcomeMessage: "ನಮಸ್ಕಾರ! ನಾನು ನಿಮ್ಮ ಕೃಷಿ ಮಿತ್ರ AI. ನಿಮ್ಮ ಕೃಷಿ ಭೂಮಿ, ಬೆಳೆ ಮತ್ತು ಜಿಲ್ಲೆಯ ವಿವರಗಳನ್ನು ಹೇಳಿ, ನಿಮಗೆ ಸೂಕ್ತವಾದ ಸರ್ಕಾರಿ ಸಹಾಯಧನ ಮತ್ತು ಬೆಳೆ ವಿಮೆ ಯೋಜನೆಗಳನ್ನು ಹುಡುಕಿ ಕೊಡುತ್ತೇನೆ.",
@@ -269,6 +280,10 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     schemesSubheading: "ಅಧಿಕೃತ ಗೆಜೆಟ್ ನಿಯಮಗಳ ಪ್ರಕಾರ ಪರಿಶೀಲಿಸಲಾದ ಯೋಜನೆಗಳು",
     schemesTitle: "ಸರ್ಕಾರಿ ಯೋಜನೆಗಳ ಪಟ್ಟಿ",
     schemesSubtitle: "ನಿಮ್ಮ ಅರ್ಹತೆಯನ್ನು ನೇರವಾಗಿ ಪರೀಕ್ಷಿಸಿ",
+    verifiedNationalSchemes: "ಪರಿಶೀಲಿತ ರಾಷ್ಟ್ರೀಯ ಯೋಜನೆಗಳು",
+    demoSchemesHeading: "ಮಾದರಿ ಪ್ರದರ್ಶನ ಯೋಜನೆಗಳು (ಡೆಮೊ)",
+    auditStamp: "ಸರ್ಕಾರಿ ಮೂಲಗಳಿಂದ ಆಡಿಟ್ ಮಾಡಲಾಗಿದೆ • ಅಕ್ಟೋಬರ್ 2026",
+    zeroHallucinationTag: "ನಿಯಮ-ಆಧಾರಿತ ಮ್ಯಾಟ್ರಿಕ್ಸ್ • ಶೂನ್ಯ ಭ್ರಮೆ",
     tabs: {
       all: "ಎಲ್ಲಾ ಯೋಜನೆಗಳು",
       eligible: "ಅರ್ಹವಿರುವ ಯೋಜನೆಗಳು",
@@ -296,6 +311,29 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     verifiedGov: "ಸರ್ಕಾರಿ ಮೂಲಗಳಿಂದ ಪರಿಶೀಲಿಸಲಾಗಿದೆ",
     lastUpdated: "ಅಪ್‌ಡೇಟ್: ಅಕ್ಟೋಬರ್ 2026",
     officialLinks: "ಅಧಿಕೃತ ಲಿಂಕ್‌ಗಳು ಲಭ್ಯವಿದೆ",
+
+    schemeCatalog: {
+      'pm-kisan': {
+        name: "ಪ್ರಧಾನ ಮಂತ್ರಿ ಕಿಸಾನ್ ಸಮ್ಮಾನ್ ನಿಧಿ (PM-KISAN)",
+        desc: "ಅರ್ಹ ಭೂಮಿ ಹೊಂದಿರುವ ರೈತ ಕುಟುಂಬಗಳಿಗೆ ವಾರ್ಷಿಕ ₹6,000 ಆರ್ಥಿಕ ನೆರವು (ತಲಾ ₹2,000 ನಂತೆ ಮೂರು ಕಂತುಗಳಲ್ಲಿ ಡಿಬಿಟಿ ಮೂಲಕ)."
+      },
+      'pmfby': {
+        name: "ಪ್ರಧಾನ ಮಂತ್ರಿ ಫಸಲ್ ಬಿಮಾ ಯೋಜನೆ (PMFBY)",
+        desc: "ನೈಸರ್ಗಿಕ ವಿಕೋಪ, ಬರ ಮತ್ತು ಅಕಾಲಿಕ ಮಳೆಯಿಂದಾಗುವ ಬೆಳೆ ನಷ್ಟಕ್ಕೆ ಸಮಗ್ರ ಬೆಳೆ ವಿಮೆ ರಕ್ಷಣೆ. ರೈತರ ಪ್ರೀಮಿಯಂ ಕೇವಲ 1.5% ರಿಂದ 2%."
+      },
+      'demo-micro-irrigation': {
+        name: "ಸೂಕ್ಷ್ಮ ನೀರಾವರಿ ಪ್ರೋತ್ಸಾಹ ಯೋಜನೆ (PMKSY)",
+        desc: "ಸಣ್ಣ ಮತ್ತು ಅತಿ ಸಣ್ಣ ರೈತರಿಗೆ ಹನಿ ಮತ್ತು ತುಂತುರು ನೀರಾವರಿ ಸ್ಥಾಪನೆಗೆ 90% ವರೆಗೆ ಸಬ್ಸಿಡಿ."
+      },
+      'demo-agri-equipment': {
+        name: "ಕೃಷಿ ಯಾಂತ್ರೀಕರಣ ಮತ್ತು ಉಪಕರಣಗಳ ನೆರವು (SMAM)",
+        desc: "ಟ್ರ್ಯಾಕ್ಟರ್, ಪವರ್ ಟಿಲ್ಲರ್ ಮತ್ತು ಆಧುನಿಕ ಕೃಷಿ ಯಂತ್ರೋಪಕರಣಗಳ ಖರೀದಿಗೆ 50% ರಿಂದ 75% ಸಹಾಯಧನ."
+      },
+      'demo-soil-improvement': {
+        name: "ಮಣ್ಣು ಆರೋಗ್ಯ ಮತ್ತು ಸೂಕ್ಷ್ಮ ಪೋಷಕಾಂಶ ಬೆಂಬಲ ಯೋಜನೆ",
+        desc: "ಉಚಿತ ಮಣ್ಣು ಪರೀಕ್ಷೆ, ಸೂಕ್ಷ್ಮ ಪೋಷಕಾಂಶಗಳ ಕಿಟ್ ಮತ್ತು ಮಣ್ಣಿನ ಆರೋಗ್ಯ ಕಾರ್ಡ್ ವಿತರಣೆ."
+      }
+    },
 
     eligibilityTitle: "ನಿಮ್ಮ ಅರ್ಹತೆ ಪರಿಶೀಲನೆ",
     preliminaryResult: "ಪ್ರಾಥಮಿಕ ಫಲಿತಾಂಶ",
@@ -377,6 +415,8 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     recentQ2: "How do I check my scheme eligibility?",
     recentQ3: "PMFBY crop insurance claim rules",
     recentQ4: "What documents are required?",
+    recognizedVoiceLabel: "Recognized Voice",
+    latestAiResponseLabel: "Latest AI Response",
 
     chatTitle: "Farm Consultation",
     welcomeMessage: "Namaskara! I am Krishi Mitra AI. Tell me about your farmland, district, and crops to evaluate your eligibility for official central and state government schemes.",
@@ -422,6 +462,10 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     schemesSubheading: "Verified statutory guidelines from official Government of India gazettes",
     schemesTitle: "Official Agriculture Schemes",
     schemesSubtitle: "Deterministic, rule-based verification with no LLM hallucinations",
+    verifiedNationalSchemes: "Verified National Schemes",
+    demoSchemesHeading: "Prototype Demonstration Schemes",
+    auditStamp: "Audited by Government Sources • October 2026",
+    zeroHallucinationTag: "Deterministic Rules Engine • Zero Hallucination",
     tabs: {
       all: "All Schemes",
       eligible: "Likely Eligible",
@@ -449,6 +493,29 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     verifiedGov: "Verified by Government Sources",
     lastUpdated: "Last Updated: October 2026",
     officialLinks: "Official Links Available",
+
+    schemeCatalog: {
+      'pm-kisan': {
+        name: "Pradhan Mantri Kisan Samman Nidhi (PM-KISAN)",
+        desc: "Direct financial assistance of ₹6,000 per year in three equal installments of ₹2,000 to all eligible landholding farmer families across India."
+      },
+      'pmfby': {
+        name: "Pradhan Mantri Fasal Bima Yojana (PMFBY)",
+        desc: "Comprehensive crop insurance coverage against non-preventable natural risks, drought, unseasonal rains, and post-harvest losses."
+      },
+      'demo-micro-irrigation': {
+        name: "Micro-Irrigation Support Scheme (PMKSY)",
+        desc: "Up to 90% capital subsidy for drip and sprinkler irrigation installations for small and marginal farmers."
+      },
+      'demo-agri-equipment': {
+        name: "Farm Mechanization & Equipment Assistance (SMAM)",
+        desc: "50% to 75% financial assistance on tractors, power tillers, and custom hiring center farm implements."
+      },
+      'demo-soil-improvement': {
+        name: "Soil Health & Micronutrient Assistance Scheme",
+        desc: "Free soil health testing, organic soil conditioner kits, and customized soil health card distribution."
+      }
+    },
 
     eligibilityTitle: "Eligibility Assessment",
     preliminaryResult: "Preliminary Result",
@@ -530,6 +597,8 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     recentQ2: "मैं अपनी पात्रता कैसे जांचूँ?",
     recentQ3: "PMFBY फसल बीमा दावा प्रक्रिया",
     recentQ4: "किन दस्तावेजों की आवश्यकता है?",
+    recognizedVoiceLabel: "पहचानी गई आवाज",
+    latestAiResponseLabel: "सक्रिय एआई उत्तर",
 
     chatTitle: "कृषि परामर्श",
     welcomeMessage: "नमस्ते! मैं आपका कृषि मित्र AI सहायक हूँ। मुझे अपनी कृषि भूमि, जिले और फसलों के बारे में बताएं ताकि मैं सरकारी योजनाओं के लिए आपकी पात्रता जांच सकूं।",
@@ -575,6 +644,10 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     schemesSubheading: "भारत सरकार के राजपत्र नियमों के अनुसार सत्यापित योजनाएं",
     schemesTitle: "आधिकारिक कृषि योजनाएं",
     schemesSubtitle: "कठोर नियम-आधारित निष्पक्ष पात्रता जांच",
+    verifiedNationalSchemes: "सत्यापित राष्ट्रीय योजनाएं",
+    demoSchemesHeading: "प्रोटोटाइप प्रदर्शन योजनाएं (डेमो)",
+    auditStamp: "सरकारी स्रोतों द्वारा सत्यापित • अक्टूबर 2026",
+    zeroHallucinationTag: "नियम-आधारित निष्पक्ष जांच • शून्य भ्रम",
     tabs: {
       all: "सभी योजनाएं",
       eligible: "पात्र योजनाएं",
@@ -602,6 +675,29 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     verifiedGov: "सरकारी स्रोतों द्वारा सत्यापित",
     lastUpdated: "अपडेट: अक्टूबर 2026",
     officialLinks: "आधिकारिक लिंक उपलब्ध",
+
+    schemeCatalog: {
+      'pm-kisan': {
+        name: "प्रधानमंत्री किसान सम्मान निधि (PM-KISAN)",
+        desc: "सभी पात्र भूमिधारक किसान परिवारों को ₹2,000 की तीन समान किस्तों में प्रति वर्ष ₹6,000 की सीधी वित्तीय सहायता।"
+      },
+      'pmfby': {
+        name: "प्रधानमंत्री फसल बीमा योजना (PMFBY)",
+        desc: "प्राकृतिक आपदाओं, सूखे और बेमौसम बारिश से फसल नुकसान के खिलाफ व्यापक बीमा सुरक्षा। किसान प्रीमियम मात्र 1.5% से 2%।"
+      },
+      'demo-micro-irrigation': {
+        name: "सूक्ष्म सिंचाई प्रोत्साहन योजना (PMKSY)",
+        desc: "लघु एवं सीमांत किसानों के लिए ड्रिप एवं स्प्रिंकलर सिंचाई की स्थापना पर 90% तक की पूंजीगत सब्सिडी।"
+      },
+      'demo-agri-equipment': {
+        name: "कृषि यंत्रीकरण एवं उपकरण सहायता योजना (SMAM)",
+        desc: "ट्रैक्टर, पावर टिलर और आधुनिक कृषि उपकरणों की खरीद पर 50% से 75% वित्तीय सहायता।"
+      },
+      'demo-soil-improvement': {
+        name: "मृदा स्वास्थ्य एवं सूक्ष्म पोषक तत्व सहायता योजना",
+        desc: "मुफ्त मिट्टी परीक्षण, सूक्ष्म पोषक तत्व सिफारिशें और मृदा स्वास्थ्य कार्ड वितरण।"
+      }
+    },
 
     eligibilityTitle: "पात्रता मूल्यांकन",
     preliminaryResult: "प्राथमिक परिणाम",
@@ -683,6 +779,8 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     recentQ2: "నా అర్హతను ఎలా తనిఖీ చేయాలి?",
     recentQ3: "PMFBY పంట భీమా క్లెయిమ్ విధానం",
     recentQ4: "ఏయే పత్రాలు అవసరం?",
+    recognizedVoiceLabel: "గుర్తించిన వాయిస్",
+    latestAiResponseLabel: "తాజా AI సమాధానం",
 
     chatTitle: "వ్యవసాయ సంప్రదింపులు",
     welcomeMessage: "నమస్కారం! నేను మీ కృషి మిత్ర AI సహాయకుడిని. మీ వ్యవసాయ భూమి, పంటలు మరియు జిల్లా వివరాలను తెలియజేయండి. మీకు వర్తించే ప్రభుత్వ పథకాలు మరియు పంట భీమాను కనుగొంటాను.",
@@ -728,6 +826,10 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     schemesSubheading: "భారత ప్రభుత్వ అధికారిక గెజిట్ నిబంధనల ప్రకారం ధృవీకరించబడిన పథకాలు",
     schemesTitle: "అధికారిక వ్యవసాయ పథకాలు",
     schemesSubtitle: "ఖచ్చితమైన నిబంధనలతో కూడిన అర్హత పరిశీలన",
+    verifiedNationalSchemes: "ధృవీకరించబడిన జాతీయ పథకాలు",
+    demoSchemesHeading: "నమూనా ప్రదర్శన పథకాలు (డెమో)",
+    auditStamp: "ప్రభుత్వ వనరుల ద్వారా ఆడిట్ చేయబడింది • అక్టోబర్ 2026",
+    zeroHallucinationTag: "నిబంధనల ఆధారిత మూల్యాంకనం • సంపూర్ణ ఖచ్చితత్వం",
     tabs: {
       all: "అన్ని పథకాలు",
       eligible: "అర్హత కలిగినవి",
@@ -755,6 +857,29 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     verifiedGov: "ప్రభుత్వ వనరుల ద్వారా ధృవీకరించబడింది",
     lastUpdated: "నవీకరణ: అక్టోబర్ 2026",
     officialLinks: "అధికారిక లింకులు అందుబాటులో ఉన్నాయి",
+
+    schemeCatalog: {
+      'pm-kisan': {
+        name: "ప్రధాన మంత్రి కిసాన్ సమ్మాన్ నిధి (PM-KISAN)",
+        desc: "అర్హులైన భూమిగల రైతు కుటుంబాలందరికీ సంవత్సరానికి ₹6,000 ప్రత్యక్ష ఆర్థిక సహాయం (మూడు విడతలలో ₹2,000 చొప్పున)."
+      },
+      'pmfby': {
+        name: "ప్రధాన మంత్రి ఫసల్ బీమా యోజన (PMFBY)",
+        desc: "ప్రకృతి వైపరీత్యాలు, కరవు మరియు అకాల వర్షాల వల్ల పంట నష్టానికి సమగ్ర పంట భీమా రక్షణ. రైతు వాటా ప్రీమియం కేవలం 1.5% నుండి 2%."
+      },
+      'demo-micro-irrigation': {
+        name: "సూక్ష్మ నీటిపారుదల మద్దతు పథకం (PMKSY)",
+        desc: "చిన్న మరియు సన్నకారు రైతులకు డ్రిప్ మరియు స్ప్రింక్లర్ ఏర్పాటుకు 90% వరకు పెట్టుబడి రాయితీ."
+      },
+      'demo-agri-equipment': {
+        name: "వ్యవసాయ యాంత్రీకరణ & పరికరాల సహాయం (SMAM)",
+        desc: "ట్రాక్టర్లు, పవర్ టిల్లర్లు మరియు ఆధునిక వ్యవసాయ పరికరాల కొనుగోలుపై 50% నుండి 75% ఆర్థిక సహాయం."
+      },
+      'demo-soil-improvement': {
+        name: "నేల ఆరోగ్యం & సూక్ష్మ పోషకాల సహాయ పథకం",
+        desc: "ఉచిత నేల పరీక్ష, సూక్ష్మ పోషకాల సిఫార్సులు మరియు సాయిల్ హెల్త్ కార్డుల పంపిణీ."
+      }
+    },
 
     eligibilityTitle: "అర్హత మూల్యాంకనం",
     preliminaryResult: "ప్రాథమిక ఫలితం",
@@ -836,6 +961,8 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     recentQ2: "मी माझी पात्रता कशी तपासावी?",
     recentQ3: "PMFBY पीक विमा दावा प्रक्रिया",
     recentQ4: "कोणती कागदपत्रे लागतील?",
+    recognizedVoiceLabel: "ओळखलेला आवाज",
+    latestAiResponseLabel: "सक्रिय एआय प्रतिसाद",
 
     chatTitle: "कृषी सल्ला",
     welcomeMessage: "नमस्कार! मी आपला कृषी मित्र AI साहाय्यक आहे. मला आपली शेतजमीन, पिके आणि जिल्ह्याची माहिती द्या, जेणेकरून मी सरकारी योजनांसाठी आपली पात्रता तपासू शकेन.",
@@ -881,6 +1008,10 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     schemesSubheading: "भारत सरकारच्या अधिकृत राजपत्रातील नियमांनुसार तपासलेल्या योजना",
     schemesTitle: "अधिकृत कृषी योजना",
     schemesSubtitle: "नियम-आधारित अचूक पात्रता पडताळणी",
+    verifiedNationalSchemes: "प्रमाणित राष्ट्रीय योजना",
+    demoSchemesHeading: "प्रारूप प्रात्यक्षिक योजना (डेमो)",
+    auditStamp: "शासकीय स्त्रोतांद्वारे प्रमाणित • ऑक्टोबर 2026",
+    zeroHallucinationTag: "नियम-आधारित अचूक मूल्यांकन • शून्य भ्रम",
     tabs: {
       all: "सर्व योजना",
       eligible: "पात्र योजना",
@@ -908,6 +1039,29 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     verifiedGov: "सरकारी स्त्रोतांद्वारे प्रमाणित",
     lastUpdated: "अपडेट: ऑक्टोबर 2026",
     officialLinks: "अधिकृत लिंक्स उपलब्ध",
+
+    schemeCatalog: {
+      'pm-kisan': {
+        name: "प्रधानमंत्री किसान सन्मान निधी (PM-KISAN)",
+        desc: "सर्व पात्र शेतकरी कुटुंबांना ₹2,000 च्या तीन समान हप्त्यांमध्ये दरवर्षी ₹6,000 चे थेट आर्थिक साहाय्य."
+      },
+      'pmfby': {
+        name: "प्रधानमंत्री पीक विमा योजना (PMFBY)",
+        desc: "नैसर्गिक संकटे, दुष्काळ व अवेळी पावसामुळे होणाऱ्या पीक नुकसानीविरुद्ध सर्वसमाవేశक पीक विमा संरक्षण. शेतकरी हप्ता फक्त 1.5% ते 2%."
+      },
+      'demo-micro-irrigation': {
+        name: "सूक्ष्म सिंचन साहाय्य योजना (PMKSY)",
+        desc: "लहान व अत्यल्प भूधारक शेतकऱ्यांना ठिबक व तुषार सिंचन संच उभारणीसाठी 90% पर्यंत शासकीय अनुदान."
+      },
+      'demo-agri-equipment': {
+        name: "कृषी यांत्रिकीकरण व अवजारे साहाय्य (SMAM)",
+        desc: "ट्रॅक्टर, पॉवर टिलर आणि आधुनिक कृषी अवजारे खरेदीवर 50% ते 75% शासकीय साहाय्य."
+      },
+      'demo-soil-improvement': {
+        name: "मृदा आरोग्य व सूक्ष्म अन्नद्रव्य साहाय्य योजना",
+        desc: "मोफत माती परीक्षण, सूक्ष्म अन्नद्रव्य शिफारशी आणि सॉईल हेल्थ कार्डचे मोफत वाटप."
+      }
+    },
 
     eligibilityTitle: "पात्रता मूल्यांकन",
     preliminaryResult: "प्राथमिक निकाल",

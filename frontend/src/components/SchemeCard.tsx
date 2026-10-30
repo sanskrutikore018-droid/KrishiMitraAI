@@ -102,10 +102,10 @@ export const SchemeCard: React.FC<SchemeCardProps> = ({
 
         {/* Scheme Title */}
         <h3 className="text-base sm:text-lg font-bold text-gray-900 leading-snug mb-1">
-          {language === 'kn' ? evaluation.scheme_name.kn : evaluation.scheme_name.en}
+          {dict.schemeCatalog?.[evaluation.scheme_id]?.name || (language === 'kn' ? evaluation.scheme_name.kn : evaluation.scheme_name.en)}
         </h3>
         <p className="text-xs text-emerald-900/80 font-medium mb-3">
-          {language === 'kn' ? evaluation.scheme_name.en : evaluation.scheme_name.kn}
+          {evaluation.short_name}
         </p>
 
         {/* Benefits Highlight Box */}
@@ -118,7 +118,7 @@ export const SchemeCard: React.FC<SchemeCardProps> = ({
             {evaluation.benefits.amount}
           </div>
           <p className="text-xs text-gray-600 leading-relaxed">
-            {language === 'kn' ? evaluation.benefits.kn : evaluation.benefits.en}
+            {dict.schemeCatalog?.[evaluation.scheme_id]?.desc || (language === 'kn' ? evaluation.benefits.kn : evaluation.benefits.en)}
           </p>
         </div>
 

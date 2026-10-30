@@ -425,7 +425,7 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
                     className="p-3.5 bg-emerald-950/90 border border-emerald-400/50 rounded-2xl text-xs sm:text-sm text-emerald-100 shadow-2xl backdrop-blur-xl"
                   >
                     <span className="text-[11px] text-emerald-400 font-bold block mb-1">
-                      ಗುರುತಿಸಿದ ಧ್ವನಿ / Recognized Voice:
+                      {dict.recognizedVoiceLabel}:
                     </span>
                     <p className="font-semibold italic leading-relaxed">
                       "{liveTranscript}"
@@ -557,7 +557,7 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
               <div className="pt-3 border-t border-emerald-800/50">
                 <span className="text-[11px] font-bold text-emerald-400 block mb-1.5 flex items-center space-x-1">
                   <Activity className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
-                  <span>ಸಕ್ರಿಯ ಪ್ರತಿಕ್ರಿಯೆ / Latest AI Response:</span>
+                  <span>{dict.latestAiResponseLabel}:</span>
                 </span>
                 <div className="text-xs text-emerald-100/90 bg-emerald-950/80 p-3.5 rounded-2xl border border-emerald-600/40 leading-relaxed max-h-40 overflow-y-auto shadow-inner">
                   {messages[messages.length - 1].content}

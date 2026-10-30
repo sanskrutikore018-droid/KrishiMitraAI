@@ -54,13 +54,13 @@ export const SchemesShowcase: React.FC<SchemesShowcaseProps> = ({
         <div className="space-y-3">
           <div className="flex items-center space-x-2 text-xs font-bold text-lime-400 uppercase tracking-widest">
             <Sprout className="w-4 h-4" />
-            <span>ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು • Verified National Schemes</span>
+            <span>{dict.schemesHeading} • {dict.verifiedNationalSchemes}</span>
           </div>
           <h2 className="font-editorial text-3xl sm:text-5xl md:text-6xl font-normal text-white tracking-tight">
-            {language === 'kn' ? 'ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು' : 'Government Schemes'}
+            {dict.schemesHeading}
           </h2>
           <p className="font-editorial italic text-xl sm:text-2xl text-emerald-300 font-light">
-            {language === 'kn' ? 'Government Schemes' : 'ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು'}
+            {dict.verifiedNationalSchemes}
           </p>
           <p className="text-sm sm:text-base text-emerald-200/80 font-normal max-w-xl leading-relaxed">
             {dict.schemesSubheading}
@@ -111,10 +111,10 @@ export const SchemesShowcase: React.FC<SchemesShowcaseProps> = ({
                     </h3>
                   </div>
                   <p className="text-xs sm:text-sm text-emerald-200/90 font-medium">
-                    {language === 'kn' ? scheme.scheme_name.kn : scheme.scheme_name.en}
+                    {dict.schemeCatalog?.[scheme.scheme_id]?.name || (language === 'kn' ? scheme.scheme_name.kn : scheme.scheme_name.en)}
                   </p>
                   <p className="text-xs text-emerald-100/70 leading-relaxed pt-1 line-clamp-2">
-                    {language === 'kn' ? scheme.description.kn : scheme.description.en}
+                    {dict.schemeCatalog?.[scheme.scheme_id]?.desc || (language === 'kn' ? scheme.description.kn : scheme.description.en)}
                   </p>
                 </div>
 
@@ -136,7 +136,7 @@ export const SchemesShowcase: React.FC<SchemesShowcaseProps> = ({
           <div className="space-y-4 pt-4">
             <div className="flex items-center space-x-2 text-xs font-bold text-amber-400 uppercase tracking-wider">
               <AlertTriangle className="w-4 h-4" />
-              <span>ಡೆಮೊ ಮಾದರಿ ಯೋಜನೆಗಳು / Prototype Demonstration Schemes</span>
+              <span>{dict.demoSchemesHeading}</span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -157,10 +157,10 @@ export const SchemesShowcase: React.FC<SchemesShowcaseProps> = ({
                     </div>
 
                     <h4 className="text-sm font-bold text-white group-hover:text-amber-300 transition">
-                      {demo.short_name}
+                      {dict.schemeCatalog?.[demo.scheme_id]?.name || demo.short_name}
                     </h4>
                     <p className="text-xs text-emerald-200/70 mt-1 line-clamp-2">
-                      {language === 'kn' ? demo.description.kn : demo.description.en}
+                      {dict.schemeCatalog?.[demo.scheme_id]?.desc || (language === 'kn' ? demo.description.kn : demo.description.en)}
                     </p>
                   </div>
 
