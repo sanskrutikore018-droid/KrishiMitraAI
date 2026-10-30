@@ -82,10 +82,12 @@ export const FarmerProfileTracker: React.FC<FarmerProfileTrackerProps> = ({
 
           {!isEditing ? (
             <button
+              type="button"
               onClick={() => {
                 setTempProfile({ ...profile });
                 setIsEditing(true);
               }}
+              suppressHydrationWarning
               className="px-2.5 py-1 text-xs font-semibold rounded-md border border-gray-200 text-gray-700 hover:bg-gray-50 flex items-center space-x-1"
             >
               <Edit3 className="w-3 h-3 text-emerald-700" />
@@ -94,14 +96,18 @@ export const FarmerProfileTracker: React.FC<FarmerProfileTrackerProps> = ({
           ) : (
             <div className="flex items-center space-x-1">
               <button
+                type="button"
                 onClick={handleSave}
+                suppressHydrationWarning
                 className="px-2 py-1 text-xs font-bold rounded bg-emerald-600 text-white hover:bg-emerald-700 flex items-center space-x-1"
               >
                 <Check className="w-3 h-3" />
                 <span>{dict.saveProfile}</span>
               </button>
               <button
+                type="button"
                 onClick={handleCancel}
+                suppressHydrationWarning
                 className="px-2 py-1 text-xs font-medium rounded border border-gray-300 text-gray-600 hover:bg-gray-100"
               >
                 <X className="w-3 h-3" />
