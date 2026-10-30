@@ -5,16 +5,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Cpu,
   Leaf,
-  Bug,
-  ShieldCheck,
   Activity,
-  Radio,
   CheckCircle2,
-  Users,
-  ChevronRight,
-  TrendingUp,
-  Droplets,
-  Layers
+  Droplets
 } from 'lucide-react';
 import { SupportedLanguage } from '../lib/i18n';
 import { useTranslation } from '../context/LanguageContext';
@@ -24,7 +17,7 @@ interface AiNodeVisualizerProps {
 }
 
 export const AiNodeVisualizer: React.FC<AiNodeVisualizerProps> = ({ language: propLang }) => {
-  const { language: ctxLang, dict } = useTranslation();
+  const { language: ctxLang } = useTranslation();
   const language = propLang || ctxLang;
   const [activeNode, setActiveNode] = useState<string>('neural');
 
@@ -41,6 +34,16 @@ export const AiNodeVisualizer: React.FC<AiNodeVisualizerProps> = ({ language: pr
           : language === 'mr'
           ? 'न्यूरल पात्रता इंजिन'
           : 'Neural Eligibility Core',
+      shortTitle:
+        language === 'kn'
+          ? 'ನ್ಯೂರಲ್ ಇಂಜಿನ್'
+          : language === 'te'
+          ? 'న్యూరల్ కోర్'
+          : language === 'hi'
+          ? 'न्यूरल कोर'
+          : language === 'mr'
+          ? 'न्यूरल इंजिन'
+          : 'Neural Core',
       badge: 'Zero Hallucination',
       icon: Cpu,
       value: '100% Deterministic',
@@ -48,7 +51,7 @@ export const AiNodeVisualizer: React.FC<AiNodeVisualizerProps> = ({ language: pr
       color: 'from-emerald-400 to-green-500',
       description:
         language === 'kn'
-          ? 'ಕೇಂದ್ರ ಮತ್ತು ಕರ್ನಾಟಕ ಸರ್ಕಾರದ ಅಧಿಕೃತ ನಿಯಮಾವಳಿಗಳ ಆಧಾರದ ಮೇಲೆ ಕಂಪ್ಯೂಟರ್ ಪರಿಶೀಲನೆ.'
+          ? 'ಕೇಂದ್ರ ಮತ್ತು ಕರ್ನಾಟಕ ಸರ್ಕಾರದ ಅಧಿಕೃತ ಗೆಜೆಟ್ ನಿಯಮಾವಳಿಗಳ ಆಧಾರದ ಮೇಲೆ ಕಂಪ್ಯೂಟರ್ ಪರಿಶೀಲನೆ.'
           : language === 'te'
           ? 'కేంద్ర మరియు రాష్ట్ర ప్రభుత్వాల అధికారిక నిబంధనల ఆధారంగా ఖచ్చితమైన కంప్యూటర్ పరిశీలన.'
           : language === 'hi'
@@ -69,6 +72,16 @@ export const AiNodeVisualizer: React.FC<AiNodeVisualizerProps> = ({ language: pr
           : language === 'mr'
           ? 'पीक आरोग्य आणि कीड नियंत्रण'
           : 'Crop Health & Pest Detection',
+      shortTitle:
+        language === 'kn'
+          ? 'ಬೆಳೆ ಆರೋಗ್ಯ'
+          : language === 'te'
+          ? 'పంట ఆరోగ్యం'
+          : language === 'hi'
+          ? 'फसल स्वास्थ्य'
+          : language === 'mr'
+          ? 'पीक आरोग्य'
+          : 'Crop Health',
       badge: 'Precision Agritech',
       icon: Leaf,
       value: 'NDVI 0.84 Optimal',
@@ -97,6 +110,16 @@ export const AiNodeVisualizer: React.FC<AiNodeVisualizerProps> = ({ language: pr
           : language === 'mr'
           ? 'ठिबक व तुषार सिंचन नेटवर्क'
           : 'Micro-Irrigation Grid',
+      shortTitle:
+        language === 'kn'
+          ? 'ಹನಿ ನೀರಾವರಿ'
+          : language === 'te'
+          ? 'నీటిపారుదల'
+          : language === 'hi'
+          ? 'सूक्ष्म सिंचाई'
+          : language === 'mr'
+          ? 'ठिबक सिंचन'
+          : 'Irrigation',
       badge: 'Capital Subsidy',
       icon: Droplets,
       value: '90% Subsidy Eligible',
@@ -121,34 +144,34 @@ export const AiNodeVisualizer: React.FC<AiNodeVisualizerProps> = ({ language: pr
   return (
     <div className="relative w-full max-w-md lg:max-w-lg select-none">
       {/* Outer ambient glow */}
-      <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500/20 via-green-500/10 to-lime-500/20 rounded-3xl blur-xl opacity-75" />
+      <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500/20 via-green-500/10 to-lime-500/20 rounded-3xl blur-xl opacity-75 pointer-events-none" />
 
       {/* Main Glassmorphic Container matching Image 1 "Tech Nature" */}
       <div className="relative rounded-3xl vantara-panel p-5 sm:p-6 text-white border border-emerald-400/30 shadow-[0_20px_50px_rgba(0,0,0,0.7)] backdrop-blur-2xl">
         {/* Top Header Row with Active Node Counter & Live Pulse */}
-        <div className="flex items-center justify-between border-b border-emerald-800/40 pb-4 mb-4">
-          <div className="flex items-center space-x-2.5">
-            <div className="w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-lime-400">
+        <div className="flex items-center justify-between border-b border-emerald-800/40 pb-4 mb-4 gap-2">
+          <div className="flex items-center space-x-2.5 min-w-0">
+            <div className="w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-lime-400 shrink-0">
               <Activity className="w-4 h-4 animate-pulse" />
             </div>
-            <div>
-              <span className="text-xs font-bold text-white tracking-wide block">
+            <div className="min-w-0">
+              <span className="text-xs font-bold text-white tracking-wide block truncate">
                 AgriTech Precision Matrix
               </span>
-              <span className="text-[10px] text-lime-400 font-mono">
+              <span className="text-[10px] text-lime-400 font-mono truncate block">
                 5 Languages Active • Deterministic
               </span>
             </div>
           </div>
 
-          <div className="px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-400/30 text-[10px] font-bold text-emerald-300 flex items-center space-x-1.5 shadow-inner">
+          <div className="px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-400/30 text-[10px] font-bold text-emerald-300 flex items-center space-x-1.5 shadow-inner shrink-0">
             <span className="w-1.5 h-1.5 rounded-full bg-lime-400 animate-ping" />
             <span>578M+ Farmers</span>
           </div>
         </div>
 
         {/* 3 Interactive Clickable Nodes */}
-        <div className="grid grid-cols-3 gap-2.5 mb-5">
+        <div className="grid grid-cols-3 gap-2 sm:gap-2.5 mb-4">
           {nodes.map((node) => {
             const Icon = node.icon;
             const isSelected = activeNode === node.id;
@@ -156,17 +179,17 @@ export const AiNodeVisualizer: React.FC<AiNodeVisualizerProps> = ({ language: pr
               <motion.button
                 key={node.id}
                 onClick={() => setActiveNode(node.id)}
-                whileHover={{ scale: 1.04, y: -2 }}
+                whileHover={{ scale: 1.03, y: -2 }}
                 whileTap={{ scale: 0.96 }}
-                className={`p-3 rounded-2xl flex flex-col items-center text-center space-y-1.5 transition-all duration-200 cursor-pointer ${
+                className={`p-2.5 sm:p-3 rounded-2xl flex flex-col items-center text-center space-y-1 sm:space-y-1.5 transition-all duration-200 cursor-pointer ${
                   isSelected
                     ? 'bg-gradient-to-b from-emerald-600/90 to-green-700/80 border-2 border-lime-400 shadow-[0_0_20px_rgba(132,204,22,0.4)] text-white'
                     : 'bg-[#041209]/70 hover:bg-[#092211] border border-emerald-500/20 text-emerald-200'
                 }`}
               >
-                <Icon className={`w-5 h-5 ${isSelected ? 'text-white' : 'text-emerald-400'}`} />
-                <span className="text-[11px] font-bold leading-tight line-clamp-1">
-                  {node.title.split(' ')[0]}
+                <Icon className={`w-4 h-4 sm:w-5 sm:h-5 ${isSelected ? 'text-white' : 'text-emerald-400'}`} />
+                <span className="text-[10px] sm:text-[11px] font-bold leading-tight break-words line-clamp-1">
+                  {node.shortTitle}
                 </span>
                 <span className="text-[9px] opacity-75 font-mono">
                   {isSelected ? 'Active' : 'Select'}
@@ -179,29 +202,29 @@ export const AiNodeVisualizer: React.FC<AiNodeVisualizerProps> = ({ language: pr
         {/* Active Node Detail Card with Animated Content Transition */}
         <AnimatePresence mode="wait">
           <motion.div
-            key={currentActive.id}
-            initial={{ opacity: 0, y: 8 }}
+            key={`${currentActive.id}-${language}`}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.25 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.2 }}
             className="p-4 rounded-2xl bg-gradient-to-br from-[#041209]/90 to-[#0a2313]/90 border border-emerald-400/30 space-y-3 shadow-inner"
           >
-            <div className="flex items-start justify-between">
-              <div className="flex items-center space-x-2.5">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-green-600 flex items-center justify-center text-white shadow-md">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex items-center space-x-2.5 min-w-0">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-green-600 flex items-center justify-center text-white shadow-md shrink-0">
                   <IconComponent className="w-5 h-5 stroke-[2.2]" />
                 </div>
-                <div>
-                  <h4 className="text-sm font-bold text-white tracking-tight">
+                <div className="min-w-0">
+                  <h4 className="text-sm font-bold text-white tracking-tight truncate">
                     {currentActive.title}
                   </h4>
-                  <span className="text-[10px] text-lime-400 font-semibold uppercase tracking-wider">
+                  <span className="text-[10px] text-lime-400 font-semibold uppercase tracking-wider block truncate">
                     {currentActive.badge}
                   </span>
                 </div>
               </div>
 
-              <div className="text-right">
+              <div className="text-right shrink-0">
                 <span className="text-xs font-black text-white block">
                   {currentActive.value}
                 </span>
@@ -211,7 +234,7 @@ export const AiNodeVisualizer: React.FC<AiNodeVisualizerProps> = ({ language: pr
               </div>
             </div>
 
-            <p className="text-xs text-emerald-100/85 leading-relaxed font-normal">
+            <p className="text-xs text-emerald-100/85 leading-relaxed font-normal break-words">
               {currentActive.description}
             </p>
 

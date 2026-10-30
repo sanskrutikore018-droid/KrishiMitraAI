@@ -97,6 +97,7 @@ export const CinematicHero: React.FC<CinematicHeroProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           {/* Left Column (7 cols): Oversized Editorial Typography & Controls */}
           <motion.div
+            key={language}
             variants={containerVariants}
             initial="hidden"
             animate="visible"

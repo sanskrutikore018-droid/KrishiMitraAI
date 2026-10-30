@@ -191,12 +191,12 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     languageName: "ಕನ್ನಡ",
     switchLanguage: "Switch Language",
 
-    heroTitle1: "Better Answers.",
-    heroTitle2: "Stronger Farmers.",
-    heroTitle3: "A Greener Tomorrow.",
+    heroTitle1: "ಉತ್ತಮ ಉತ್ತರಗಳು.",
+    heroTitle2: "ಸಶಕ್ತ ರೈತರು.",
+    heroTitle3: "ಹಸಿರು ನಾಳೆ.",
     heroSubtitle: "ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು • ಅರ್ಹತಾ ಮಾರ್ಗದರ್ಶನ • ನಿಮ್ಮದೇ ಕನ್ನಡ ಭಾಷೆಯಲ್ಲಿ.",
     heroCTA: "ನಿಮ್ಮ ಪ್ರಯಾಣ ಆರಂಭಿಸಿ →",
-    scrollExplore: "ವಿವರಗಳಿಗಾಗಿ ಕೆಳಗೆ ಸ್ಕ್ರಾಲ್ ಮಾಡಿ",
+    scrollExplore: "↓ ವಿವರಗಳಿಗಾಗಿ ಕೆಳಗೆ ಸ್ಕ್ರಾಲ್ ಮಾಡಿ",
 
     storyHeading: "ಪ್ರತಿ ರೈತನಿಗೆ ಪ್ರಶ್ನೆಗಳಿವೆ.",
     storySubheading: "ಕೃಷಿ ಮಿತ್ರ AI ನಿಮ್ಮ ಜತೆಗಿದೆ.",
@@ -349,7 +349,7 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     heroTitle3: "A Greener Tomorrow.",
     heroSubtitle: "Government schemes • Eligibility guidance • In your language.",
     heroCTA: "Start Your Journey →",
-    scrollExplore: "Scroll to explore",
+    scrollExplore: "↓ Scroll to explore",
 
     storyHeading: "Every farmer has questions.",
     storySubheading: "Krishi Mitra AI is here to help.",
@@ -502,7 +502,7 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     heroTitle3: "एक हरा-भरा कल।",
     heroSubtitle: "सरकारी योजनाएं • पात्रता मार्गदर्शन • आपकी अपनी भाषा में।",
     heroCTA: "अपनी यात्रा शुरू करें →",
-    scrollExplore: "खोजने के लिए नीचे स्क्रॉल करें",
+    scrollExplore: "↓ खोजने के लिए नीचे स्क्रॉल करें",
 
     storyHeading: "हर किसान के मन में सवाल होते हैं।",
     storySubheading: "कृषि मित्र AI आपके साथ है।",
@@ -655,7 +655,7 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     heroTitle3: "హరిత రేపటి భవిత.",
     heroSubtitle: "ప్రభుత్వ పథకాలు • అర్హత మార్గదర్శకత్వం • మీ తెలుగు భాషలో.",
     heroCTA: "మీ ప్రయాణం ప్రారంభించండి →",
-    scrollExplore: "వివరాల కోసం క్రిందికి స్క్రోల్ చేయండి",
+    scrollExplore: "↓ వివరాల కోసం క్రిందికి స్క్రోల్ చేయండి",
 
     storyHeading: "ప్రతి రైతుకూ సందేహాలుంటాయి.",
     storySubheading: "కృషి మిత్ర AI మీకు సరైన మార్గం చూపుతుంది.",
@@ -808,7 +808,7 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
     heroTitle3: "एक समृद्ध उद्या.",
     heroSubtitle: "सरकारी योजना • पात्रता मार्गदर्शन • आपल्या स्वतःच्या भाषेत.",
     heroCTA: "आपला प्रवास सुरू करा →",
-    scrollExplore: "अधिक माहितीसाठी खाली स्क्रोल करा",
+    scrollExplore: "↓ अधिक माहितीसाठी खाली स्क्रोल करा",
 
     storyHeading: "प्रत्येक शेतकऱ्याच्या मनात प्रश्न असतात.",
     storySubheading: "कृषी मित्र AI आपल्या सोबत आहे.",
