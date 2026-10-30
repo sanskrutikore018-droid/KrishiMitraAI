@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { CinematicNavbar } from '../components/CinematicNavbar';
 import { CinematicHero } from '../components/CinematicHero';
 import { StorytellingSection } from '../components/StorytellingSection';
@@ -152,50 +153,61 @@ export default function Home() {
         isBackendHealthy={isBackendHealthy}
       />
 
-      {/* 2. Cinematic Animated Hero Section (Panel 1) */}
-      <CinematicHero
-        language={language}
-        onLanguageChange={setLanguage}
-        onStartJourney={handleStartJourney}
-      />
-
-      {/* 3. Scrolling Transition Storytelling Section (Panel 2) */}
-      <StorytellingSection language={language} />
-
-      {/* 4. Interactive Luminous AI Voice Assistant Core (Panel 3 & 6) */}
-      <LuminousVoiceCore
-        language={language}
-        onSendMessage={handleSendMessage}
-        isLoading={isLoading}
-        messages={messages}
-        currentProfile={profile}
-      />
-
-      {/* 5. Farmer Profile Slot Status Tracker */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
-        <div className="bg-[#091f11] p-1 rounded-3xl border border-emerald-500/20 shadow-xl">
-          <FarmerProfileTracker
-            profile={profile}
-            language={language as any}
-            onUpdateProfile={handleManualProfileUpdate}
+      {/* Buttery Smooth Animated Transition across Language Dictionaries */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={language}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25, ease: 'easeInOut' }}
+        >
+          {/* 2. Cinematic Animated Hero Section (Panel 1) */}
+          <CinematicHero
+            language={language}
+            onLanguageChange={setLanguage}
+            onStartJourney={handleStartJourney}
           />
-        </div>
-      </div>
 
-      {/* 6. Government Schemes Showcase Section (Panel 4) */}
-      <SchemesShowcase
-        schemes={schemes}
-        language={language}
-        onSelectScheme={(s) => setSelectedScheme(s)}
-      />
+          {/* 3. Scrolling Transition Storytelling Section (Panel 2) */}
+          <StorytellingSection language={language} />
 
-      {/* 7. Eligibility Assessment View (Panel 5) */}
-      <EligibilityAssessmentView
-        language={language}
-        profile={profile}
-        evaluations={schemes}
-        onOpenGuidance={(scheme) => setSelectedScheme(scheme || schemes[0])}
-      />
+          {/* 4. Interactive Luminous AI Voice Assistant Core (Panel 3 & 6) */}
+          <LuminousVoiceCore
+            language={language}
+            onSendMessage={handleSendMessage}
+            isLoading={isLoading}
+            messages={messages}
+            currentProfile={profile}
+          />
+
+          {/* 5. Farmer Profile Progressive Slot Status Tracker */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+            <div className="bg-[#091f11] p-1 rounded-3xl border border-emerald-500/20 shadow-2xl">
+              <FarmerProfileTracker
+                profile={profile}
+                language={language as any}
+                onUpdateProfile={handleManualProfileUpdate}
+              />
+            </div>
+          </div>
+
+          {/* 6. Government Schemes Showcase Section (Panel 4) */}
+          <SchemesShowcase
+            schemes={schemes}
+            language={language}
+            onSelectScheme={(s) => setSelectedScheme(s)}
+          />
+
+          {/* 7. Eligibility Assessment View (Panel 5) */}
+          <EligibilityAssessmentView
+            language={language}
+            profile={profile}
+            evaluations={schemes}
+            onOpenGuidance={(scheme) => setSelectedScheme(scheme || schemes[0])}
+          />
+        </motion.div>
+      </AnimatePresence>
 
       {/* Evidence & Details Dossier Modal */}
       <EvidenceModal

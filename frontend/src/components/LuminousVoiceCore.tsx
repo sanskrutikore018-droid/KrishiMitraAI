@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Mic,
   MicOff,
@@ -10,14 +11,14 @@ import {
   Sprout,
   Sparkles,
   Loader2,
-  AlertCircle,
   Clock,
   ChevronRight,
-  MessageSquare
+  MessageSquare,
+  Activity
 } from 'lucide-react';
 import { SupportedLanguage, getDictionary } from '../lib/i18n';
 import { ChatMessage, FarmerProfile } from '../types';
-import { sendAudioForSTT, requestTTS } from '../lib/api';
+import { sendAudioForSTT } from '../lib/api';
 
 interface LuminousVoiceCoreProps {
   language: SupportedLanguage;
@@ -43,12 +44,13 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
   const [recordingSeconds, setRecordingSeconds] = useState(0);
   const [liveTranscript, setLiveTranscript] = useState<string | null>(null);
   const [speakerMuted, setSpeakerMuted] = useState(false);
+  const [audioAmplitudes, setAudioAmplitudes] = useState<number[]>([30, 45, 20, 60, 40, 75, 50, 35]);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const animIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const recognitionRef = useRef<any>(null);
-  const audioPlayerRef = useRef<HTMLAudioElement | null>(null);
 
   // Sync external loading state to voice state
   useEffect(() => {
@@ -59,6 +61,31 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
     }
   }, [isLoading]);
 
+  // Dynamic Audio Visualizer simulation when active
+  useEffect(() => {
+    if (voiceState === 'listening' || voiceState === 'speaking') {
+      animIntervalRef.current = setInterval(() => {
+        setAudioAmplitudes([
+          Math.floor(20 + Math.random() * 65),
+          Math.floor(15 + Math.random() * 70),
+          Math.floor(30 + Math.random() * 60),
+          Math.floor(25 + Math.random() * 80),
+          Math.floor(20 + Math.random() * 75),
+          Math.floor(35 + Math.random() * 60),
+          Math.floor(15 + Math.random() * 65),
+          Math.floor(25 + Math.random() * 70)
+        ]);
+      }, 120);
+    } else {
+      if (animIntervalRef.current) clearInterval(animIntervalRef.current);
+      setAudioAmplitudes([16, 16, 16, 16, 16, 16, 16, 16]);
+    }
+
+    return () => {
+      if (animIntervalRef.current) clearInterval(animIntervalRef.current);
+    };
+  }, [voiceState]);
+
   // Clean up
   useEffect(() => {
     return () => {
@@ -66,13 +93,9 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
       if (recognitionRef.current) {
         try { recognitionRef.current.stop(); } catch (e) {}
       }
-      if (audioPlayerRef.current) {
-        audioPlayerRef.current.pause();
-      }
     };
   }, []);
 
-  // Quick chips
   const quickQueryChips = [
     { label: 'PM-KISAN', text: language === 'kn' ? 'PM-KISAN ಯೋಜನೆ ಮಾಹಿತಿ ನೀಡಿ' : 'Tell me about PM-KISAN' },
     { label: 'PMFBY', text: language === 'kn' ? 'PMFBY ಬೆಳೆ ವಿಮೆ ವಿವರಣೆ ಕೊಡಿ' : 'Explain PMFBY crop insurance' },
@@ -81,7 +104,6 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
     { label: language === 'kn' ? 'ಅರ್ಹತೆ ಪರಿಶೀಲನೆ' : 'Check Eligibility', text: language === 'kn' ? 'ನನ್ನ ಜಮೀನಿಗೆ ಯಾವ ಯೋಜನೆ ಸಿಗುತ್ತದೆ?' : 'Which schemes do I qualify for?' }
   ];
 
-  // Recent simulated conversation items for right sidebar matching Panel 3
   const recentTopics = [
     { title: dict.recentQ1, time: '10:24 AM' },
     { title: dict.recentQ2, time: '10:12 AM' },
@@ -93,7 +115,6 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
     setLiveTranscript(null);
     audioChunksRef.current = [];
 
-    // Try MediaRecorder
     try {
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
         throw new Error('MediaDevices not supported');
@@ -144,7 +165,6 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
   const processCapturedAudio = async (audioBlob: Blob) => {
     setVoiceState('processing');
     try {
-      // 1. Send to Sarvam STT
       const result = await sendAudioForSTT(audioBlob, language);
       if (result && result.transcript && result.transcript.trim()) {
         const text = result.transcript.trim();
@@ -153,7 +173,6 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
         setVoiceState('idle');
         onSendMessage(text);
       } else {
-        // Fallback to browser recognition
         startBrowserWebSpeech();
       }
     } catch (e) {
@@ -227,24 +246,6 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
     }
   };
 
-  // State styling helper for the glowing orb
-  const getOrbStateClass = () => {
-    switch (voiceState) {
-      case 'listening':
-        return 'animate-orb-listening from-emerald-400 via-green-500 to-emerald-600 scale-105';
-      case 'processing':
-        return 'animate-orb-processing from-sky-400 via-emerald-500 to-teal-600';
-      case 'speaking':
-        return 'animate-orb-speaking from-emerald-400 via-green-500 to-purple-600';
-      case 'error':
-        return 'from-amber-500 via-rose-600 to-red-700 shadow-rose-900/50';
-      case 'idle':
-      default:
-        return 'animate-orb-idle from-emerald-500 via-green-600 to-emerald-700';
-    }
-  };
-
-  // State status message
   const getStateText = () => {
     switch (voiceState) {
       case 'listening':
@@ -262,154 +263,205 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
   };
 
   return (
-    <section id="voice-core" className="relative py-16 sm:py-24 bg-gradient-to-b from-[#07160b] via-[#092211] to-[#07160b] text-white overflow-hidden border-t border-emerald-900/40">
-      {/* Background radial spotlights */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-emerald-500/10 rounded-full blur-[140px] pointer-events-none" />
+    <section
+      id="voice-core"
+      className="relative py-20 sm:py-28 bg-gradient-to-b from-[#07160b] via-[#092211] to-[#07160b] text-white overflow-hidden border-t border-emerald-900/40"
+    >
+      {/* Background radial spotlight */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-emerald-500/12 rounded-full blur-[160px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Main Left/Center: Luminous AI Voice Assistant Orb & Controls (8 cols) */}
-          <div className="lg:col-span-8 flex flex-col items-center text-center space-y-6">
-            {/* Header Titles */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* Main Left/Center: Luminous AI Voice Assistant Orb & Kinetic Waves (8 cols) */}
+          <div className="lg:col-span-8 flex flex-col items-center text-center space-y-7">
+            {/* Header Titles with Smooth Entrance */}
             <div className="space-y-2">
-              <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight drop-shadow-md">
+              <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight drop-shadow-lg">
                 {dict.voiceHeading}
               </h2>
-              <p className="text-lg sm:text-xl text-emerald-300 font-semibold drop-shadow-sm">
+              <p className="text-lg sm:text-2xl text-emerald-300 font-bold drop-shadow-sm">
                 {dict.voiceSubheading}
               </p>
             </div>
 
-            {/* The Central Breathing Luminous Green Orb & Audio Visualizers */}
-            <div className="relative my-6 py-6 w-full flex items-center justify-center">
-              {/* Left Audio Waveform Bars */}
-              <div className="hidden sm:flex items-center space-x-1.5 px-4 opacity-85">
-                {[40, 24, 60, 32, 52, 20, 68, 36].map((h, i) => (
-                  <div
+            {/* THE LIVING, BREATHING, HYPER-REALISTIC GLOWING GREEN CORE */}
+            <div className="relative my-4 py-8 w-full flex items-center justify-center">
+              {/* Left Bilateral Waveform Bars */}
+              <div className="hidden sm:flex items-center space-x-2 px-6">
+                {audioAmplitudes.map((amp, i) => (
+                  <motion.div
                     key={`w-left-${i}`}
-                    className={`w-1 rounded-full bg-gradient-to-t from-emerald-600 to-green-300 transition-all duration-300 ${
-                      voiceState === 'listening' || voiceState === 'speaking'
-                        ? 'animate-pulse'
-                        : 'opacity-40'
-                    }`}
-                    style={{
-                      height:
-                        voiceState === 'listening'
-                          ? `${Math.max(12, (h * 1.3) % 70)}px`
-                          : voiceState === 'speaking'
-                          ? `${Math.max(10, (h * 1.1) % 60)}px`
-                          : '16px'
-                    }}
+                    animate={{ height: `${amp}px` }}
+                    transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                    className="w-1.5 rounded-full bg-gradient-to-t from-emerald-600 via-green-400 to-emerald-200 shadow-[0_0_12px_rgba(74,222,128,0.5)]"
                   />
                 ))}
               </div>
 
-              {/* The Breathing Luminous Orb */}
-              <div className="relative group cursor-pointer" onClick={handleOrbClick}>
-                {/* Outer Ripple Wave Rings when recording */}
+              {/* Central Glowing Core Area with Expanding Rings */}
+              <div
+                className="relative group cursor-pointer select-none"
+                onClick={handleOrbClick}
+              >
+                {/* LISTENING STATE: Concentric Kinetic Sound Rings Expanding Outward */}
                 {voiceState === 'listening' && (
                   <>
-                    <div className="absolute -inset-6 rounded-full border border-emerald-400/40 animate-ping opacity-60" />
-                    <div className="absolute -inset-12 rounded-full border border-emerald-400/20 animate-pulse" />
+                    <motion.div
+                      animate={{ scale: [1, 2.2], opacity: [0.8, 0] }}
+                      transition={{ repeat: Infinity, duration: 1.8, ease: 'easeOut' }}
+                      className="absolute inset-0 rounded-full border-2 border-emerald-400"
+                    />
+                    <motion.div
+                      animate={{ scale: [1, 1.8], opacity: [0.6, 0] }}
+                      transition={{ repeat: Infinity, duration: 1.8, delay: 0.5, ease: 'easeOut' }}
+                      className="absolute inset-0 rounded-full border border-green-300"
+                    />
                   </>
                 )}
 
-                {/* Main Orb Body */}
-                <div
-                  className={`w-44 h-44 sm:w-56 sm:h-56 rounded-full bg-gradient-to-tr ${getOrbStateClass()} flex flex-col items-center justify-center shadow-2xl transition-all duration-500 relative z-10 border-2 border-emerald-300/40`}
-                >
-                  {/* Subtle inner reflection */}
-                  <div className="absolute top-3 left-6 w-16 h-8 bg-white/25 rounded-full blur-xs transform -rotate-25 pointer-events-none" />
+                {/* PROCESSING STATE: Fast Spinning Cosmic Data Ring */}
+                {voiceState === 'processing' && (
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ repeat: Infinity, duration: 2, ease: 'linear' }}
+                    className="absolute -inset-4 rounded-full border-2 border-dashed border-emerald-300 shadow-[0_0_25px_rgba(52,211,153,0.8)]"
+                  />
+                )}
 
-                  {/* Centered Sprout & Microphone Icon */}
-                  <div className="w-16 h-16 rounded-2xl bg-emerald-950/40 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-inner group-hover:scale-110 transition duration-300">
-                    {voiceState === 'listening' ? (
-                      <Mic className="w-8 h-8 text-white animate-pulse" />
-                    ) : (
-                      <Sprout className="w-9 h-9 text-emerald-100 stroke-[2.2]" />
-                    )}
+                {/* Frosted Glassmorphism Outer Glow Container */}
+                <div className="w-52 h-52 sm:w-64 sm:h-64 rounded-full p-3 backdrop-blur-xl bg-black/40 border border-emerald-500/30 shadow-[0_0_60px_rgba(16,185,129,0.35)] flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+                  {/* Living Breathing Glowing Core Sphere */}
+                  <div
+                    className={`w-full h-full rounded-full flex flex-col items-center justify-center relative overflow-hidden transition-all duration-500 ${
+                      voiceState === 'listening'
+                        ? 'animate-orb-listening bg-gradient-to-tr from-emerald-400 via-green-500 to-emerald-600'
+                        : voiceState === 'processing'
+                        ? 'animate-orb-processing bg-gradient-to-tr from-sky-400 via-emerald-500 to-teal-500'
+                        : voiceState === 'speaking'
+                        ? 'animate-orb-speaking bg-gradient-to-tr from-emerald-400 via-green-500 to-purple-500'
+                        : voiceState === 'error'
+                        ? 'bg-gradient-to-tr from-amber-500 to-red-600 shadow-[0_0_50px_rgba(239,68,68,0.7)]'
+                        : 'animate-orb-idle bg-gradient-to-tr from-emerald-500 via-green-600 to-emerald-700'
+                    }`}
+                  >
+                    {/* Inner Organic Glass Highlight */}
+                    <div className="absolute top-4 left-8 w-20 h-10 bg-white/30 rounded-full blur-xs transform -rotate-25 pointer-events-none" />
+
+                    {/* Icon Core */}
+                    <motion.div
+                      whileHover={{ scale: 1.15 }}
+                      whileTap={{ scale: 0.9 }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                      className="w-20 h-20 rounded-2xl bg-black/40 backdrop-blur-md border border-white/30 flex items-center justify-center shadow-2xl"
+                    >
+                      {voiceState === 'listening' ? (
+                        <Mic className="w-10 h-10 text-white animate-pulse" />
+                      ) : voiceState === 'processing' ? (
+                        <Loader2 className="w-10 h-10 text-emerald-200 animate-spin" />
+                      ) : (
+                        <Sprout className="w-11 h-11 text-emerald-100 stroke-[2.4]" />
+                      )}
+                    </motion.div>
+
+                    {/* State Tag */}
+                    <span className="text-[11px] font-black uppercase tracking-wider text-emerald-950 bg-white/95 px-3 py-0.5 rounded-full mt-3 shadow-md">
+                      {voiceState === 'listening'
+                        ? 'Listening'
+                        : voiceState === 'processing'
+                        ? 'Evaluating'
+                        : voiceState === 'speaking'
+                        ? 'Speaking'
+                        : 'Krishi Mitra AI'}
+                    </span>
                   </div>
-
-                  <span className="text-[11px] font-black uppercase tracking-wider text-emerald-950 bg-white/90 px-3 py-0.5 rounded-full mt-2.5 shadow-sm">
-                    {voiceState === 'listening' ? 'Speaking...' : 'Krishi Mitra'}
-                  </span>
                 </div>
               </div>
 
-              {/* Right Audio Waveform Bars */}
-              <div className="hidden sm:flex items-center space-x-1.5 px-4 opacity-85">
-                {[36, 68, 20, 52, 32, 60, 24, 40].map((h, i) => (
-                  <div
+              {/* Right Bilateral Waveform Bars */}
+              <div className="hidden sm:flex items-center space-x-2 px-6">
+                {[...audioAmplitudes].reverse().map((amp, i) => (
+                  <motion.div
                     key={`w-right-${i}`}
-                    className={`w-1 rounded-full bg-gradient-to-t from-emerald-600 to-green-300 transition-all duration-300 ${
-                      voiceState === 'listening' || voiceState === 'speaking'
-                        ? 'animate-pulse'
-                        : 'opacity-40'
-                    }`}
-                    style={{
-                      height:
-                        voiceState === 'listening'
-                          ? `${Math.max(12, (h * 1.3) % 70)}px`
-                          : voiceState === 'speaking'
-                          ? `${Math.max(10, (h * 1.1) % 60)}px`
-                          : '16px'
-                    }}
+                    animate={{ height: `${amp}px` }}
+                    transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                    className="w-1.5 rounded-full bg-gradient-to-t from-emerald-600 via-green-400 to-emerald-200 shadow-[0_0_12px_rgba(74,222,128,0.5)]"
                   />
                 ))}
               </div>
             </div>
 
-            {/* Live State & Transcript Indicator */}
-            <div className="space-y-2 max-w-md w-full">
-              <button
+            {/* Live State & Spoken Transcript Banner */}
+            <div className="space-y-3 max-w-lg w-full">
+              <motion.button
                 onClick={handleOrbClick}
-                className="px-5 py-2 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-xs sm:text-sm font-bold text-emerald-300 hover:bg-emerald-900 transition shadow-md flex items-center justify-center space-x-2 mx-auto"
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
+                transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                className="px-6 py-2.5 rounded-full bg-emerald-950/80 border border-emerald-500/40 text-xs sm:text-sm font-black text-emerald-200 hover:bg-emerald-900 transition shadow-xl flex items-center justify-center space-x-2 mx-auto cursor-pointer"
               >
                 {voiceState === 'listening' ? (
-                  <MicOff className="w-4 h-4 text-rose-400" />
+                  <MicOff className="w-4 h-4 text-rose-400 animate-pulse" />
                 ) : (
                   <Mic className="w-4 h-4 text-emerald-400" />
                 )}
                 <span>{getStateText()}</span>
-              </button>
+              </motion.button>
 
-              {/* Recognized Live Speech Preview */}
-              {liveTranscript && (
-                <div className="p-3 bg-emerald-950/90 border border-emerald-500/40 rounded-2xl text-xs sm:text-sm text-emerald-100 shadow-xl animate-in fade-in">
-                  <span className="text-[11px] text-emerald-400 font-bold block mb-0.5">
-                    ಗುರುತಿಸಿದ ಧ್ವನಿ / Recognized Voice:
-                  </span>
-                  <p className="font-semibold italic">"{liveTranscript}"</p>
-                </div>
-              )}
+              {/* Editable / Recognized Live Speech Preview */}
+              <AnimatePresence>
+                {liveTranscript && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="p-3.5 bg-emerald-950/90 border border-emerald-400/50 rounded-2xl text-xs sm:text-sm text-emerald-100 shadow-2xl backdrop-blur-xl"
+                  >
+                    <span className="text-[11px] text-emerald-400 font-bold block mb-1">
+                      ಗುರುತಿಸಿದ ಧ್ವನಿ / Recognized Voice:
+                    </span>
+                    <p className="font-semibold italic leading-relaxed">
+                      "{liveTranscript}"
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
-            {/* Quick Query Pills */}
-            <div className="flex items-center justify-center flex-wrap gap-2 pt-2 max-w-2xl">
+            {/* Quick Action Suggestion Chips */}
+            <div className="flex items-center justify-center flex-wrap gap-2 pt-1 max-w-2xl">
               {quickQueryChips.map((chip, idx) => (
-                <button
+                <motion.button
                   key={idx}
                   onClick={() => onSendMessage(chip.text)}
-                  className="px-3 py-1.5 rounded-full bg-emerald-950/60 hover:bg-emerald-800 text-xs font-semibold text-emerald-200 border border-emerald-500/30 shadow-sm transition active:scale-95"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                  className="px-3.5 py-1.5 rounded-full bg-emerald-950/70 hover:bg-emerald-800 text-xs font-bold text-emerald-200 border border-emerald-500/40 shadow-md transition cursor-pointer"
                 >
                   {chip.label}
-                </button>
+                </motion.button>
               ))}
             </div>
 
-            {/* Bottom Input Dock */}
-            <div className="w-full max-w-xl glass-panel p-2.5 rounded-2xl flex items-center space-x-2 shadow-2xl border border-emerald-500/30">
-              <button
+            {/* Frosted Glassmorphism Bottom Input Dock */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="w-full max-w-xl p-3 rounded-2xl backdrop-blur-xl bg-black/50 border border-emerald-500/40 shadow-[0_0_50px_rgba(16,185,129,0.25)] flex items-center space-x-2"
+            >
+              <motion.button
                 onClick={handleOrbClick}
-                className={`p-2.5 rounded-xl transition ${
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.92 }}
+                className={`p-3 rounded-xl transition cursor-pointer ${
                   voiceState === 'listening'
                     ? 'bg-rose-600 text-white animate-pulse'
                     : 'bg-emerald-600 hover:bg-emerald-500 text-white'
                 }`}
-                title="Voice input"
+                title="Toggle microphone"
               >
                 {voiceState === 'listening' ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
-              </button>
+              </motion.button>
 
               <input
                 type="text"
@@ -417,81 +469,94 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
                 onChange={(e) => setInputText(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSendText()}
                 placeholder={dict.typePlaceholder}
-                className="flex-1 bg-transparent text-sm text-white placeholder-emerald-300/40 focus:outline-none px-2"
+                className="flex-1 bg-transparent text-sm text-white placeholder-emerald-300/45 focus:outline-none px-2 font-medium"
               />
 
-              <button
+              <motion.button
                 onClick={() => setSpeakerMuted(!speakerMuted)}
-                className="p-2 rounded-xl text-emerald-300 hover:bg-emerald-900/60 transition"
-                title={speakerMuted ? 'Muted' : 'Sound On'}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className="p-2.5 rounded-xl text-emerald-300 hover:bg-emerald-900/60 transition cursor-pointer"
+                title={speakerMuted ? 'Muted' : 'Sound Active'}
               >
-                {speakerMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-              </button>
+                {speakerMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+              </motion.button>
 
-              <button
+              <motion.button
                 onClick={handleSendText}
                 disabled={!inputText.trim() || isLoading}
-                className={`p-2.5 rounded-xl transition ${
+                whileHover={{ scale: 1.06 }}
+                whileTap={{ scale: 0.92 }}
+                className={`p-3 rounded-xl transition cursor-pointer ${
                   inputText.trim() && !isLoading
-                    ? 'bg-emerald-500 hover:bg-emerald-400 text-emerald-950 font-bold'
+                    ? 'bg-gradient-to-r from-emerald-500 to-green-400 text-emerald-950 font-black shadow-lg shadow-emerald-500/30'
                     : 'bg-white/5 text-gray-500 cursor-not-allowed'
                 }`}
               >
-                <Send className="w-4 h-4" />
-              </button>
-            </div>
+                <Send className="w-5 h-5" />
+              </motion.button>
+            </motion.div>
           </div>
 
-          {/* Right Column: Recent Conversation Card Deck (Panel 3 Sidebar) */}
-          <div className="lg:col-span-4 glass-panel p-5 rounded-3xl border border-emerald-500/20 space-y-4">
-            <div className="flex items-center justify-between border-b border-emerald-800/40 pb-3">
+          {/* Right Column: Recent Conversations Feed Deck (Panel 3 Sidebar) */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="lg:col-span-4 p-5 sm:p-6 rounded-3xl backdrop-blur-xl bg-black/40 border border-emerald-500/30 shadow-2xl space-y-4"
+          >
+            <div className="flex items-center justify-between border-b border-emerald-800/50 pb-3">
               <div className="flex items-center space-x-2">
                 <Clock className="w-4 h-4 text-emerald-400" />
                 <h3 className="text-sm font-bold text-white tracking-wide">
                   {dict.recentConversations}
                 </h3>
               </div>
-              <span className="text-[10px] text-emerald-300 bg-emerald-900/60 px-2 py-0.5 rounded-full font-mono">
+              <span className="text-[10px] text-emerald-300 bg-emerald-900/70 px-2.5 py-0.5 rounded-full font-mono border border-emerald-500/30">
                 Live Feed
               </span>
             </div>
 
-            {/* Conversation History Cards */}
+            {/* Conversation History Cards with Spring Hover */}
             <div className="space-y-2.5">
               {recentTopics.map((item, idx) => (
-                <div
+                <motion.div
                   key={idx}
                   onClick={() => onSendMessage(item.title)}
-                  className="p-3 rounded-2xl bg-emerald-950/50 hover:bg-emerald-900/60 border border-emerald-800/30 cursor-pointer transition flex items-center justify-between group"
+                  whileHover={{ x: 4, scale: 1.02 }}
+                  transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                  className="p-3.5 rounded-2xl bg-emerald-950/60 hover:bg-emerald-900/70 border border-emerald-800/40 cursor-pointer transition flex items-center justify-between group shadow-sm"
                 >
-                  <div className="flex items-center space-x-2.5">
+                  <div className="flex items-center space-x-3">
                     <MessageSquare className="w-4 h-4 text-emerald-400 shrink-0 group-hover:scale-110 transition" />
                     <div>
-                      <span className="text-xs font-semibold text-emerald-100 group-hover:text-emerald-300 transition block">
+                      <span className="text-xs font-bold text-emerald-100 group-hover:text-emerald-300 transition block">
                         {item.title}
                       </span>
-                      <span className="text-[10px] text-emerald-400/60 font-mono">
+                      <span className="text-[10px] text-emerald-400/70 font-mono">
                         {item.time}
                       </span>
                     </div>
                   </div>
-                  <ChevronRight className="w-4 h-4 text-emerald-500/50 group-hover:text-emerald-300 group-hover:translate-x-0.5 transition" />
-                </div>
+                  <ChevronRight className="w-4 h-4 text-emerald-500/60 group-hover:text-emerald-300 group-hover:translate-x-1 transition" />
+                </motion.div>
               ))}
             </div>
 
-            {/* Real-time dialogue bubble if active messages exist */}
+            {/* Real-time Dialogue History Bubble */}
             {messages.length > 0 && (
-              <div className="pt-3 border-t border-emerald-800/40">
-                <span className="text-[11px] font-bold text-emerald-400 block mb-1">
-                  ಸಕ್ರಿಯ ಪ್ರತಿಕ್ರಿಯೆ / Latest AI Response:
+              <div className="pt-3 border-t border-emerald-800/50">
+                <span className="text-[11px] font-bold text-emerald-400 block mb-1.5 flex items-center space-x-1">
+                  <Activity className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
+                  <span>ಸಕ್ರಿಯ ಪ್ರತಿಕ್ರಿಯೆ / Latest AI Response:</span>
                 </span>
-                <p className="text-xs text-emerald-200/90 bg-emerald-950/70 p-3 rounded-xl border border-emerald-700/30 leading-relaxed max-h-36 overflow-y-auto">
+                <div className="text-xs text-emerald-100/90 bg-emerald-950/80 p-3.5 rounded-2xl border border-emerald-600/40 leading-relaxed max-h-40 overflow-y-auto shadow-inner">
                   {messages[messages.length - 1].content}
-                </p>
+                </div>
               </div>
             )}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

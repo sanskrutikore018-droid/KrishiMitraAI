@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { ArrowRight, ChevronDown, Sparkles, Sprout, ShieldCheck } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, ChevronDown, Sparkles, Shield, Globe } from 'lucide-react';
 import { SupportedLanguage, getDictionary } from '../lib/i18n';
 
 interface CinematicHeroProps {
@@ -17,62 +18,144 @@ export const CinematicHero: React.FC<CinematicHeroProps> = ({
 }) => {
   const dict = getDictionary(language);
 
-  return (
-    <section id="hero" className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-[#07170b]">
-      {/* Background Cinematic Atmosphere */}
-      <div className="absolute inset-0 z-0">
-        {/* Cinematic landscape background image */}
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-85 scale-105 transition-transform duration-1000 ease-out"
-          style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=2070&auto=format&fit=crop')`
-          }}
-        />
+  // Staggered text reveal container
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.18,
+        delayChildren: 0.2
+      }
+    }
+  };
 
-        {/* Ambient atmospheric lighting and mist gradients */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#06150b] via-[#06150b]/60 to-black/40" />
-        <div className="absolute inset-0 bg-radial from-transparent via-[#06150b]/40 to-[#06150b]/90" />
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
+  const lineVariants = {
+    hidden: { opacity: 0, y: 40, filter: 'blur(6px)' },
+    visible: {
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      transition: {
+        duration: 0.9,
+        ease: [0.16, 1, 0.3, 1] as any
+      }
+    }
+  };
+
+  const handleScrollExplore = () => {
+    const el = document.getElementById('story');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <section
+      id="hero"
+      className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-black text-white"
+    >
+      {/* 1. CINEMATIC VIDEO BACKGROUND & CINEMATIC GRADIENT OVERLAY */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        {/* High-definition Looping Agricultural Video */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=2070&auto=format&fit=crop"
+          className="absolute inset-0 w-full h-full object-cover scale-105 pointer-events-none transition-transform duration-1000 ease-out"
+        >
+          {/* CDN video sources with high compatibility */}
+          <source
+            src="https://cdn.coverr.co/videos/coverr-sun-over-a-green-field-5178/1080p.mp4"
+            type="video/mp4"
+          />
+          <source
+            src="https://assets.mixkit.co/videos/preview/mixkit-wind-blowing-through-a-wheat-field-42795-large.mp4"
+            type="video/mp4"
+          />
+        </video>
+
+        {/* Cinematic Multi-layered Dark Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/45 to-[#06150b]/90 pointer-events-none" />
+        <div className="absolute inset-0 bg-radial from-transparent via-black/40 to-black/80 pointer-events-none" />
+
+        {/* Ambient atmospheric green glow orb */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[750px] h-[450px] bg-emerald-500/20 rounded-full blur-[140px] pointer-events-none animate-pulse" />
       </div>
 
       {/* Spacer for sticky navbar */}
-      <div className="h-20" />
+      <div className="h-20 sm:h-24" />
 
-      {/* Center Content: Oversized Typography & Controls */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full my-auto py-12 flex flex-col items-start justify-center">
-        {/* Subtle Badge */}
-        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-950/70 border border-emerald-400/30 text-emerald-200 text-xs font-semibold backdrop-blur-md mb-6 shadow-lg animate-in fade-in slide-in-from-top-4 duration-700">
-          <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-          <span>{dict.appSubtitle}</span>
-        </div>
+      {/* 2. MAIN CENTER HERO CONTENT WITH WORD-BY-WORD STAGGER */}
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full my-auto py-10 flex flex-col items-start justify-center"
+      >
+        {/* Top Badges: Brand & Government of India */}
+        <motion.div
+          variants={lineVariants}
+          className="flex flex-wrap items-center gap-2.5 mb-6"
+        >
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-400/40 text-emerald-200 text-xs font-semibold backdrop-blur-xl shadow-lg">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-spin" />
+            <span>{dict.appSubtitle}</span>
+          </div>
 
-        {/* Oversized Cinematic Typography */}
+          <div className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-black/40 border border-white/20 text-xs font-medium text-emerald-100 backdrop-blur-md">
+            <Shield className="w-3.5 h-3.5 text-amber-400" />
+            <span>{dict.govIndia}</span>
+          </div>
+        </motion.div>
+
+        {/* Oversized Cinematic Typography with Staggered Reveal */}
         <div className="space-y-1 sm:space-y-2 mb-6">
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-white tracking-tight leading-[1.08] drop-shadow-md">
+          <motion.h1
+            variants={lineVariants}
+            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tight leading-[1.06] drop-shadow-2xl"
+          >
             {dict.heroTitle1}
-          </h1>
-          <h2 className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-emerald-300 tracking-tight leading-[1.08] drop-shadow-md">
+          </motion.h1>
+
+          <motion.h2
+            variants={lineVariants}
+            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-green-300 to-emerald-200 tracking-tight leading-[1.06] drop-shadow-2xl"
+          >
             {dict.heroTitle2}
-          </h2>
-          <h2 className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-emerald-100 tracking-tight leading-[1.08] drop-shadow-md">
+          </motion.h2>
+
+          <motion.h2
+            variants={lineVariants}
+            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-emerald-100/90 tracking-tight leading-[1.06] drop-shadow-2xl"
+          >
             {dict.heroTitle3}
-          </h2>
+          </motion.h2>
         </div>
 
-        {/* Subtitle */}
-        <p className="text-sm sm:text-lg text-emerald-100/90 max-w-2xl font-medium tracking-wide mb-8 drop-shadow-sm leading-relaxed">
+        {/* Subtitle with fade-in */}
+        <motion.p
+          variants={lineVariants}
+          className="text-sm sm:text-lg md:text-xl text-emerald-100/90 max-w-2xl font-medium tracking-wide mb-8 drop-shadow-md leading-relaxed"
+        >
           {dict.heroSubtitle}
-        </p>
+        </motion.p>
 
-        {/* Interactive Action Controls */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
+        {/* Action Controls with Spring Physics */}
+        <motion.div
+          variants={lineVariants}
+          className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 w-full sm:w-auto"
+        >
           {/* Language Selector Pill */}
-          <div className="flex items-center space-x-2 bg-emerald-950/80 backdrop-blur-md border border-emerald-400/30 rounded-2xl px-4 py-3 text-xs font-bold text-white shadow-xl">
-            <span className="text-emerald-400">ಭಾಷೆ / Lang:</span>
+          <div className="flex items-center space-x-2 bg-emerald-950/80 backdrop-blur-xl border border-emerald-400/40 rounded-2xl px-4 py-3 text-xs font-bold text-white shadow-xl hover:border-emerald-300 transition">
+            <Globe className="w-4 h-4 text-emerald-400" />
+            <span className="text-emerald-300 font-medium">ಭಾಷೆ / Lang:</span>
             <select
               value={language}
               onChange={(e) => onLanguageChange(e.target.value as SupportedLanguage)}
-              className="bg-transparent text-emerald-200 font-bold focus:outline-none cursor-pointer"
+              className="bg-transparent text-emerald-200 font-extrabold focus:outline-none cursor-pointer"
             >
               <option value="kn" className="bg-[#091f11] text-white">ಕನ್ನಡ (Kannada)</option>
               <option value="en" className="bg-[#091f11] text-white">English</option>
@@ -81,31 +164,40 @@ export const CinematicHero: React.FC<CinematicHeroProps> = ({
             </select>
           </div>
 
-          {/* Primary CTA Button: Start Your Journey -> */}
-          <button
+          {/* Primary CTA Button: Start Your Journey -> with Spring Interaction */}
+          <motion.button
             onClick={onStartJourney}
-            className="px-7 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 hover:from-emerald-500 hover:to-green-400 text-white font-extrabold text-sm sm:text-base shadow-2xl shadow-emerald-900/60 transition transform active:scale-95 flex items-center justify-center space-x-2 group border border-emerald-300/30"
+            whileHover={{ scale: 1.04, y: -2 }}
+            whileTap={{ scale: 0.96 }}
+            transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+            className="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 hover:from-emerald-500 hover:to-green-400 text-white font-black text-sm sm:text-base shadow-2xl shadow-emerald-900/80 flex items-center justify-center space-x-2.5 group border border-emerald-300/40 cursor-pointer"
           >
             <span>{dict.heroCTA}</span>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition duration-200" />
-          </button>
-        </div>
-      </div>
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-200" />
+          </motion.button>
+        </motion.div>
+      </motion.div>
 
-      {/* Bottom Scroll Indicator with bouncing icon */}
-      <div className="relative z-10 pb-8 flex flex-col items-center justify-center text-center">
-        <a
-          href="#story"
-          className="group flex flex-col items-center space-y-1.5 text-xs font-semibold text-emerald-300/80 hover:text-white transition"
+      {/* 3. PULSING INTERACTIVE "SCROLL TO EXPLORE" INDICATOR */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.2, duration: 0.8 }}
+        className="relative z-10 pb-8 flex flex-col items-center justify-center text-center cursor-pointer"
+        onClick={handleScrollExplore}
+      >
+        <motion.div
+          whileHover={{ y: 3 }}
+          className="group flex flex-col items-center space-y-2 text-xs font-semibold text-emerald-300/80 hover:text-white transition"
         >
-          <span className="tracking-widest uppercase text-[11px] font-bold">
+          <span className="tracking-widest uppercase text-[11px] font-bold text-emerald-300 group-hover:text-emerald-100 transition">
             {dict.scrollExplore}
           </span>
-          <div className="w-7 h-7 rounded-full bg-white/5 border border-emerald-400/30 flex items-center justify-center group-hover:border-emerald-300 transition">
+          <div className="w-8 h-8 rounded-full bg-white/5 border border-emerald-400/40 flex items-center justify-center group-hover:border-emerald-300 group-hover:bg-emerald-500/10 transition shadow-lg">
             <ChevronDown className="w-4 h-4 text-emerald-400 animate-bounce" />
           </div>
-        </a>
-      </div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 };

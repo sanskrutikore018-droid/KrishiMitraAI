@@ -174,3 +174,4 @@ export const EligibilityAssessmentView: React.FC<EligibilityAssessmentViewProps>
     </section>
   );
 };
+

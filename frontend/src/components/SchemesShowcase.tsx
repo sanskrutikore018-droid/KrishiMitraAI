@@ -187,3 +187,4 @@ export const SchemesShowcase: React.FC<SchemesShowcaseProps> = ({
     </section>
   );
 };
+
