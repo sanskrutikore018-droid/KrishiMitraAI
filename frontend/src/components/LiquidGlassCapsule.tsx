@@ -64,3 +64,4 @@ export const LiquidGlassCapsule: React.FC<LiquidGlassCapsuleProps> = ({ language
     </div>
   );
 };
+

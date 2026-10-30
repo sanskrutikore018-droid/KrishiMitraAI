@@ -20,7 +20,7 @@ export const StorytellingSection: React.FC<StorytellingSectionProps> = ({ langua
       tag: 'Mechanization'
     },
     {
-      img: 'https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?q=80&w=800&auto=format&fit=crop',
+      img: '/images/soil-health.jpg',
       title: dict.storyCard2Title,
       desc: dict.storyCard2Desc,
       tag: 'Soil Health'
