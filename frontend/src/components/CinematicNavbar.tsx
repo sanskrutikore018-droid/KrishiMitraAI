@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Sprout, Globe, ChevronDown, Check, User, LogOut, Settings, Menu, X } from 'lucide-react';
+import { Sprout, Globe, ChevronDown, Check, User, LogOut, Settings, Menu, X, Cpu } from 'lucide-react';
 import { useTranslation } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import { SupportedLanguage } from '../lib/i18n';
@@ -114,8 +114,20 @@ export const CinematicNavbar: React.FC<CinematicNavbarProps> = ({
           })}
         </div>
 
-        {/* Zone 3 (Right): Utility & Action cluster (ONLY Language Dropdown + Farmer Login/Profile) */}
+        {/* Zone 3 (Right): Utility & Action cluster */}
         <div className="flex items-center space-x-3 shrink-0">
+          {/* Sarvam AI Voice Indicator Pill */}
+          {onOpenSettings && (
+            <button
+              onClick={onOpenSettings}
+              className="hidden lg:flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-emerald-950/80 hover:bg-emerald-900/90 text-[11px] font-bold text-lime-300 border border-emerald-500/40 hover:border-lime-400 transition shadow-sm cursor-pointer"
+              title="Click to configure Sarvam AI & Voice"
+            >
+              <Cpu className="w-3.5 h-3.5 text-lime-400" />
+              <span>Sarvam Voice</span>
+            </button>
+          )}
+
           {/* 1. 5-Language Reactive Selector Dropdown */}
           <div className="relative" ref={langRef}>
             <button

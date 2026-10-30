@@ -58,8 +58,9 @@ class SarvamVoiceService:
         }
 
         try:
+            content_type = "audio/webm" if (filename and filename.endswith(".webm")) else "audio/wav"
             files = {
-                "file": (filename, audio_bytes, "audio/wav")
+                "file": (filename, audio_bytes, content_type)
             }
             # Official current Sarvam STT model (Saaras) with transcribe mode
             data = {

@@ -80,9 +80,17 @@ export async function sendChatMessage(
 
 export async function sendAudioForSTT(audioBlob: Blob, language: Language = 'kn'): Promise<{ transcript: string; provider: string } | null> {
   try {
+    const langMap: Record<Language, string> = {
+      kn: 'kn-IN',
+      hi: 'hi-IN',
+      mr: 'mr-IN',
+      te: 'te-IN',
+      en: 'en-IN'
+    };
     const formData = new FormData();
-    formData.append('file', audioBlob, 'voice_input.wav');
-    formData.append('language_code', language === 'kn' ? 'kn-IN' : 'en-IN');
+    const ext = audioBlob.type.includes('webm') ? 'webm' : 'wav';
+    formData.append('file', audioBlob, `voice_input.${ext}`);
+    formData.append('language_code', langMap[language] || 'kn-IN');
 
     const res = await fetch(`${API_BASE_URL}/api/voice/stt`, {
       method: 'POST',
@@ -118,6 +126,67 @@ export async function requestTTS(text: string, language: Language = 'kn'): Promi
   } catch (err) {
     console.error('TTS API error:', err);
     return null;
+  }
+}
+
+export interface VoiceStatus {
+  sarvam_configured: boolean;
+  masked_key?: string | null;
+  stt_model: string;
+  tts_model: string;
+  supported_languages: string[];
+  active_speakers: Record<string, string>;
+  voice_engine: string;
+}
+
+export async function getVoiceStatus(): Promise<VoiceStatus | null> {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/voice/status`, {
+      cache: 'no-store'
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+    return null;
+  } catch (err) {
+    return null;
+  }
+}
+
+export async function saveSarvamApiKey(apiKey: string): Promise<{ success: boolean; message: string }> {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/voice/config`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ api_key: apiKey })
+    });
+    const data = await res.json();
+    if (res.ok && data.success) {
+      return { success: true, message: data.message || 'Sarvam AI connected successfully!' };
+    }
+    return { success: false, message: data.detail || 'Failed to connect Sarvam AI' };
+  } catch (err: any) {
+    return { success: false, message: err.message || 'Network error saving API key' };
+  }
+}
+
+export async function testSarvamVoice(language: Language = 'kn'): Promise<{ success: boolean; audioBase64?: string; text?: string; error?: string }> {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/voice/test-sarvam?language=${language}`, {
+      method: 'POST'
+    });
+    if (res.ok) {
+      const data = await res.json();
+      return {
+        success: data.success,
+        audioBase64: data.audio_base64,
+        text: data.text,
+        error: data.error
+      };
+    }
+    return { success: false, error: `HTTP ${res.status}` };
+  } catch (err: any) {
+    return { success: false, error: err.message };
   }
 }
 

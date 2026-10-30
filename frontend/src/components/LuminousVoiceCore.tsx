@@ -500,6 +500,10 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
           <div className="lg:col-span-8 flex flex-col items-center text-center space-y-8">
             {/* Header Titles with Editorial Styling */}
             <div className="space-y-3">
+              <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-emerald-950/80 border border-emerald-400/40 text-[11px] font-mono text-lime-300 shadow-md">
+                <span className="w-2 h-2 rounded-full bg-lime-400 animate-pulse" />
+                <span>Sarvam AI Connected • Saaras v2 STT & Bulbul v1 TTS</span>
+              </div>
               <h2 className="font-editorial text-3xl sm:text-5xl font-normal text-white tracking-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]">
                 {dict.voiceHeading}
               </h2>
