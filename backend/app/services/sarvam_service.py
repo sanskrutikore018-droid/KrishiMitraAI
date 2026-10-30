@@ -58,30 +58,49 @@ class SarvamVoiceService:
         }
 
         try:
-            content_type = "audio/webm" if (filename and filename.endswith(".webm")) else "audio/wav"
+            # Detect proper MIME type
+            if filename.endswith(".webm"):
+                content_type = "audio/webm"
+            elif filename.endswith(".mp3"):
+                content_type = "audio/mpeg"
+            elif filename.endswith(".ogg"):
+                content_type = "audio/ogg"
+            elif filename.endswith(".m4a") or filename.endswith(".mp4"):
+                content_type = "audio/mp4"
+            else:
+                content_type = "audio/wav"
+
             files = {
                 "file": (filename, audio_bytes, content_type)
             }
-            # Official current Sarvam STT model (Saaras) with transcribe mode
+            # Official current Sarvam STT model (Saaras v3 / v2) with transcribe mode
             data = {
-                "model": "saaras:v2",
+                "model": "saaras:v3",
                 "language_code": lang_param,
                 "mode": "transcribe"
             }
 
-            async with httpx.AsyncClient(timeout=15.0) as client:
+            # Extended 60s timeout for full natural sentence audio processing
+            async with httpx.AsyncClient(timeout=60.0) as client:
                 resp = await client.post(SARVAM_STT_URL, headers=headers, files=files, data=data)
+                
+                # If model saaras:v3 isn't recognized on current tier, fallback to saaras:v2
+                if resp.status_code == 400 and "model" in resp.text.lower():
+                    data["model"] = "saaras:v2"
+                    resp = await client.post(SARVAM_STT_URL, headers=headers, files=files, data=data)
+
                 if resp.status_code == 200:
                     res_json = resp.json()
-                    transcript = res_json.get("transcript", "")
+                    transcript = res_json.get("transcript", "").strip()
+                    logger.info(f"Sarvam STT success ({len(transcript)} chars): '{transcript[:60]}...'")
                     return STTResponse(
                         transcript=transcript,
                         language_code=lang_param,
-                        confidence=0.95,
-                        provider="sarvam:saaras:v2"
+                        confidence=0.98,
+                        provider=f"sarvam:{data['model']}"
                     )
                 else:
-                    logger.warning(f"Sarvam STT returned status {resp.status_code}")
+                    logger.warning(f"Sarvam STT returned status {resp.status_code}: {resp.text}")
                     return STTResponse(
                         transcript="",
                         language_code=lang_param,
@@ -129,7 +148,7 @@ class SarvamVoiceService:
         }
 
         try:
-            async with httpx.AsyncClient(timeout=15.0) as client:
+            async with httpx.AsyncClient(timeout=30.0) as client:
                 resp = await client.post(SARVAM_TTS_URL, headers=headers, json=payload)
                 if resp.status_code == 200:
                     res_json = resp.json()

@@ -64,7 +64,7 @@ class ChatMessage(BaseModel):
 class ChatRequest(BaseModel):
     session_id: Optional[str] = None
     message: str
-    language: Literal["kn", "en"] = "kn"
+    language: Literal["kn", "hi", "mr", "te", "en"] = "kn"
     profile_override: Optional[FarmerProfile] = None
 
 class ChatResponse(BaseModel):
@@ -72,7 +72,7 @@ class ChatResponse(BaseModel):
     response_text: str
     response_audio_base64: Optional[str] = None
     audio_format: Optional[str] = None
-    language: Literal["kn", "en"] = "kn"
+    language: Literal["kn", "hi", "mr", "te", "en"] = "kn"
     extracted_profile: FarmerProfile
     missing_slots: List[str]
     is_profile_complete: bool
@@ -89,7 +89,7 @@ class STTResponse(BaseModel):
 
 class TTSRequest(BaseModel):
     text: str
-    language: Literal["kn", "en"] = "kn"
+    language: Literal["kn", "hi", "mr", "te", "en"] = "kn"
     speaker: Optional[str] = None
 
 class TTSResponse(BaseModel):

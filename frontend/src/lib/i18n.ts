@@ -266,6 +266,18 @@ export interface I18nDictionary {
   tollFree: string;
   ruleLabels: Record<string, string>;
   documentCatalog: Record<string, string>;
+  // Long Voice Input & Review Controls
+  voiceStateReady: string;
+  voiceStateRecording: string;
+  voiceStateTranscribing: string;
+  voiceStateReview: string;
+  submitQuestion: string;
+  stopRecording: string;
+  retryRecording: string;
+  clearInput: string;
+  editTranscript: string;
+  maxDurationReached: string;
+  recordingTip: string;
 }
 
 export const i18n: Record<SupportedLanguage, I18nDictionary> = {
@@ -551,7 +563,19 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
       "Driving license (for tractor / power equipment)": "ಚಾಲನಾ ಪರವಾನಗಿ (ಟ್ರ್ಯಾಕ್ಟರ್/ಪವರ್ ಉಪಕರಣಗಳಿಗೆ)",
       "RTC / Pahani or Land survey number details": "ಪಹಣಿ / ಆರ್‌ಟಿಸಿ ಅಥವಾ ಸರ್ವೆ ನಂಬರ್ ವಿವರಗಳು",
       "Soil Sample collected as per RSK protocol": "ಆರ್‌ಎಸ್‌ಕೆ ನಿಯಮಾವಳಿ ಪ್ರಕಾರ ಸಂಗ್ರಹಿಸಿದ ಮಣ್ಣಿನ ಮಾದರಿ"
-    }
+    },
+    // Long Voice Input & Review Controls
+    voiceStateReady: "ಧ್ವನಿ ರೆಕಾರ್ಡಿಂಗ್‌ಗೆ ಸಿದ್ಧವಾಗಿದೆ",
+    voiceStateRecording: "ರೆಕಾರ್ಡಿಂಗ್ ಆಗುತ್ತಿದೆ...",
+    voiceStateTranscribing: "ಧ್ವನಿ ಪರಿವರ್ತಿಸಲಾಗುತ್ತಿದೆ (Sarvam AI)...",
+    voiceStateReview: "ಧ್ವನಿ ಪರಿಶೀಲನೆ • ಸಂಪಾದಿಸಿ ಅಥವಾ ಕಳುಹಿಸಿ",
+    submitQuestion: "ಪ್ರಶ್ನೆಯನ್ನು ಕಳುಹಿಸಿ",
+    stopRecording: "ರೆಕಾರ್ಡಿಂಗ್ ನಿಲ್ಲಿಸಿ",
+    retryRecording: "ಮತ್ತೊಮ್ಮೆ ಮಾತನಾಡಿ",
+    clearInput: "ತೆರವುಗೊಳಿಸಿ",
+    editTranscript: "ಪಠ್ಯವನ್ನು ಸಂಪಾದಿಸಿ",
+    maxDurationReached: "ಗರಿಷ್ಠ 30 ಸೆಕೆಂಡುಗಳ ಮಿತಿ ಮುಗಿದಿದೆ",
+    recordingTip: "ನಿಮ್ಮ ಸಂಪೂರ್ಣ ಕೃಷಿ ಪ್ರಶ್ನೆಯನ್ನು ಸಹಜವಾಗಿ ಮಾತನಾಡಿ, ನಂತರ ನಿಲ್ಲಿಸಿ ಬಟನ್ ಒತ್ತಿರಿ.",
   },
 
   // ================= ENGLISH =================
@@ -836,7 +860,19 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
       "Driving license (for tractor / power equipment)": "Driving license (for tractor / power equipment)",
       "RTC / Pahani or Land survey number details": "RTC / Pahani or Land survey number details",
       "Soil Sample collected as per RSK protocol": "Soil Sample collected as per RSK protocol"
-    }
+    },
+    // Long Voice Input & Review Controls
+    voiceStateReady: "Ready to record speech",
+    voiceStateRecording: "Recording your speech...",
+    voiceStateTranscribing: "Transcribing complete speech (Sarvam AI)...",
+    voiceStateReview: "Review Speech • Edit or Submit",
+    submitQuestion: "Submit Question",
+    stopRecording: "Stop Recording",
+    retryRecording: "Retry Voice",
+    clearInput: "Clear",
+    editTranscript: "Edit Recognized Text",
+    maxDurationReached: "Maximum 30s recording limit reached",
+    recordingTip: "Speak your complete farming question naturally, then click Stop Recording.",
   },
 
   // ================= HINDI (हिन्दी) =================
@@ -1121,7 +1157,19 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
       "Driving license (for tractor / power equipment)": "ड्राइविंग लाइसेंस (ट्रैक्टर / पावर उपकरण हेतु)",
       "RTC / Pahani or Land survey number details": "खसरा / सर्वे नंबर विवरण",
       "Soil Sample collected as per RSK protocol": "आरएसके नियमानुसार संकलित मिट्टी का नमूना"
-    }
+    },
+    // Long Voice Input & Review Controls
+    voiceStateReady: "वॉयस रिकॉर्डिंग के लिए तैयार",
+    voiceStateRecording: "आपकी आवाज़ रिकॉर्ड हो रही है...",
+    voiceStateTranscribing: "पूरी आवाज़ का रूपांतरण हो रहा है (Sarvam AI)...",
+    voiceStateReview: "समीक्षा करें • संपादित करें या भेजें",
+    submitQuestion: "प्रश्न भेजें",
+    stopRecording: "रिकॉर्डिंग रोकें",
+    retryRecording: "पुनः बोलें",
+    clearInput: "साफ़ करें",
+    editTranscript: "टेक्स्ट संपादित करें",
+    maxDurationReached: "अधिकतम 30 सेकंड की सीमा पूर्ण हुई",
+    recordingTip: "अपनी पूरी कृषि समस्या को स्वाभाविक रूप से बोलें, फिर 'रिकॉर्डिंग रोकें' दबाएं।",
   },
 
   // ================= TELUGU (తెలుగు) =================
@@ -1406,7 +1454,19 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
       "Driving license (for tractor / power equipment)": "డ్రైవింగ్ లైసెన్స్ (ట్రాక్టర్/పవర్ పరికరాల కోసం)",
       "RTC / Pahani or Land survey number details": "సర్వే నంబర్ వివరాలు",
       "Soil Sample collected as per RSK protocol": "సేకరించిన నేల నమూనా"
-    }
+    },
+    // Long Voice Input & Review Controls
+    voiceStateReady: "వాయిస్ రికార్డింగ్‌కు సిద్ధంగా ఉంది",
+    voiceStateRecording: "మీ వాయిస్ రికార్డ్ అవుతోంది...",
+    voiceStateTranscribing: "పూర్తి వాయిస్ లిప్యంతరీకరణ జరుగుతోంది (Sarvam AI)...",
+    voiceStateReview: "సమీక్షించండి • సవరించండి లేదా పంపండి",
+    submitQuestion: "ప్రశ్నను పంపండి",
+    stopRecording: "రికార్డింగ్ ఆపండి",
+    retryRecording: "మళ్ళీ మాట్లాడండి",
+    clearInput: "క్లియర్ చేయండి",
+    editTranscript: "టెక్స్ట్‌ను సవరించండి",
+    maxDurationReached: "గరిష్ట 30 సెకన్ల పరిమితి ముగిసింది",
+    recordingTip: "మీ వ్యవసాయ సమస్యను సహజంగా మాట్లాడండి, ఆపై రికార్డింగ్ ఆపండి నొక్కండి.",
   },
 
   // ================= MARATHI (मराठी) =================
@@ -1691,7 +1751,19 @@ export const i18n: Record<SupportedLanguage, I18nDictionary> = {
       "Driving license (for tractor / power equipment)": "वाहन चालक परवाना (ट्रॅक्टर/पॉवर अवजारांसाठी)",
       "RTC / Pahani or Land survey number details": "गट नंबर / सर्व्हे नंबर तपशील",
       "Soil Sample collected as per RSK protocol": "कृषी नियमावलीनुसार गोळा केलेला मातीचा नमुना"
-    }
+    },
+    // Long Voice Input & Review Controls
+    voiceStateReady: "व्हॉइस रेकॉर्डिंगसाठी सज्ज",
+    voiceStateRecording: "तुमचा आवाज रेकॉर्ड होत आहे...",
+    voiceStateTranscribing: "संपूर्ण आवाजाचे रूपांतरण होत आहे (Sarvam AI)...",
+    voiceStateReview: "तपासा • संपादित करा किंवा विचारा",
+    submitQuestion: "प्रश्न विचारा",
+    stopRecording: "रेकॉर्डिंग थांबवा",
+    retryRecording: "पुन्हा बोला",
+    clearInput: "हटवा",
+    editTranscript: "मजकूर संपादित करा",
+    maxDurationReached: "कमाल 30 सेकंदांची मर्यादा पूर्ण झाली",
+    recordingTip: "आपली संपूर्ण शेतीची समस्या सहज बोला, नंतर 'थांबवा' बटण दाबा."
   }
 };
 

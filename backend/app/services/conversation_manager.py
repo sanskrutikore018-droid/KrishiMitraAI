@@ -83,6 +83,118 @@ QUICK_REPLIES = {
     }
 }
 
+# Agronomic and Scheme Advisory Knowledge Base for Indian Farmers
+AGRONOMIC_ADVISORY = {
+    "tomato_disease": {
+        "kn": (
+            "ಟೊಮೆಟೊ ಎಲೆಗಳು ಹಳದಿಯಾಗುವುದು ಮತ್ತು ಚುಕ್ಕೆಗಳು ಕಾಣಿಸಿಕೊಳ್ಳುವುದು ಸಾಮಾನ್ಯವಾಗಿ 'ಮುಂಚಿನ ಅಂಗಮಾರಿ' (Early Blight) "
+            "ಅಥವಾ 'ಸೆಪ್ಟೋರಿಯಾ ಎಲೆ ಚುಕ್ಕೆ' (Septoria Leaf Spot) ಶಿಲೀಂಧ್ರ ರೋಗದ ಲಕ್ಷಣವಾಗಿದೆ. "
+            "ಪರಿಹಾರ ಕ್ರಮಗಳು: \n"
+            "1. ಸೋಂಕಿತ ಕೆಳಗಿನ ಎಲೆಗಳನ್ನು ಕಿತ್ತು ನಾಶಪಡಿಸಿ.\n"
+            "2. ನೀರನ್ನು ಗಿಡದ ಮೇಲಿಂದ ಹಾಕದೆ ಬುಡಕ್ಕೆ ಮಾತ್ರ ಹಾಯಿಸಿ.\n"
+            "3. ಜೈವಿಕ ನಿಯಂತ್ರಣಕ್ಕೆ 'ಟ್ರೈಕೋಡರ್ಮಾ ವಿರಿಡೆ' (Trichoderma) ಅಥವಾ ಮ್ಯಾಂಕೋಜೆಬ್ (Mancozeb 2g/L) ಸಿಂಪಡಿಸಿ.\n"
+            "4. ಬೇವಿನ ಎಣ್ಣೆ (Neem Oil 5ml/L) ಕೀಟ ಹತೋಟಿಗೆ ಬಳಸಿ."
+        ),
+        "hi": (
+            "टमाटर के पौधों में पत्तियों का पीला पड़ना और छोटे धब्बे आना मुख्य रूप से 'अगेती झुलसा' (Early Blight) "
+            "या पर्ण चित्ती (Leaf Spot) फफूंद रोग का लक्षण है। \n"
+            "सुरक्षात्मक उपाय:\n"
+            "1. संक्रमित निचली पत्तियों को तुरंत हटाकर नष्ट करें।\n"
+            "2. पत्तियों पर पानी डालने के बजाय सीधे जड़ों में पानी दें।\n"
+            "3. जैविक उपचार के लिए ट्राइकोडर्मा विरिडे या मेंकोज़ेब (2 ग्राम प्रति लीटर पानी) का छिड़काव करें।\n"
+            "4. कीटों से बचाव के लिए नीम तेल (5 मिली/लीटर) का प्रयोग करें।"
+        ),
+        "mr": (
+            "टोमॅटोच्या रोपांची पाने पिवळी पडणे आणि त्यावर ठिपके येणे हे मुख्यत्वे 'करपा' (Early Blight) "
+            "किंवा बुरशीजन्य रोगाचे (Septoria Leaf Spot) लक्षण आहे.\n"
+            "उपाययोजना:\n"
+            "1. बाधित झालेली खालची पाने काढून नष्ट करा.\n"
+            "2. पानांवर पाणी न शिंपडता फक्त मुळाशी पाणी द्या.\n"
+            "3. जैविक नियंत्रणासाठी ट्रायकोडर्मा विरिडी किंवा मॅन्कोझेब (2 ग्रॅम/लिटर) फवारा.\n"
+            "4. संरक्षणासाठी कडुनिंब तेल (5 मिली/लिटर) वापरा."
+        ),
+        "en": (
+            "Yellowing leaves with small spots and stunted growth in tomato plants commonly indicate 'Early Blight' "
+            "(Alternaria solani) or Septoria leaf spot fungal infection.\n"
+            "Recommended Protection Steps:\n"
+            "1. Prune and destroy infected lower leaves immediately to stop spore spread.\n"
+            "2. Water at the base of the plant using drip irrigation; avoid wetting foliage.\n"
+            "3. Spray Trichoderma viride bio-fungicide or Mancozeb/Copper Oxychloride (2g/L).\n"
+            "4. Apply neem oil (5ml/L) as a safe organic deterrent against sap-sucking pests."
+        )
+    },
+    "general_schemes": {
+        "kn": (
+            "ಭಾರತ ಸರ್ಕಾರದ ಮತ್ತು ಕರ್ನಾಟಕದ ಪ್ರಮುಖ ರೈತ ಯೋಜನೆಗಳು:\n"
+            "1. **PM-KISAN**: ಅರ್ಹ ಸಣ್ಣ ಮತ್ತು ಅತಿ ಸಣ್ಣ ರೈತರಿಗೆ ವಾರ್ಷಿಕ ₹6,000 ನೇರ ನಗದು ನೆರವು (3 ಕಂತುಗಳಲ್ಲಿ).\n"
+            "2. **PMFBY ಬೆಳೆ ವಿಮೆ**: ಬರ, ಅತಿವೃಷ್ಟಿ, ರೋಗಗಳಿಂದ ಬೆಳೆ ನಷ್ಟವಾದರೆ ಗರಿಷ್ಠ ಪರಿಹಾರ; ಕೇವಲ 1.5%–2% ಪ್ರೀಮಿಯಂ.\n"
+            "3. **ಕೃಷಿ ಯಂತ್ರೋಪಕರಣ ಸಬ್ಸಿಡಿ**: ಟ್ರ್ಯಾಕ್ಟರ್, ಪವರ್ ಟಿಲ್ಲರ್‌ಗಳಿಗೆ 50% ವರೆಗೆ ರಿಯಾಯಿತಿ."
+        ),
+        "hi": (
+            "भारत सरकार और राज्य की प्रमुख किसान कल्याण योजनाएं:\n"
+            "1. **PM-KISAN सम्मान निधि**: पात्र किसानों को ₹6,000 प्रति वर्ष की प्रत्यक्ष आर्थिक सहायता (3 किश्तों में)।\n"
+            "2. **PMFBY फसल बीमा**: सूखा, बाढ़ या फसल रोगों से नुकसान होने पर व्यापक सुरक्षा (केवल 1.5%–2% प्रीमियम)।\n"
+            "3. **कृषि यंत्रीकरण व ड्रिप सिंचाई**: कृषि उपकरणों और सूक्ष्म सिंचाई पर 50% तक सरकारी अनुदान।"
+        ),
+        "mr": (
+            "शेतकऱ्यांसाठी प्रमुख शासकीय योजना:\n"
+            "1. **PM-KISAN सन्मान निधी**: सर्व पात्र शेतकऱ्यांना वार्षिक ₹6,000 थेट बँक खात्यात (3 हप्त्यांत).\n"
+            "2. **PMFBY पीक विमा**: दुष्काळ, रोग किंवा अतिवृष्टीमुळे झालेल्या नुकसानीवर संपूर्ण विमा संरक्षण (फक्त 1.5%–2% प्रीमियम).\n"
+            "3. **ठिबक सिंचन व अवजारे अनुदान**: कृषी अवजारे व सूक्ष्म सिंचनासाठी 50% पर्यंत शासकीय अनुदान."
+        ),
+        "en": (
+            "Key Government Schemes Available for Indian Farmers:\n"
+            "1. **PM-KISAN Samman Nidhi**: Direct financial assistance of ₹6,000/year in 3 equal instalments for landholding farmer families.\n"
+            "2. **PMFBY Crop Insurance**: Comprehensive safety net against drought, flood, and pests with subsidized farmer premiums (1.5%–2%).\n"
+            "3. **Farm Mechanization & Micro-Irrigation**: Subsidies up to 50% on drip systems and certified agricultural equipment."
+        )
+    }
+}
+
+def detect_advisory_inquiry(message: str) -> Optional[str]:
+    """Detects if farmer's query contains a specific agricultural problem or scheme question."""
+    lowered = message.lower()
+    
+    # Pure Kannada keywords:
+    # ಟೊಮೆಟೊ, ಹಳದಿ, ಎಲೆ, ಚುಕ್ಕೆ, ರೋಗ, ಕೀಟ, ಬೆಳೆ, ಪರಿಹಾರ, ಔಷಧ, ರೋಗಲಕ್ಷಣ
+    kn_crops = ["ಟೊಮೆಟೊ", "ಗಿಡ", "ಬೆಳೆ"]
+    kn_symptoms = ["ಹಳದಿ", "ಎಲೆ", "ಚುಕ್ಕೆ", "ರೋಗ", "ಕೀಟ", "ಬೆಳವಣಿಗೆ", "ಪರಿಹಾರ", "ಔಷಧ"]
+    
+    # Check for tomato disease / yellow leaves / spots across languages
+    tomato_crop_terms = [
+        "tomato", "ಟೊಮೆಟೊ", "टमाटर", "टोमॅटो", "tomatoes"
+    ]
+    disease_keywords = [
+        "yellow", "leaves", "spots", "growth", "slow", "blight", "fungus", "protect", "disease", "pest", "leaf",
+        "ಹಳದಿ", "ಎಲೆ", "ಎಲೆಗಳು", "ಚುಕ್ಕೆ", "ಚುಕ್ಕೆಗಳು", "ರೋಗ", "ಕೀಟ", "ಬೆಳವಣಿಗೆ", "ಪರಿಹಾರ",
+        "पीले", "पत्ते", "धब्बे", "रोग", "कीट", "रोकथाम", "उपाय", "झुलसा",
+        "पिवळी", "पाने", "ठिपके", "कीड", "करपा"
+    ]
+    
+    if any(c in lowered for c in tomato_crop_terms) and any(k in lowered for k in disease_keywords):
+        return "tomato_disease"
+    
+    # Specific Kannada check: ಟೊಮೆಟೊ / ಗಿಡ / ಎಲೆಗಳು + ಹಳದಿ / ಚುಕ್ಕೆ
+    if any(c in lowered for c in kn_crops) and any(s in lowered for s in kn_symptoms):
+        return "tomato_disease"
+
+    # General crop health check
+    if any(k in lowered for k in ["yellow leaves", "spots on leaves", "leaf spot", "plants have yellow", "ರೋಗ", "रोग", "पीले पत्ते", "पिवळी पाने"]):
+        return "tomato_disease"
+
+    # Check for general government schemes inquiry
+    scheme_keywords = [
+        "which government schemes", "schemes are available", "eligibility conditions", "how i can apply",
+        "what schemes", "available for small farmers", "ಯಾವ ಯೋಜನೆಗಳು", "ಸರ್ಕಾರಿ ಯೋಜನೆ", "ಯೋಜನೆ ಲಭ್ಯ",
+        "ಯೋಜನೆಗಳು", "ಯೋಜನೆಗೆ ಅರ್ಜಿ", "ಅರ್ಹತೆ",
+        "सरकारी योजना", "कौन सी योजना", "पात्रता", "योजना उपलब्ध", "सरकारी योजनाओं",
+        "शासकीय योजना", "कोणत्या योजना", "अर्ज कसा करावा", "पात्रता अटी"
+    ]
+    if any(k in lowered for k in scheme_keywords):
+        return "general_schemes"
+
+    return None
+
 class ConversationManager:
 
     @staticmethod
@@ -141,33 +253,38 @@ class ConversationManager:
         is_complete = len(missing) == 0
 
         # 5. Formulate response
+        advisory_type = detect_advisory_inquiry(message)
+        advisory_prefix = ""
+        if advisory_type and advisory_type in AGRONOMIC_ADVISORY:
+            advisory_prefix = AGRONOMIC_ADVISORY[advisory_type].get(language, AGRONOMIC_ADVISORY[advisory_type]["en"]) + "\n\n"
+
         if is_complete:
             # Count eligible schemes
             eligible_count = sum(1 for e in evaluations if e.overall_status == "eligible")
             if language == "kn":
                 response_text = (
-                    f"ಧನ್ಯವಾದಗಳು! ನಿಮ್ಮ ವಿವರಗಳು ಪೂರ್ಣಗೊಂಡಿವೆ: {updated_profile.district} ಜಿಲ್ಲೆ, "
+                    f"{advisory_prefix}ಧನ್ಯವಾದಗಳು! ನಿಮ್ಮ ವಿವರಗಳು ಪೂರ್ಣಗೊಂಡಿವೆ: {updated_profile.district} ಜಿಲ್ಲೆ, "
                     f"{updated_profile.land_area_acres} ಎಕರೆ, {', '.join(updated_profile.crops)} ಬೆಳೆ. "
                     f"ನಿಮಗಾಗಿ {eligible_count} ಯೋಜನೆಗಳು ಅರ್ಹವಾಗಿವೆ! ಕೆಳಗಿನ ಕಾರ್ಡ್‌ಗಳಲ್ಲಿ ವಿವರಗಳನ್ನು ವೀಕ್ಷಿಸಿ."
                 )
                 quick_replies = ["PM-KISAN ದಾಖಲೆಗಳು", "PMFBY ಅರ್ಜಿ ವಿವರ", "ಹೊಸದಾಗಿ ಪರಿಶೀಲಿಸಿ"]
             elif language == "hi":
                 response_text = (
-                    f"धन्यवाद! आपका विवरण पूर्ण हो गया है: {updated_profile.district} ज़िला, "
+                    f"{advisory_prefix}धन्यवाद! आपका विवरण पूर्ण हो गया है: {updated_profile.district} ज़िला, "
                     f"{updated_profile.land_area_acres} एकड़, {', '.join(updated_profile.crops)} की खेती। "
                     f"आप {eligible_count} सरकारी योजनाओं के लिए पात्र हैं! नीचे दिए गए कार्ड्स में पूर्ण विवरण देखें।"
                 )
                 quick_replies = ["PM-KISAN दस्तावेज़", "PMFBY योजना विवरण", "पुनः जांचें"]
             elif language == "mr":
                 response_text = (
-                    f"धन्यवाद! तुमची माहिती पूर्ण झाली आहे: {updated_profile.district} जिल्हा, "
+                    f"{advisory_prefix}धन्यवाद! तुमची माहिती पूर्ण झाली आहे: {updated_profile.district} जिल्हा, "
                     f"{updated_profile.land_area_acres} एकर, {', '.join(updated_profile.crops)} पीक. "
                     f"तुम्ही {eligible_count} शासकीय योजनांसाठी पात्र आहात! खालील कार्ड्समध्ये सविस्तर माहिती तपासा."
                 )
                 quick_replies = ["PM-KISAN कागदपत्रे", "PMFBY अर्ज माहिती", "पुन्हा तपासा"]
             else:
                 response_text = (
-                    f"Thank you! Your profile is complete: {updated_profile.district} district, "
+                    f"{advisory_prefix}Thank you! Your profile is complete: {updated_profile.district} district, "
                     f"{updated_profile.land_area_acres} acres, cultivating {', '.join(updated_profile.crops)}. "
                     f"You qualify for {eligible_count} government scheme(s)! Review your verification breakdown below."
                 )
@@ -176,7 +293,19 @@ class ConversationManager:
         else:
             next_slot = missing[0]
             question_dict = QUESTIONS.get(next_slot, {})
-            response_text = question_dict.get(language, question_dict.get("en", "Please provide more details."))
+            slot_prompt = question_dict.get(language, question_dict.get("en", "Please provide more details."))
+
+            if advisory_prefix:
+                followup_intro = {
+                    "kn": "ನಿಮ್ಮ ಕೃಷಿ ಭೂಮಿಗೆ ಸೂಕ್ತವಾದ ಸರ್ಕಾರಿ ಸಬ್ಸಿಡಿ ಹಾಗೂ ಬೆಳೆ ವಿಮೆ ಪರಿಶೀಲಿಸಲು:\n",
+                    "hi": "अपनी कृषि भूमि के लिए लागू सरकारी सब्सिडी और फसल बीमा जांचने के लिए:\n",
+                    "mr": "आपल्या शेतीसाठी लागू शासकीय अनुदान व पीक विमा तपासण्यासाठी:\n",
+                    "en": "To verify exact government subsidies and crop insurance available for your farm:\n"
+                }
+                response_text = f"{advisory_prefix}{followup_intro.get(language, followup_intro['en'])}{slot_prompt}"
+            else:
+                response_text = slot_prompt
+
             quick_replies = QUICK_REPLIES.get(next_slot, {}).get(language, [])
 
         # Record history

@@ -14,7 +14,11 @@ import {
   Clock,
   ChevronRight,
   MessageSquare,
-  Activity
+  Activity,
+  Square,
+  RotateCcw,
+  X,
+  Check
 } from 'lucide-react';
 import { SupportedLanguage } from '../lib/i18n';
 import { useTranslation } from '../context/LanguageContext';
@@ -29,7 +33,7 @@ interface LuminousVoiceCoreProps {
   currentProfile: FarmerProfile;
 }
 
-export type VoiceState = 'idle' | 'listening' | 'processing' | 'speaking' | 'error';
+export type VoiceState = 'idle' | 'listening' | 'transcribing' | 'review' | 'processing' | 'speaking' | 'error';
 
 export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
   language: propLang,
@@ -49,6 +53,8 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
   const [audioAmplitudes, setAudioAmplitudes] = useState<number[]>([30, 45, 20, 60, 40, 75, 50, 35]);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const actualMimeTypeRef = useRef<string>('audio/webm');
   const audioChunksRef = useRef<Blob[]>([]);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const animIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -265,168 +271,181 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
     }
   }, [speakerMuted]);
 
-  // Primary: Client-Side Instantaneous Browser Speech Recognition
-  const startVoiceRecording = () => {
-    stopAnyAudio();
-    setLiveTranscript(null);
-    accumulatedTranscriptRef.current = '';
+  const MAX_RECORDING_SECONDS = 30;
 
-    const SpeechRecognition =
-      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-
-    if (SpeechRecognition) {
+  // Cleanup helper to stop microphone stream tracks
+  const stopMediaStreamTracks = () => {
+    if (streamRef.current) {
       try {
-        if (recognitionRef.current) {
-          try { recognitionRef.current.abort(); } catch (e) {}
-        }
-
-        const recognition = new SpeechRecognition();
-        recognitionRef.current = recognition;
-        const targetLang = speechLangMap[language] || 'kn-IN';
-        recognition.lang = targetLang;
-        recognition.interimResults = true;
-        recognition.continuous = false;
-        recognition.maxAlternatives = 1;
-
-        recognition.onstart = () => {
-          setVoiceState('listening');
-          setRecordingSeconds(0);
-          if (timerRef.current) clearInterval(timerRef.current);
-          timerRef.current = setInterval(() => {
-            setRecordingSeconds((prev) => prev + 1);
-          }, 1000);
-        };
-
-        recognition.onresult = (event: any) => {
-          let interim = '';
-          let final = '';
-          for (let i = 0; i < event.results.length; i++) {
-            const item = event.results[i];
-            if (item.isFinal) {
-              final += item[0].transcript;
-            } else {
-              interim += item[0].transcript;
-            }
-          }
-          const spoken = (final || interim).trim();
-          accumulatedTranscriptRef.current = spoken;
-          setLiveTranscript(spoken);
-          setInputText(spoken);
-        };
-
-        recognition.onerror = (event: any) => {
-          console.warn('SpeechRecognition error:', event.error);
-          if (timerRef.current) clearInterval(timerRef.current);
-
-          if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
-            setVoiceState('error');
-            const micErrMap: Record<SupportedLanguage, string> = {
-              kn: 'ಮೈಕ್ರೊಫೋನ್ ಅನುಮತಿ ನಿರಾಕರಿಸಲಾಗಿದೆ. ದಯವಿಟ್ಟು ಬ್ರೌಸರ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಅನುಮತಿಸಿ.',
-              hi: 'माइक्रोफ़ोन की अनुमति अस्वीकृत की गई। कृपया ब्राउज़र सेटिंग में अनुमति दें।',
-              mr: 'मायक्रोफोन परवानगी नाकारली गेली. कृपया ब्राउझर सेटिंग्जमध्ये परवानगी द्या.',
-              te: 'మైక్రోఫోన్ అనుమతి నిరాకరించబడింది. దయచేసి అనుమతించండి.',
-              en: 'Microphone permission denied. Please allow microphone access in your browser.'
-            };
-            setLiveTranscript(micErrMap[language] || micErrMap.en);
-            setTimeout(() => setVoiceState('idle'), 4000);
-          } else if (event.error === 'no-speech') {
-            setVoiceState('idle');
-          } else {
-            // Attempt secondary MediaRecorder fallback
-            fallbackMediaRecorderSTT();
-          }
-        };
-
-        recognition.onend = () => {
-          if (timerRef.current) clearInterval(timerRef.current);
-          const finalSpoken = accumulatedTranscriptRef.current.trim();
-          if (finalSpoken) {
-            setVoiceState('processing');
-            onSendMessage(finalSpoken);
-            setInputText('');
-            setTimeout(() => setLiveTranscript(null), 3000);
-          } else {
-            setVoiceState('idle');
-          }
-        };
-
-        recognition.start();
-        return;
-      } catch (err) {
-        console.warn('Failed to start SpeechRecognition directly, trying fallback:', err);
-        fallbackMediaRecorderSTT();
-      }
-    } else {
-      // Secondary fallback if browser has no SpeechRecognition
-      fallbackMediaRecorderSTT();
+        streamRef.current.getTracks().forEach((track) => track.stop());
+      } catch (e) {}
+      streamRef.current = null;
     }
   };
 
-  // Secondary Fallback: MediaRecorder stream sent to backend /api/voice/stt
-  const fallbackMediaRecorderSTT = async () => {
-    try {
-      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        setVoiceState('error');
-        const notSuppMap: Record<SupportedLanguage, string> = {
-          kn: 'ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಧ್ವನಿ ರೆಕಾರ್ಡಿಂಗ್ ಲಭ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ಟೈಪ್ ಮಾಡಿ.',
-          hi: 'आपके ब्राउज़र में वॉइस रिकॉर्डिंग समर्थित नहीं है। कृपया टाइप करें।',
-          mr: 'आपल्या ब्राउझरमध्ये व्हॉइस रेकॉर्डिंग समर्थित नाही. कृपया टाइप करा.',
-          te: 'మీ బ్రౌజర్‌లో వాయిస్ రికార్డింగ్ అందుబాటులో లేదు. దయచేసి టైప్ చేయండి.',
-          en: 'Microphone capture not supported in this browser. Please type.'
-        };
-        setLiveTranscript(notSuppMap[language] || notSuppMap.en);
-        setTimeout(() => setVoiceState('idle'), 3500);
-        return;
-      }
+  // Robust Long Speech Voice Capture Engine
+  const startVoiceRecording = async () => {
+    stopAnyAudio();
+    setLiveTranscript(null);
+    setInputText('');
+    accumulatedTranscriptRef.current = '';
+    audioChunksRef.current = [];
 
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder = new MediaRecorder(stream, {
-        mimeType: MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : ''
+    // Check mediaDevices support
+    if (typeof navigator === 'undefined' || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      setVoiceState('error');
+      const notSuppMap: Record<SupportedLanguage, string> = {
+        kn: 'ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಧ್ವನಿ ರೆಕಾರ್ಡಿಂಗ್ ಲಭ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ಟೈಪ್ ಮಾಡಿ.',
+        hi: 'आपके ब्राउज़र में वॉइस रिकॉर्डिंग समर्थित नहीं है। कृपया टाइप करें।',
+        mr: 'आपल्या ब्राउझरमध्ये व्हॉइस रेकॉर्डिंग समर्थित नाही. कृपया टाइप करा.',
+        te: 'మీ బ్రౌజర్‌లో వాయిస్ రికಾರ್డింగ్ అందుబాటులో లేదు. దయచేసి టైప్ చేయండి.',
+        en: 'Microphone capture not supported in this browser. Please type.'
+      };
+      setLiveTranscript(notSuppMap[language] || notSuppMap.en);
+      setTimeout(() => setVoiceState('idle'), 3500);
+      return;
+    }
+
+    try {
+      // 1. Request microphone stream with clean audio constraints
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true,
+          sampleRate: 16000
+        }
       });
+      streamRef.current = stream;
+
+      // 2. Select optimal browser-supported audio container
+      let preferredMime = 'audio/webm;codecs=opus';
+      if (typeof MediaRecorder !== 'undefined') {
+        if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) {
+          preferredMime = 'audio/webm;codecs=opus';
+        } else if (MediaRecorder.isTypeSupported('audio/webm')) {
+          preferredMime = 'audio/webm';
+        } else if (MediaRecorder.isTypeSupported('audio/mp4')) {
+          preferredMime = 'audio/mp4';
+        } else {
+          preferredMime = '';
+        }
+      }
+      actualMimeTypeRef.current = preferredMime || 'audio/webm';
+
+      const mediaRecorder = preferredMime
+        ? new MediaRecorder(stream, { mimeType: preferredMime })
+        : new MediaRecorder(stream);
       mediaRecorderRef.current = mediaRecorder;
-      audioChunksRef.current = [];
 
       mediaRecorder.ondataavailable = (event) => {
-        if (event.data.size > 0) {
+        if (event.data && event.data.size > 0) {
           audioChunksRef.current.push(event.data);
         }
       };
 
       mediaRecorder.onstop = async () => {
-        stream.getTracks().forEach((track) => track.stop());
-        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
-        setVoiceState('processing');
+        stopMediaStreamTracks();
+        setVoiceState('transcribing');
+
+        const audioBlob = new Blob(audioChunksRef.current, {
+          type: actualMimeTypeRef.current
+        });
+
         try {
+          // Send complete recorded audio to Sarvam AI STT
           const result = await sendAudioForSTT(audioBlob, language);
-          if (result && result.transcript && result.transcript.trim()) {
-            const text = result.transcript.trim();
-            setLiveTranscript(text);
-            onSendMessage(text);
+          const recognized = (result && result.transcript && result.transcript.trim()) || accumulatedTranscriptRef.current.trim();
+
+          if (recognized && recognized.length > 0) {
+            setInputText(recognized);
+            setLiveTranscript(recognized);
+            setVoiceState('review');
           } else {
             setVoiceState('idle');
           }
         } catch (err) {
-          console.error('Backend STT failed:', err);
-          setVoiceState('idle');
+          console.error('Sarvam STT audio upload error:', err);
+          const fallbackText = accumulatedTranscriptRef.current.trim();
+          if (fallbackText) {
+            setInputText(fallbackText);
+            setLiveTranscript(fallbackText);
+            setVoiceState('review');
+          } else {
+            setVoiceState('error');
+            setTimeout(() => setVoiceState('idle'), 3000);
+          }
         }
       };
 
+      // 3. Start MediaRecorder with 250ms chunk interval so no trailing speech is lost
       mediaRecorder.start(250);
       setVoiceState('listening');
       setRecordingSeconds(0);
+
+      // 4. Start timer up to 30 seconds
       if (timerRef.current) clearInterval(timerRef.current);
       timerRef.current = setInterval(() => {
-        setRecordingSeconds((prev) => prev + 1);
+        setRecordingSeconds((prev) => {
+          if (prev >= MAX_RECORDING_SECONDS - 1) {
+            stopVoiceRecording();
+            return MAX_RECORDING_SECONDS;
+          }
+          return prev + 1;
+        });
       }, 1000);
+
+      // 5. Parallel Continuous Web Speech for instantaneous real-time subtitle preview
+      const SpeechRecognition =
+        (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+
+      if (SpeechRecognition) {
+        try {
+          if (recognitionRef.current) {
+            try { recognitionRef.current.abort(); } catch (e) {}
+          }
+          const recognition = new SpeechRecognition();
+          recognitionRef.current = recognition;
+          recognition.lang = speechLangMap[language] || 'kn-IN';
+          recognition.interimResults = true;
+          // Set continuous = true so normal pauses DO NOT abort recording!
+          recognition.continuous = true;
+          recognition.maxAlternatives = 1;
+
+          recognition.onresult = (event: any) => {
+            let combined = '';
+            for (let i = 0; i < event.results.length; i++) {
+              combined += event.results[i][0].transcript + ' ';
+            }
+            const spoken = combined.trim();
+            if (spoken) {
+              accumulatedTranscriptRef.current = spoken;
+              setLiveTranscript(spoken);
+            }
+          };
+
+          recognition.onerror = (e: any) => {
+            console.warn('Live SpeechRecognition preview notice:', e.error);
+          };
+
+          // Continuous onend: DO NOT auto-submit! Just let MediaRecorder capture full audio.
+          recognition.onend = () => {};
+
+          recognition.start();
+        } catch (recErr) {
+          console.warn('Realtime preview not available, MediaRecorder continues:', recErr);
+        }
+      }
     } catch (err) {
-      console.warn('MediaRecorder permission error:', err);
+      console.warn('Microphone permission error or device unavailable:', err);
+      stopMediaStreamTracks();
       setVoiceState('error');
       const micDenMap: Record<SupportedLanguage, string> = {
-        kn: 'ಮೈಕ್ರೊಫೋನ್ ಅನುಮತಿ ನೀಡಲಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ಟೈಪ್ ಮಾಡಿ.',
-        hi: 'माइक्रोफ़ोन की अनुमति नहीं दी गई। कृपया टाइप करें।',
-        mr: 'मायक्रोफोन परवानगी दिली गेली नाही. कृपया टाइप करा.',
-        te: 'మైక్రోఫోన్ అనుమతి లభించలేదు. దయచేసి టైప్ చేయండి.',
-        en: 'Microphone permission was not granted. Please type.'
+        kn: 'ಮೈಕ್ರೊಫೋನ್ ಅನುಮತಿ ನೀಡಲಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ಬ್ರೌಸರ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಅನುಮತಿಸಿ.',
+        hi: 'माइक्रोफ़ोन की अनुमति नहीं दी गई। कृपया ब्राउज़र में अनुमति दें।',
+        mr: 'मायक्रोफोन परवानगी दिली गेली नाही. कृपया ब्राउझरमध्ये परवानगी द्या.',
+        te: 'మైక్రోఫోన్ అనుమति లభించలేదు. దయచేసి బ్రౌజర్‌లో అనుమతించండి.',
+        en: 'Microphone permission was not granted. Please allow access.'
       };
       setLiveTranscript(micDenMap[language] || micDenMap.en);
       setTimeout(() => setVoiceState('idle'), 3500);
@@ -452,20 +471,43 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
     }
   };
 
+  const cancelVoiceRecording = () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+    if (recognitionRef.current) {
+      try { recognitionRef.current.abort(); } catch (e) {}
+    }
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+      try { mediaRecorderRef.current.stop(); } catch (e) {}
+    }
+    stopMediaStreamTracks();
+    audioChunksRef.current = [];
+    accumulatedTranscriptRef.current = '';
+    setInputText('');
+    setLiveTranscript(null);
+    setVoiceState('idle');
+  };
+
   const handleOrbClick = () => {
     if (voiceState === 'listening') {
       stopVoiceRecording();
     } else if (voiceState === 'speaking') {
       stopAnyAudio();
+    } else if (voiceState === 'review') {
+      startVoiceRecording();
     } else if (voiceState === 'idle' || voiceState === 'error') {
       startVoiceRecording();
     }
   };
 
-  const handleSendText = () => {
-    if (!inputText.trim() || isLoading) return;
+  const handleSendText = (textToSend?: string) => {
+    const finalQuery = (textToSend !== undefined ? textToSend : inputText).trim();
+    if (!finalQuery || isLoading) return;
     stopAnyAudio();
-    onSendMessage(inputText.trim());
+    setVoiceState('processing');
+    onSendMessage(finalQuery);
     setInputText('');
     setLiveTranscript(null);
   };
@@ -473,7 +515,11 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
   const getStateText = () => {
     switch (voiceState) {
       case 'listening':
-        return `${dict.voiceStateListening} (${recordingSeconds}s)`;
+        return `${dict.voiceStateRecording} (${recordingSeconds}s / ${MAX_RECORDING_SECONDS}s)`;
+      case 'transcribing':
+        return dict.voiceStateTranscribing;
+      case 'review':
+        return dict.voiceStateReview;
       case 'processing':
         return dict.voiceStateProcessing;
       case 'speaking':
@@ -482,7 +528,7 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
         return 'ದೋಷ / Error - Retry';
       case 'idle':
       default:
-        return dict.voiceStateIdle;
+        return dict.voiceStateReady;
     }
   };
 
@@ -562,7 +608,11 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
                   <div
                     className={`w-full h-full rounded-full flex flex-col items-center justify-center relative overflow-hidden transition-all duration-500 ${
                       voiceState === 'listening'
-                        ? 'animate-orb-listening bg-gradient-to-tr from-emerald-400 via-green-500 to-emerald-600'
+                        ? 'animate-orb-listening bg-gradient-to-tr from-rose-500 via-emerald-500 to-green-600'
+                        : voiceState === 'transcribing'
+                        ? 'animate-orb-processing bg-gradient-to-tr from-teal-400 via-emerald-600 to-cyan-500'
+                        : voiceState === 'review'
+                        ? 'bg-gradient-to-tr from-emerald-500 via-teal-600 to-green-400 shadow-[0_0_50px_rgba(52,211,153,0.7)]'
                         : voiceState === 'processing'
                         ? 'animate-orb-processing bg-gradient-to-tr from-sky-400 via-emerald-500 to-teal-500'
                         : voiceState === 'speaking'
@@ -584,6 +634,10 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
                     >
                       {voiceState === 'listening' ? (
                         <Mic className="w-10 h-10 text-white animate-pulse" />
+                      ) : voiceState === 'transcribing' ? (
+                        <Loader2 className="w-10 h-10 text-emerald-100 animate-spin" />
+                      ) : voiceState === 'review' ? (
+                        <Sparkles className="w-10 h-10 text-white animate-pulse" />
                       ) : voiceState === 'processing' ? (
                         <Loader2 className="w-10 h-10 text-emerald-200 animate-spin" />
                       ) : voiceState === 'speaking' ? (
@@ -596,7 +650,11 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
                     {/* State Tag */}
                     <span className="text-[11px] font-black uppercase tracking-wider text-emerald-950 bg-white/95 px-3 py-0.5 rounded-full mt-3 shadow-md">
                       {voiceState === 'listening'
-                        ? 'Listening'
+                        ? 'Recording'
+                        : voiceState === 'transcribing'
+                        ? 'Transcribing'
+                        : voiceState === 'review'
+                        ? 'Review'
                         : voiceState === 'processing'
                         ? 'Evaluating'
                         : voiceState === 'speaking'
@@ -620,45 +678,177 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
               </div>
             </div>
 
-            {/* Live State & Spoken Transcript Banner */}
+            {/* Interactive Voice Pipeline Deck */}
             <div className="space-y-3 max-w-lg w-full">
-              <motion.button
-                onClick={handleOrbClick}
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.96 }}
-                transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-                className="px-6 py-2.5 rounded-full bg-emerald-950/80 border border-emerald-500/40 text-xs sm:text-sm font-black text-emerald-200 hover:bg-emerald-900 transition shadow-xl flex items-center justify-center space-x-2 mx-auto cursor-pointer"
-              >
-                {voiceState === 'listening' ? (
-                  <MicOff className="w-4 h-4 text-rose-400 animate-pulse" />
-                ) : voiceState === 'speaking' ? (
-                  <Volume2 className="w-4 h-4 text-lime-400 animate-pulse" />
-                ) : voiceState === 'processing' ? (
-                  <Loader2 className="w-4 h-4 text-emerald-400 animate-spin" />
-                ) : (
-                  <Mic className="w-4 h-4 text-emerald-400" />
-                )}
-                <span>{getStateText()}</span>
-              </motion.button>
-
-              {/* Editable / Recognized Live Speech Preview */}
-              <AnimatePresence>
-                {liveTranscript && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="p-3.5 bg-emerald-950/90 border border-emerald-400/50 rounded-2xl text-xs sm:text-sm text-emerald-100 shadow-2xl backdrop-blur-xl"
-                  >
-                    <span className="text-[11px] text-emerald-400 font-bold block mb-1">
-                      {dict.recognizedVoiceLabel}:
+              {/* STATE 2: ACTIVE RECORDING VIEW (with 30s countdown bar and clear Stop button) */}
+              {voiceState === 'listening' && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="w-full space-y-3 p-4 bg-emerald-950/95 border border-rose-500/50 rounded-2xl shadow-2xl backdrop-blur-xl"
+                >
+                  <div className="flex items-center justify-between text-xs font-bold text-emerald-200">
+                    <span className="flex items-center gap-2">
+                      <span className="relative flex h-3 w-3">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-3 w-3 bg-rose-500"></span>
+                      </span>
+                      {dict.voiceStateRecording}
                     </span>
-                    <p className="font-semibold italic leading-relaxed">
+                    <span className="text-emerald-300 font-mono text-xs sm:text-sm bg-black/50 px-2.5 py-0.5 rounded-lg border border-emerald-500/30">
+                      {recordingSeconds}s / {MAX_RECORDING_SECONDS}s
+                    </span>
+                  </div>
+
+                  {/* 30-Second Progress Bar */}
+                  <div className="w-full bg-black/60 rounded-full h-2.5 overflow-hidden border border-emerald-500/30">
+                    <motion.div
+                      className="bg-gradient-to-r from-emerald-400 via-lime-400 to-rose-400 h-2.5 rounded-full"
+                      style={{ width: `${Math.min(100, (recordingSeconds / MAX_RECORDING_SECONDS) * 100)}%` }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  </div>
+
+                  <p className="text-[11px] text-emerald-300/80 italic text-center">
+                    {dict.recordingTip}
+                  </p>
+
+                  {/* Real-time Subtitle / Live Transcript if available */}
+                  {liveTranscript && (
+                    <div className="p-2.5 bg-black/40 rounded-xl border border-emerald-500/30 text-xs text-emerald-100 italic leading-relaxed">
                       "{liveTranscript}"
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                    </div>
+                  )}
+
+                  {/* Primary Stop Recording & Cancel Controls */}
+                  <div className="flex items-center justify-center gap-3 pt-1">
+                    <button
+                      onClick={stopVoiceRecording}
+                      className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-400 hover:to-green-400 text-emerald-950 font-black text-xs sm:text-sm flex items-center gap-2 shadow-lg shadow-emerald-500/30 cursor-pointer transition transform hover:scale-105"
+                    >
+                      <Square className="w-4 h-4 fill-emerald-950" />
+                      {dict.stopRecording}
+                    </button>
+                    <button
+                      onClick={cancelVoiceRecording}
+                      className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-gray-300 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                      {dict.clearInput}
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* STATE 5: TRANSCRIBING VIEW (Sarvam AI API processing) */}
+              {voiceState === 'transcribing' && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="w-full p-4 bg-emerald-950/95 border border-emerald-500/50 rounded-2xl shadow-2xl backdrop-blur-xl flex flex-col items-center justify-center space-y-2 text-center"
+                >
+                  <Loader2 className="w-6 h-6 text-emerald-400 animate-spin" />
+                  <p className="text-xs sm:text-sm font-bold text-emerald-200">
+                    {dict.voiceStateTranscribing}
+                  </p>
+                </motion.div>
+              )}
+
+              {/* STATE 6: TRANSCRIPT REVIEW CARD (Editable review before submitting question) */}
+              {voiceState === 'review' && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="w-full space-y-3 p-4 bg-emerald-950/95 border-2 border-emerald-400/70 rounded-2xl shadow-2xl backdrop-blur-xl"
+                >
+                  <div className="flex items-center justify-between text-xs font-bold text-emerald-300">
+                    <span className="flex items-center gap-1.5">
+                      <Sparkles className="w-4 h-4 text-emerald-400" />
+                      {dict.voiceStateReview}
+                    </span>
+                    <span className="text-[10px] text-emerald-400/80 font-mono">
+                      {dict.editTranscript}
+                    </span>
+                  </div>
+
+                  <textarea
+                    value={inputText}
+                    onChange={(e) => {
+                      setInputText(e.target.value);
+                      setLiveTranscript(e.target.value);
+                    }}
+                    rows={3}
+                    className="w-full p-3 bg-black/60 border border-emerald-500/40 rounded-xl text-xs sm:text-sm text-emerald-50 placeholder-emerald-300/40 focus:outline-none focus:border-emerald-400 font-medium resize-none leading-relaxed"
+                    placeholder={dict.typePlaceholder}
+                  />
+
+                  <div className="flex items-center justify-between gap-2 pt-1">
+                    <button
+                      onClick={() => handleSendText(inputText)}
+                      disabled={!inputText.trim() || isLoading}
+                      className="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-green-400 hover:from-emerald-400 hover:to-green-300 text-emerald-950 font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/30 cursor-pointer transition disabled:opacity-50"
+                    >
+                      <Send className="w-4 h-4" />
+                      {dict.submitQuestion}
+                    </button>
+                    <button
+                      onClick={startVoiceRecording}
+                      className="py-2.5 px-3.5 rounded-xl bg-emerald-900/80 hover:bg-emerald-800 text-emerald-200 border border-emerald-500/40 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition"
+                      title={dict.retryRecording}
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" />
+                      <span>{dict.retryRecording}</span>
+                    </button>
+                    <button
+                      onClick={cancelVoiceRecording}
+                      className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-gray-300 font-bold text-xs flex items-center gap-1 cursor-pointer transition"
+                      title={dict.clearInput}
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* DEFAULT / IDLE / SPEAKING / PROCESSING PILL */}
+              {voiceState !== 'listening' && voiceState !== 'transcribing' && voiceState !== 'review' && (
+                <>
+                  <motion.button
+                    onClick={handleOrbClick}
+                    whileHover={{ scale: 1.04 }}
+                    whileTap={{ scale: 0.96 }}
+                    transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                    className="px-6 py-2.5 rounded-full bg-emerald-950/80 border border-emerald-500/40 text-xs sm:text-sm font-black text-emerald-200 hover:bg-emerald-900 transition shadow-xl flex items-center justify-center space-x-2 mx-auto cursor-pointer"
+                  >
+                    {voiceState === 'speaking' ? (
+                      <Volume2 className="w-4 h-4 text-lime-400 animate-pulse" />
+                    ) : voiceState === 'processing' ? (
+                      <Loader2 className="w-4 h-4 text-emerald-400 animate-spin" />
+                    ) : (
+                      <Mic className="w-4 h-4 text-emerald-400" />
+                    )}
+                    <span>{getStateText()}</span>
+                  </motion.button>
+
+                  <AnimatePresence>
+                    {liveTranscript && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="p-3.5 bg-emerald-950/90 border border-emerald-400/50 rounded-2xl text-xs sm:text-sm text-emerald-100 shadow-2xl backdrop-blur-xl"
+                      >
+                        <span className="text-[11px] text-emerald-400 font-bold block mb-1">
+                          {dict.recognizedVoiceLabel}:
+                        </span>
+                        <p className="font-semibold italic leading-relaxed">
+                          "{liveTranscript}"
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </>
+              )}
             </div>
 
             {/* Quick Action Suggestion Chips */}
@@ -718,7 +908,7 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
               </motion.button>
 
               <motion.button
-                onClick={handleSendText}
+                onClick={() => handleSendText()}
                 disabled={!inputText.trim() || isLoading}
                 whileHover={{ scale: 1.06 }}
                 whileTap={{ scale: 0.92 }}

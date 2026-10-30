@@ -132,7 +132,7 @@ def extract_slots_heuristic(text: str) -> Dict[str, Any]:
         guntas = float(guntha_match.group(1))
         extracted["land_area_acres"] = round(guntas / 40.0, 2)
     else:
-        acre_match = re.search(r"(\d+(?:\.\d+)?)\s*(?:ಎಕರೆ|ಎಕ್ರೆ|एकड़|एकर|acre|acres|ac)", text, re.IGNORECASE)
+        acre_match = re.search(r"(\d+(?:\.\d+)?)\s*(?:ಎಕರೆ|ಎಕ್ರೆ|एकड़|एकर|acres?|\bac\b)", text, re.IGNORECASE)
         if acre_match:
             extracted["land_area_acres"] = float(acre_match.group(1))
 
