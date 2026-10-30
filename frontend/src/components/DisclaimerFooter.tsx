@@ -3,14 +3,14 @@
 import React from 'react';
 import { AlertCircle, Heart, Shield, Cpu, ExternalLink } from 'lucide-react';
 import { Language } from '../types';
-import { getDictionary } from '../lib/i18n';
+import { useTranslation } from '../context/LanguageContext';
 
 interface DisclaimerFooterProps {
-  language: Language;
+  language?: Language;
 }
 
-export const DisclaimerFooter: React.FC<DisclaimerFooterProps> = ({ language }) => {
-  const dict = getDictionary(language);
+export const DisclaimerFooter: React.FC<DisclaimerFooterProps> = () => {
+  const { dict, language } = useTranslation();
 
   return (
     <footer className="mt-16 bg-[#020804] text-emerald-100 border-t border-emerald-950/80">

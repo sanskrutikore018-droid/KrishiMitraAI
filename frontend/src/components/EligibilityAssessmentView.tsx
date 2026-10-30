@@ -12,23 +12,25 @@ import {
   Landmark,
   Sparkles
 } from 'lucide-react';
-import { SupportedLanguage, getDictionary } from '../lib/i18n';
+import { SupportedLanguage } from '../lib/i18n';
+import { useTranslation } from '../context/LanguageContext';
 import { FarmerProfile, SchemeEvaluation } from '../types';
 
 interface EligibilityAssessmentViewProps {
-  language: SupportedLanguage;
+  language?: SupportedLanguage;
   profile: FarmerProfile;
   evaluations: SchemeEvaluation[];
   onOpenGuidance: (scheme?: SchemeEvaluation) => void;
 }
 
 export const EligibilityAssessmentView: React.FC<EligibilityAssessmentViewProps> = ({
-  language,
+  language: propLang,
   profile,
   evaluations,
   onOpenGuidance
 }) => {
-  const dict = getDictionary(language);
+  const { language: ctxLanguage, dict } = useTranslation();
+  const language = propLang || ctxLanguage;
 
   // Find PM-KISAN or the primary top evaluated scheme
   const pmKisanEval = evaluations.find((e) => e.scheme_id === 'pm-kisan') || evaluations[0];
@@ -38,13 +40,13 @@ export const EligibilityAssessmentView: React.FC<EligibilityAssessmentViewProps>
   const criteriaList = [
     {
       label: profile.land_area_acres
-        ? `${language === 'kn' ? 'ಭೂಮಿ' : 'Land Size'}: ${profile.land_area_acres} ${language === 'kn' ? 'ಎಕರೆ ಹೊಂದಿದ್ದೀರಿ' : 'Acres registered'}`
+        ? `${dict.slots.land_area_acres}: ${profile.land_area_acres}`
         : dict.ruleLand,
       satisfied: profile.land_area_acres ? profile.land_area_acres > 0 : true
     },
     {
       label: profile.ownership_type
-        ? `${language === 'kn' ? 'ಕೃಷಿ ಆಧಾರಿತ ರೈತರು' : 'Farmer Status'}: ${profile.ownership_type === 'owner' ? (language === 'kn' ? 'ಸ್ವಂತ ಜಮೀನು (ಮಾಲೀಕ)' : 'Owner') : profile.ownership_type}`
+        ? `${dict.slots.ownership_type}: ${dict.ownershipLabels[profile.ownership_type as keyof typeof dict.ownershipLabels] || profile.ownership_type}`
         : dict.ruleOwnership,
       satisfied: profile.ownership_type ? profile.ownership_type === 'owner' : true
     },
@@ -54,7 +56,7 @@ export const EligibilityAssessmentView: React.FC<EligibilityAssessmentViewProps>
     },
     {
       label: profile.district
-        ? `${language === 'kn' ? 'ಜಿಲ್ಲೆ' : 'District'}: ${profile.district} (${language === 'kn' ? 'ಚಾಲ್ತಿ ಕೃಷಿ ಭೂಮಿ' : 'Active'})`
+        ? `${dict.slots.district}: ${profile.district}`
         : dict.ruleStatus,
       satisfied: true
     }

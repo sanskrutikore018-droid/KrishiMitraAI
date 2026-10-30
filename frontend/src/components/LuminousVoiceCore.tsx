@@ -16,12 +16,13 @@ import {
   MessageSquare,
   Activity
 } from 'lucide-react';
-import { SupportedLanguage, getDictionary } from '../lib/i18n';
+import { SupportedLanguage } from '../lib/i18n';
+import { useTranslation } from '../context/LanguageContext';
 import { ChatMessage, FarmerProfile } from '../types';
 import { sendAudioForSTT } from '../lib/api';
 
 interface LuminousVoiceCoreProps {
-  language: SupportedLanguage;
+  language?: SupportedLanguage;
   onSendMessage: (text: string) => void;
   isLoading: boolean;
   messages: ChatMessage[];
@@ -31,13 +32,14 @@ interface LuminousVoiceCoreProps {
 export type VoiceState = 'idle' | 'listening' | 'processing' | 'speaking' | 'error';
 
 export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
-  language,
+  language: propLang,
   onSendMessage,
   isLoading,
   messages,
   currentProfile
 }) => {
-  const dict = getDictionary(language);
+  const { language: ctxLanguage, dict } = useTranslation();
+  const language = propLang || ctxLanguage;
 
   const [voiceState, setVoiceState] = useState<VoiceState>('idle');
   const [inputText, setInputText] = useState('');
@@ -97,11 +99,10 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
   }, []);
 
   const quickQueryChips = [
-    { label: 'PM-KISAN', text: language === 'kn' ? 'PM-KISAN ಯೋಜನೆ ಮಾಹಿತಿ ನೀಡಿ' : 'Tell me about PM-KISAN' },
-    { label: 'PMFBY', text: language === 'kn' ? 'PMFBY ಬೆಳೆ ವಿಮೆ ವಿವರಣೆ ಕೊಡಿ' : 'Explain PMFBY crop insurance' },
-    { label: language === 'kn' ? 'ಸೂಕ್ಷ್ಮ ನೀರಾವರಿ' : 'Micro-Irrigation', text: language === 'kn' ? 'ಹನಿ ನೀರಾವರಿ ಸಬ್ಸಿಡಿ ಹೇಗೆ?' : 'How to get drip irrigation subsidy?' },
-    { label: language === 'kn' ? 'ಯಂತ್ರೋಪಕರಣ' : 'Machinery', text: language === 'kn' ? 'ಟ್ರ್ಯಾಕ್ಟರ್ ಮತ್ತು ಟಿಲ್ಲರ್ ನೆರವು ವಿವರ' : 'Farm machinery subsidy details' },
-    { label: language === 'kn' ? 'ಅರ್ಹತೆ ಪರಿಶೀಲನೆ' : 'Check Eligibility', text: language === 'kn' ? 'ನನ್ನ ಜಮೀನಿಗೆ ಯಾವ ಯೋಜನೆ ಸಿಗುತ್ತದೆ?' : 'Which schemes do I qualify for?' }
+    { label: 'PM-KISAN', text: dict.recentQ1 },
+    { label: 'PMFBY', text: dict.recentQ3 },
+    { label: dict.feat2, text: dict.recentQ2 },
+    { label: dict.documentsRequiredHeading, text: dict.recentQ4 }
   ];
 
   const recentTopics = [
@@ -194,7 +195,14 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
     try {
       const recognition = new SpeechRecognition();
       recognitionRef.current = recognition;
-      recognition.lang = language === 'kn' ? 'kn-IN' : language === 'hi' ? 'hi-IN' : language === 'mr' ? 'mr-IN' : 'en-IN';
+      const speechLangMap: Record<string, string> = {
+        kn: 'kn-IN',
+        en: 'en-IN',
+        hi: 'hi-IN',
+        te: 'te-IN',
+        mr: 'mr-IN'
+      };
+      recognition.lang = speechLangMap[language] || 'en-IN';
       recognition.interimResults = true;
       recognition.continuous = false;
 

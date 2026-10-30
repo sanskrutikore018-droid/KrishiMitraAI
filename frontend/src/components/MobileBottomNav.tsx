@@ -2,14 +2,15 @@
 
 import React from 'react';
 import { Home, Landmark, Mic, ShieldCheck, Sparkles } from 'lucide-react';
-import { SupportedLanguage, getDictionary } from '../lib/i18n';
+import { SupportedLanguage } from '../lib/i18n';
+import { useTranslation } from '../context/LanguageContext';
 
 interface MobileBottomNavProps {
-  language: SupportedLanguage;
+  language?: SupportedLanguage;
 }
 
-export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ language }) => {
-  const dict = getDictionary(language);
+export const MobileBottomNav: React.FC<MobileBottomNavProps> = () => {
+  const { dict } = useTranslation();
 
   return (
     <div className="md:hidden fixed bottom-4 left-4 right-4 z-40 vantara-panel rounded-3xl shadow-[0_15px_40px_rgba(0,0,0,0.85)] py-2.5 px-4 flex items-center justify-around text-[10px] font-bold text-emerald-200 border border-emerald-400/40">

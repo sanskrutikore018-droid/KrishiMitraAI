@@ -3,21 +3,18 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, ChevronDown, Sparkles, Shield, Globe } from 'lucide-react';
-import { SupportedLanguage, getDictionary } from '../lib/i18n';
+import { useTranslation } from '../context/LanguageContext';
+import { SupportedLanguage } from '../lib/i18n';
 import { AiNodeVisualizer } from './AiNodeVisualizer';
 
 interface CinematicHeroProps {
-  language: SupportedLanguage;
-  onLanguageChange: (lang: SupportedLanguage) => void;
   onStartJourney: () => void;
 }
 
 export const CinematicHero: React.FC<CinematicHeroProps> = ({
-  language,
-  onLanguageChange,
   onStartJourney
 }) => {
-  const dict = getDictionary(language);
+  const { language, setLanguage, dict, availableLanguages } = useTranslation();
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -25,7 +22,7 @@ export const CinematicHero: React.FC<CinematicHeroProps> = ({
       opacity: 1,
       transition: {
         staggerChildren: 0.16,
-        delayChildren: 0.25
+        delayChildren: 0.2
       }
     }
   };
@@ -37,7 +34,7 @@ export const CinematicHero: React.FC<CinematicHeroProps> = ({
       y: 0,
       filter: 'blur(0px)',
       transition: {
-        duration: 0.95,
+        duration: 0.9,
         ease: [0.16, 1, 0.3, 1] as any
       }
     }
@@ -57,7 +54,7 @@ export const CinematicHero: React.FC<CinematicHeroProps> = ({
     >
       {/* 1. CINEMATIC VIDEO BACKGROUND & MULTI-LAYERED VANTARA ATMOSPHERE */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        {/* High-definition Looping Agricultural Video */}
+        {/* Looping Agricultural Video */}
         <video
           autoPlay
           loop
@@ -158,19 +155,21 @@ export const CinematicHero: React.FC<CinematicHeroProps> = ({
               variants={lineVariants}
               className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 w-full sm:w-auto"
             >
-              {/* Language Selector Pill */}
+              {/* Language Selector Pill with all 5 languages */}
               <div className="flex items-center space-x-2.5 bg-[#0a2313]/90 backdrop-blur-2xl border border-emerald-400/40 rounded-2xl px-4 py-3.5 text-xs font-bold text-white shadow-xl hover:border-lime-400 transition-all duration-300">
                 <Globe className="w-4 h-4 text-lime-400" />
                 <span className="text-emerald-300 font-medium">ಭಾಷೆ / Lang:</span>
                 <select
                   value={language}
-                  onChange={(e) => onLanguageChange(e.target.value as SupportedLanguage)}
+                  onChange={(e) => setLanguage(e.target.value as SupportedLanguage)}
                   className="bg-transparent text-emerald-100 font-extrabold focus:outline-none cursor-pointer"
+                  aria-label="Choose Language"
                 >
-                  <option value="kn" className="bg-[#041209] text-white">ಕನ್ನಡ (Kannada)</option>
-                  <option value="en" className="bg-[#041209] text-white">English</option>
-                  <option value="hi" className="bg-[#041209] text-white">हिन्दी (Hindi)</option>
-                  <option value="mr" className="bg-[#041209] text-white">मराठी (Marathi)</option>
+                  {availableLanguages.map((opt) => (
+                    <option key={opt.code} value={opt.code} className="bg-[#041209] text-white py-1">
+                      {opt.label} ({opt.sub})
+                    </option>
+                  ))}
                 </select>
               </div>
 

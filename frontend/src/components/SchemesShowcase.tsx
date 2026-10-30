@@ -13,21 +13,23 @@ import {
   AlertTriangle,
   Info
 } from 'lucide-react';
-import { SupportedLanguage, getDictionary } from '../lib/i18n';
+import { SupportedLanguage } from '../lib/i18n';
+import { useTranslation } from '../context/LanguageContext';
 import { SchemeEvaluation } from '../types';
 
 interface SchemesShowcaseProps {
   schemes: SchemeEvaluation[];
-  language: SupportedLanguage;
+  language?: SupportedLanguage;
   onSelectScheme: (scheme: SchemeEvaluation) => void;
 }
 
 export const SchemesShowcase: React.FC<SchemesShowcaseProps> = ({
   schemes,
-  language,
+  language: propLang,
   onSelectScheme
 }) => {
-  const dict = getDictionary(language);
+  const { language: ctxLanguage, dict } = useTranslation();
+  const language = propLang || ctxLanguage;
 
   // Separate primary verified schemes and prototype demo schemes
   const verifiedSchemes = schemes.filter((s) => !s.is_demo);

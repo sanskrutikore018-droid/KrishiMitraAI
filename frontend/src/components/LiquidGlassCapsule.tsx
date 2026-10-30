@@ -3,14 +3,15 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Home, Mic, Landmark, CheckCircle2, PhoneCall, Sparkles } from 'lucide-react';
-import { SupportedLanguage, getDictionary } from '../lib/i18n';
+import { SupportedLanguage } from '../lib/i18n';
+import { useTranslation } from '../context/LanguageContext';
 
 interface LiquidGlassCapsuleProps {
-  language: SupportedLanguage;
+  language?: SupportedLanguage;
 }
 
-export const LiquidGlassCapsule: React.FC<LiquidGlassCapsuleProps> = ({ language }) => {
-  const dict = getDictionary(language);
+export const LiquidGlassCapsule: React.FC<LiquidGlassCapsuleProps> = () => {
+  const { dict } = useTranslation();
   const [activeItem, setActiveItem] = useState<string>('home');
 
   const navItems = [

@@ -16,20 +16,31 @@ import {
   Droplets,
   Layers
 } from 'lucide-react';
-import { SupportedLanguage, getDictionary } from '../lib/i18n';
+import { SupportedLanguage } from '../lib/i18n';
+import { useTranslation } from '../context/LanguageContext';
 
 interface AiNodeVisualizerProps {
-  language: SupportedLanguage;
+  language?: SupportedLanguage;
 }
 
-export const AiNodeVisualizer: React.FC<AiNodeVisualizerProps> = ({ language }) => {
-  const dict = getDictionary(language);
+export const AiNodeVisualizer: React.FC<AiNodeVisualizerProps> = ({ language: propLang }) => {
+  const { language: ctxLang, dict } = useTranslation();
+  const language = propLang || ctxLang;
   const [activeNode, setActiveNode] = useState<string>('neural');
 
   const nodes = [
     {
       id: 'neural',
-      title: language === 'kn' ? 'ನ್ಯೂರಲ್ ಅರ್ಹತಾ ಇಂಜಿನ್' : 'Neural Eligibility Core',
+      title:
+        language === 'kn'
+          ? 'ನ್ಯೂರಲ್ ಅರ್ಹತಾ ಇಂಜಿನ್'
+          : language === 'te'
+          ? 'న్యూరల్ అర్హత ఇంజిన్'
+          : language === 'hi'
+          ? 'न्यूरल पात्रता इंजन'
+          : language === 'mr'
+          ? 'न्यूरल पात्रता इंजिन'
+          : 'Neural Eligibility Core',
       badge: 'Zero Hallucination',
       icon: Cpu,
       value: '100% Deterministic',
@@ -38,11 +49,26 @@ export const AiNodeVisualizer: React.FC<AiNodeVisualizerProps> = ({ language }) 
       description:
         language === 'kn'
           ? 'ಕೇಂದ್ರ ಮತ್ತು ಕರ್ನಾಟಕ ಸರ್ಕಾರದ ಅಧಿಕೃತ ನಿಯಮಾವಳಿಗಳ ಆಧಾರದ ಮೇಲೆ ಕಂಪ್ಯೂಟರ್ ಪರಿಶೀಲನೆ.'
+          : language === 'te'
+          ? 'కేంద్ర మరియు రాష్ట్ర ప్రభుత్వాల అధికారిక నిబంధనల ఆధారంగా ఖచ్చితమైన కంప్యూటర్ పరిశీలన.'
+          : language === 'hi'
+          ? 'केंद्र और राज्य सरकार के आधिकारिक राजपत्र नियमों के अनुसार कंप्यूटर आधारित सटीक जांच।'
+          : language === 'mr'
+          ? 'केंद्र आणि राज्य सरकारच्या अधिकृत नियमांनुसार कॉम्प्युटर आधारित अचूक पडताळणी.'
           : 'Strict rule-based evaluation mapped to official Gazette guidelines with zero LLM policy hallucination.'
     },
     {
       id: 'crop_health',
-      title: language === 'kn' ? 'ಬೆಳೆ ಆರೋಗ್ಯ & ಕೀಟ ಪತ್ತೆ' : 'Crop Health & Pest Detection',
+      title:
+        language === 'kn'
+          ? 'ಬೆಳೆ ಆರೋಗ್ಯ & ಕೀಟ ಪತ್ತೆ'
+          : language === 'te'
+          ? 'పంట ఆరోగ్యం & తెగుళ్ల గుర్తింపు'
+          : language === 'hi'
+          ? 'फसल स्वास्थ्य एवं कीट पहचान'
+          : language === 'mr'
+          ? 'पीक आरोग्य आणि कीड नियंत्रण'
+          : 'Crop Health & Pest Detection',
       badge: 'Precision Agritech',
       icon: Leaf,
       value: 'NDVI 0.84 Optimal',
@@ -50,158 +76,156 @@ export const AiNodeVisualizer: React.FC<AiNodeVisualizerProps> = ({ language }) 
       color: 'from-green-400 to-emerald-600',
       description:
         language === 'kn'
-          ? 'ಬೆಳೆ ಹಾನಿ ಮತ್ತು ನೈಸರ್ಗಿಕ ವಿಕೋಪಗಳ ವಿರುದ್ಧ 90% ಸರ್ಕಾರಿ ಸಬ್ಸಿಡಿಯುಕ್ತ ಬೆಳೆ ವಿಮೆ ರಕ್ಷಣೆ.'
+          ? 'ಬೆಳೆ ಹಾನಿ ಮತ್ತು ನೈಸರ್ಗಿಕ ವಿಕೋಪಗಳ ವಿರುದ್ಧ ಸರ್ಕಾರಿ ಸಬ್ಸಿಡಿಯುಕ್ತ ಬೆಳೆ ವಿಮೆ ರಕ್ಷಣೆ.'
+          : language === 'te'
+          ? 'పంట నష్టం మరియు ప్రకృతి వైపరీత్యాల నుండి ప్రభుత్వ సబ్సిడీతో కూడిన పంట భీమా రక్షణ.'
+          : language === 'hi'
+          ? 'फसल क्षति और प्राकृतिक आपदाओं के विरुद्ध सरकारी सब्सिडी युक्त फसल बीमा सुरक्षा।'
+          : language === 'mr'
+          ? 'पीक नुकसान आणि नैसर्गिक संकटांविरुद्ध शासकीय अनुदानासह पीक विमा संरक्षण.'
           : 'Continuous monitoring of pest threats and unseasonal rain risks subsidized under PMFBY.'
     },
     {
       id: 'irrigation_mesh',
-      title: language === 'kn' ? 'ಸೂಕ್ಷ್ಮ ನೀರಾವರಿ ಗ್ರಿಡ್' : 'Micro-Irrigation Grid',
-      badge: '90% Capital Subsidy',
+      title:
+        language === 'kn'
+          ? 'ಸೂಕ್ಷ್ಮ ನೀರಾವರಿ ಗ್ರಿಡ್'
+          : language === 'te'
+          ? 'సూక్ష్మ నీటిపారుదల గ్రిడ్'
+          : language === 'hi'
+          ? 'सूक्ष्म सिंचाई ग्रिड'
+          : language === 'mr'
+          ? 'ठिबक व तुषार सिंचन नेटवर्क'
+          : 'Micro-Irrigation Grid',
+      badge: 'Capital Subsidy',
       icon: Droplets,
-      value: '5.0 Acre Small Farmer Cap',
-      metric: 'Drip & Sprinkler Scheme',
-      color: 'from-teal-400 to-emerald-500',
+      value: '90% Subsidy Eligible',
+      metric: 'Drip & Sprinkler Mesh',
+      color: 'from-lime-400 to-emerald-500',
       description:
         language === 'kn'
-          ? 'ಸಣ್ಣ ಮತ್ತು ಅತಿ ಸಣ್ಣ ರೈತರಿಗೆ ಹನಿ/ತುಂತುರು ನೀರಾವರಿ ಉಪಕರಣಗಳಿಗೆ ಶೇಕಡಾ 90 ರಿಯಾಯಿತಿ.'
-          : 'Assisted capital assistance packages for verified borewell and open well farmlands.'
+          ? 'ಸಣ್ಣ ಮತ್ತು ಅತಿ ಸಣ್ಣ ರೈತರಿಗೆ ಹನಿ ನೀರಾವರಿ ಸ್ಥಾಪನೆಗೆ ಗರಿಷ್ಠ ಸಹಾಯಧನ.'
+          : language === 'te'
+          ? 'చిన్న మరియు సన్నకారు రైతులకు డ్రిప్ మరియు స్ప్రింక్లర్ ఏర్పాటుకు గరిష్ట రాయితీ.'
+          : language === 'hi'
+          ? 'लघु एवं सीमांत किसानों के लिए ड्रिप एवं स्प्रिंकलर स्थापना पर अधिकतम अनुदान।'
+          : language === 'mr'
+          ? 'लहान आणि अत्यल्प भूधारक शेतकऱ्यांना ठिबक सिंचनासाठी भरघोस शासकीय अनुदान.'
+          : 'High capital subsidy facilitation for drip, micro-sprinkler and solar pump sets.'
     }
   ];
 
-  const current = nodes.find((n) => n.id === activeNode) || nodes[0];
-  const CurrentIcon = current.icon;
+  const currentActive = nodes.find((n) => n.id === activeNode) || nodes[0];
+  const IconComponent = currentActive.icon;
 
   return (
-    <div className="w-full max-w-xl">
-      {/* Floating Glassmorphic Container inspired by Image 1 & Image 2 */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.3 }}
-        className="p-5 sm:p-6 rounded-3xl backdrop-blur-2xl bg-black/45 border border-emerald-500/35 shadow-[0_0_60px_rgba(16,185,129,0.25)] space-y-4"
-      >
-        {/* Top Header: Active Telemetry Badge */}
-        <div className="flex items-center justify-between border-b border-emerald-800/40 pb-3">
-          <div className="flex items-center space-x-2">
-            <div className="relative flex items-center justify-center">
-              <span className="w-3 h-3 rounded-full bg-emerald-400 animate-ping absolute" />
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 relative z-10" />
+    <div className="relative w-full max-w-md lg:max-w-lg select-none">
+      {/* Outer ambient glow */}
+      <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500/20 via-green-500/10 to-lime-500/20 rounded-3xl blur-xl opacity-75" />
+
+      {/* Main Glassmorphic Container matching Image 1 "Tech Nature" */}
+      <div className="relative rounded-3xl vantara-panel p-5 sm:p-6 text-white border border-emerald-400/30 shadow-[0_20px_50px_rgba(0,0,0,0.7)] backdrop-blur-2xl">
+        {/* Top Header Row with Active Node Counter & Live Pulse */}
+        <div className="flex items-center justify-between border-b border-emerald-800/40 pb-4 mb-4">
+          <div className="flex items-center space-x-2.5">
+            <div className="w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-lime-400">
+              <Activity className="w-4 h-4 animate-pulse" />
             </div>
-            <span className="text-xs font-black uppercase tracking-wider text-emerald-200">
-              {language === 'kn' ? 'ಲೈವ್ ಅಗ್ರಿಟೆಕ್ ನೋಡ್ ಸಂವೇದಕ' : 'Live Agritech Node Telemetry'}
-            </span>
+            <div>
+              <span className="text-xs font-bold text-white tracking-wide block">
+                AgriTech Precision Matrix
+              </span>
+              <span className="text-[10px] text-lime-400 font-mono">
+                5 Languages Active • Deterministic
+              </span>
+            </div>
           </div>
 
-          <div className="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-400/40 text-[11px] font-bold text-amber-300">
-            <Radio className="w-3.5 h-3.5 animate-pulse" />
-            <span>Active Sync</span>
+          <div className="px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-400/30 text-[10px] font-bold text-emerald-300 flex items-center space-x-1.5 shadow-inner">
+            <span className="w-1.5 h-1.5 rounded-full bg-lime-400 animate-ping" />
+            <span>578M+ Farmers</span>
           </div>
         </div>
 
-        {/* Floating Node Selector Pills (Image 1 style) */}
-        <div className="grid grid-cols-3 gap-2">
+        {/* 3 Interactive Clickable Nodes */}
+        <div className="grid grid-cols-3 gap-2.5 mb-5">
           {nodes.map((node) => {
             const Icon = node.icon;
             const isSelected = activeNode === node.id;
-
             return (
               <motion.button
                 key={node.id}
                 onClick={() => setActiveNode(node.id)}
                 whileHover={{ scale: 1.04, y: -2 }}
                 whileTap={{ scale: 0.96 }}
-                transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-                className={`p-3 rounded-2xl flex flex-col items-center text-center space-y-1.5 transition cursor-pointer border ${
+                className={`p-3 rounded-2xl flex flex-col items-center text-center space-y-1.5 transition-all duration-200 cursor-pointer ${
                   isSelected
-                    ? 'bg-gradient-to-b from-emerald-600/50 to-emerald-950/80 border-emerald-400 text-white shadow-[0_0_20px_rgba(52,211,153,0.3)]'
-                    : 'bg-black/30 border-white/10 text-emerald-300/70 hover:bg-emerald-950/40 hover:text-white'
+                    ? 'bg-gradient-to-b from-emerald-600/90 to-green-700/80 border-2 border-lime-400 shadow-[0_0_20px_rgba(132,204,22,0.4)] text-white'
+                    : 'bg-[#041209]/70 hover:bg-[#092211] border border-emerald-500/20 text-emerald-200'
                 }`}
               >
-                <div
-                  className={`w-8 h-8 rounded-xl flex items-center justify-center ${
-                    isSelected
-                      ? 'bg-emerald-400 text-emerald-950 shadow-md'
-                      : 'bg-white/5 text-emerald-300'
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                </div>
-                <span className="text-[11px] font-bold line-clamp-1 leading-tight">
-                  {node.title}
+                <Icon className={`w-5 h-5 ${isSelected ? 'text-white' : 'text-emerald-400'}`} />
+                <span className="text-[11px] font-bold leading-tight line-clamp-1">
+                  {node.title.split(' ')[0]}
+                </span>
+                <span className="text-[9px] opacity-75 font-mono">
+                  {isSelected ? 'Active' : 'Select'}
                 </span>
               </motion.button>
             );
           })}
         </div>
 
-        {/* Selected Node Details Card with Spring Physics */}
+        {/* Active Node Detail Card with Animated Content Transition */}
         <AnimatePresence mode="wait">
           <motion.div
-            key={current.id}
-            initial={{ opacity: 0, y: 10, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.97 }}
+            key={currentActive.id}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.25 }}
-            className="p-4 rounded-2xl bg-emerald-950/60 border border-emerald-500/30 space-y-2.5 shadow-inner"
+            className="p-4 rounded-2xl bg-gradient-to-br from-[#041209]/90 to-[#0a2313]/90 border border-emerald-400/30 space-y-3 shadow-inner"
           >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <CurrentIcon className="w-5 h-5 text-emerald-400" />
-                <h4 className="text-sm font-bold text-white tracking-wide">
-                  {current.title}
-                </h4>
+            <div className="flex items-start justify-between">
+              <div className="flex items-center space-x-2.5">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-green-600 flex items-center justify-center text-white shadow-md">
+                  <IconComponent className="w-5 h-5 stroke-[2.2]" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-white tracking-tight">
+                    {currentActive.title}
+                  </h4>
+                  <span className="text-[10px] text-lime-400 font-semibold uppercase tracking-wider">
+                    {currentActive.badge}
+                  </span>
+                </div>
               </div>
-              <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-400 text-emerald-950 shadow-sm">
-                {current.badge}
-              </span>
+
+              <div className="text-right">
+                <span className="text-xs font-black text-white block">
+                  {currentActive.value}
+                </span>
+                <span className="text-[9px] text-emerald-300/70 font-mono">
+                  {currentActive.metric}
+                </span>
+              </div>
             </div>
 
-            <div className="flex items-baseline justify-between pt-1">
-              <span className="text-base sm:text-lg font-black text-emerald-300">
-                {current.value}
-              </span>
-              <span className="text-[11px] text-emerald-400/80 font-mono">
-                {current.metric}
-              </span>
-            </div>
-
-            <p className="text-xs text-emerald-100/80 leading-relaxed font-normal pt-1">
-              {current.description}
+            <p className="text-xs text-emerald-100/85 leading-relaxed font-normal">
+              {currentActive.description}
             </p>
+
+            {/* Micro verification pills */}
+            <div className="pt-2 border-t border-emerald-800/40 flex items-center justify-between text-[10px] text-emerald-300">
+              <span className="flex items-center space-x-1">
+                <CheckCircle2 className="w-3.5 h-3.5 text-lime-400" />
+                <span>Statutory Rule Validated</span>
+              </span>
+              <span className="font-mono text-lime-400 font-bold">100% Free Tier</span>
+            </div>
           </motion.div>
         </AnimatePresence>
-
-        {/* Floating Community Stat Badge matching Image 1 ("578M+ Clients Active" style) */}
-        <div className="p-3 rounded-2xl bg-black/40 border border-white/10 flex items-center justify-between text-xs">
-          <div className="flex items-center space-x-3">
-            <div className="flex -space-x-2 overflow-hidden">
-              <div className="w-7 h-7 rounded-full bg-emerald-700 border-2 border-black flex items-center justify-center text-[10px] font-bold text-white">
-                KM
-              </div>
-              <div className="w-7 h-7 rounded-full bg-amber-600 border-2 border-black flex items-center justify-center text-[10px] font-bold text-white">
-                KA
-              </div>
-              <div className="w-7 h-7 rounded-full bg-green-500 border-2 border-black flex items-center justify-center text-[10px] font-bold text-emerald-950">
-                AI
-              </div>
-            </div>
-            <div>
-              <span className="font-extrabold text-white text-xs block">
-                5.8M+ Karnataka Farmlands
-              </span>
-              <span className="text-[10px] text-emerald-300/70">
-                Raitha Samparka Kendra Network
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center space-x-1 text-emerald-400 font-bold text-[11px]">
-            <CheckCircle2 className="w-4 h-4" />
-            <span>Verified</span>
-          </div>
-        </div>
-      </motion.div>
+      </div>
     </div>
   );
 };
-

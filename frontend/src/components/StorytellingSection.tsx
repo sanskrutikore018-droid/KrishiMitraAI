@@ -3,14 +3,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Landmark, Scale, Compass, Sparkles, ArrowUpRight } from 'lucide-react';
-import { SupportedLanguage, getDictionary } from '../lib/i18n';
+import { useTranslation } from '../context/LanguageContext';
+import { SupportedLanguage } from '../lib/i18n';
 
 interface StorytellingSectionProps {
-  language: SupportedLanguage;
+  language?: SupportedLanguage;
 }
 
-export const StorytellingSection: React.FC<StorytellingSectionProps> = ({ language }) => {
-  const dict = getDictionary(language);
+export const StorytellingSection: React.FC<StorytellingSectionProps> = () => {
+  const { dict } = useTranslation();
 
   const storyCards = [
     {

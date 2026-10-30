@@ -1,4 +1,4 @@
-export type Language = 'kn' | 'en' | 'hi' | 'mr';
+export type Language = 'kn' | 'en' | 'hi' | 'mr' | 'te';
 export type SupportedLanguage = Language;
 
 export interface FarmerProfile {

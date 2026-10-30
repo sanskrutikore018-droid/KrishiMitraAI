@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { CinematicNavbar } from '../components/CinematicNavbar';
 import { CinematicHero } from '../components/CinematicHero';
 import { LiquidGlassCapsule } from '../components/LiquidGlassCapsule';
@@ -19,7 +18,7 @@ import {
   SchemeEvaluation,
   ChatMessage
 } from '../types';
-import { SupportedLanguage, getDictionary } from '../lib/i18n';
+import { useTranslation } from '../context/LanguageContext';
 import {
   checkBackendHealth,
   evaluateProfile,
@@ -27,7 +26,7 @@ import {
 } from '../lib/api';
 
 export default function Home() {
-  const [language, setLanguage] = useState<SupportedLanguage>('kn');
+  const { language, dict } = useTranslation();
   const [isBackendHealthy, setIsBackendHealthy] = useState<boolean>(true);
   const [sessionId, setSessionId] = useState<string>('');
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
@@ -46,8 +45,6 @@ export default function Home() {
   const [selectedScheme, setSelectedScheme] = useState<SchemeEvaluation | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const dict = getDictionary(language);
-
   // Initialize on mount
   useEffect(() => {
     const initApp = async () => {
@@ -58,23 +55,27 @@ export default function Home() {
       // 2. Initial schemes evaluation
       const initialEvaluations = await evaluateProfile(profile);
       setSchemes(initialEvaluations);
-
-      // 3. Welcome message
-      setMessages([
-        {
-          id: 'welcome-init',
-          role: 'assistant',
-          content:
-            language === 'kn'
-              ? 'ನಮಸ್ಕಾರ! ನಾನು ನಿಮ್ಮ ಕೃಷಿ ಮಿತ್ರ AI. ನಿಮ್ಮ ಕೃಷಿ ಭೂಮಿ, ಬೆಳೆ ಮತ್ತು ಜಿಲ್ಲೆಯ ವಿವರಗಳನ್ನು ಹೇಳಿ, ನಿಮಗೆ ಸೂಕ್ತವಾದ ಸರ್ಕಾರಿ ಸಹಾಯಧನ ಮತ್ತು ಬೆಳೆ ವಿಮೆ ಯೋಜನೆಗಳನ್ನು ಹುಡುಕಿ ಕೊಡುತ್ತೇನೆ.'
-              : 'Namaskara! I am your Krishi Mitra AI assistant. Tell me about your farmland, district, and crops to evaluate your eligibility for official schemes.',
-          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        }
-      ]);
     };
 
     initApp();
   }, []);
+
+  // Dynamically synchronize welcome message with selected language
+  useEffect(() => {
+    setMessages((prev) => {
+      if (prev.length === 0 || (prev.length === 1 && prev[0].id === 'welcome-init')) {
+        return [
+          {
+            id: 'welcome-init',
+            role: 'assistant',
+            content: dict.welcomeMessage,
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+          }
+        ];
+      }
+      return prev;
+    });
+  }, [dict.welcomeMessage]);
 
   const handleStartJourney = () => {
     const el = document.getElementById('voice-core');
@@ -96,7 +97,7 @@ export default function Home() {
     setMessages((prev) => [...prev, userMsg]);
     setIsLoading(true);
 
-    // 2. Call backend chat API
+    // 2. Call backend chat API with active language
     const response = await sendChatMessage(text, sessionId || undefined, language as any);
 
     if (response) {
@@ -127,6 +128,12 @@ export default function Home() {
         content:
           language === 'kn'
             ? 'ಸರ್ವರ್ ಸಂಪರ್ಕ ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು FastAPI ಬ್ಯಾಕೆಂಡ್ ಚಾಲನೆಯಲ್ಲಿದೆಯೇ ಪರಿಶೀಲಿಸಿ.'
+            : language === 'te'
+            ? 'సర్వర్ కనెక్టివిటీ విఫలమైంది. దయచేసి FastAPI బ్యాకెండ్ నడుస్తుందో లేదో తనిఖీ చేయండి.'
+            : language === 'hi'
+            ? 'सर्वर से संपर्क नहीं हो सका। कृपया जांचें कि बैकएंड चालू है या नहीं।'
+            : language === 'mr'
+            ? 'सर्व्हरशी संपर्क होऊ शकला नाही. कृपया बॅकएंड सुरू आहे का ते तपासा.'
             : 'Unable to reach backend server. Please make sure FastAPI backend is running.',
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
@@ -148,75 +155,53 @@ export default function Home() {
     <div className="min-h-screen bg-[#041209] text-[#f0f4f0] font-sans selection:bg-emerald-500/40 selection:text-white">
       {/* 1. Cinematic Sticky Navigation Bar */}
       <CinematicNavbar
-        language={language}
-        onLanguageChange={setLanguage}
         onOpenSettings={() => setIsSettingsOpen(true)}
         isBackendHealthy={isBackendHealthy}
       />
 
-      {/* Buttery Smooth Animated Transition across Language Dictionaries */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={language}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.25, ease: 'easeInOut' }}
-        >
-          {/* 2. Cinematic Animated Hero Section (Panel 1) */}
-          <CinematicHero
-            language={language}
-            onLanguageChange={setLanguage}
-            onStartJourney={handleStartJourney}
-          />
+      {/* 2. Cinematic Animated Hero Section (Panel 1) */}
+      <CinematicHero onStartJourney={handleStartJourney} />
 
-          {/* Liquid Glass Capsule Quick Navigator (Image 2 style) */}
-          <LiquidGlassCapsule language={language} />
+      {/* Liquid Glass Capsule Quick Navigator (Image 2 style) */}
+      <LiquidGlassCapsule />
 
-          {/* 3. Scrolling Transition Storytelling Section (Panel 2) */}
-          <StorytellingSection language={language} />
+      {/* 3. Scrolling Transition Storytelling Section (Panel 2) */}
+      <StorytellingSection />
 
-          {/* 4. Interactive Luminous AI Voice Assistant Core (Panel 3 & 6) */}
-          <LuminousVoiceCore
-            language={language}
-            onSendMessage={handleSendMessage}
-            isLoading={isLoading}
-            messages={messages}
-            currentProfile={profile}
-          />
+      {/* 4. Interactive Luminous AI Voice Assistant Core (Panel 3 & 6) */}
+      <LuminousVoiceCore
+        onSendMessage={handleSendMessage}
+        isLoading={isLoading}
+        messages={messages}
+        currentProfile={profile}
+      />
 
-          {/* 5. Farmer Profile Progressive Slot Status Tracker */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-            <div className="vantara-panel p-2 sm:p-3 rounded-3xl border border-emerald-500/25 shadow-2xl">
-              <FarmerProfileTracker
-                profile={profile}
-                language={language as any}
-                onUpdateProfile={handleManualProfileUpdate}
-              />
-            </div>
-          </div>
-
-          {/* 6. Government Schemes Showcase Section (Panel 4) */}
-          <SchemesShowcase
-            schemes={schemes}
-            language={language}
-            onSelectScheme={(s) => setSelectedScheme(s)}
-          />
-
-          {/* 7. Eligibility Assessment View (Panel 5) */}
-          <EligibilityAssessmentView
-            language={language}
+      {/* 5. Farmer Profile Progressive Slot Status Tracker */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+        <div className="vantara-panel p-2 sm:p-3 rounded-3xl border border-emerald-500/25 shadow-2xl">
+          <FarmerProfileTracker
             profile={profile}
-            evaluations={schemes}
-            onOpenGuidance={(scheme) => setSelectedScheme(scheme || schemes[0])}
+            onUpdateProfile={handleManualProfileUpdate}
           />
-        </motion.div>
-      </AnimatePresence>
+        </div>
+      </div>
+
+      {/* 6. Government Schemes Showcase Section (Panel 4) */}
+      <SchemesShowcase
+        schemes={schemes}
+        onSelectScheme={(s) => setSelectedScheme(s)}
+      />
+
+      {/* 7. Eligibility Assessment View (Panel 5) */}
+      <EligibilityAssessmentView
+        profile={profile}
+        evaluations={schemes}
+        onOpenGuidance={(scheme) => setSelectedScheme(scheme || schemes[0])}
+      />
 
       {/* Evidence & Details Dossier Modal */}
       <EvidenceModal
         scheme={selectedScheme}
-        language={language as any}
         onClose={() => setSelectedScheme(null)}
       />
 
@@ -224,14 +209,13 @@ export default function Home() {
       <SettingsModal
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
-        language={language}
       />
 
       {/* Statutory Disclaimer & Footer */}
-      <DisclaimerFooter language={language as any} />
+      <DisclaimerFooter />
 
       {/* Mobile Floating Bottom Navigation (Panel 6) */}
-      <MobileBottomNav language={language} />
+      <MobileBottomNav />
     </div>
   );
 }

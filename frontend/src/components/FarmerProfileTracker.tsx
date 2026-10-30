@@ -14,20 +14,19 @@ import {
   X
 } from 'lucide-react';
 import { FarmerProfile, Language } from '../types';
-import { getDictionary } from '../lib/i18n';
+import { useTranslation } from '../context/LanguageContext';
 
 interface FarmerProfileTrackerProps {
   profile: FarmerProfile;
-  language: Language;
+  language?: Language;
   onUpdateProfile: (updated: FarmerProfile) => void;
 }
 
 export const FarmerProfileTracker: React.FC<FarmerProfileTrackerProps> = ({
   profile,
-  language,
   onUpdateProfile
 }) => {
-  const dict = getDictionary(language);
+  const { dict } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
   const [tempProfile, setTempProfile] = useState<FarmerProfile>({ ...profile });
 

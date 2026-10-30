@@ -13,21 +13,20 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import { SchemeEvaluation, Language } from '../types';
-import { getDictionary } from '../lib/i18n';
+import { useTranslation } from '../context/LanguageContext';
 
 interface EvidenceModalProps {
   scheme: SchemeEvaluation | null;
-  language: Language;
+  language?: Language;
   onClose: () => void;
 }
 
 export const EvidenceModal: React.FC<EvidenceModalProps> = ({
   scheme,
-  language,
   onClose
 }) => {
+  const { dict, language } = useTranslation();
   if (!scheme) return null;
-  const dict = getDictionary(language);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
