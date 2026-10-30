@@ -53,6 +53,18 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const animIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const recognitionRef = useRef<any>(null);
+  const accumulatedTranscriptRef = useRef<string>('');
+  const currentAudioRef = useRef<HTMLAudioElement | null>(null);
+  const lastSpokenMsgIdRef = useRef<string | null>(null);
+
+  // Language mapping for browser speech APIs
+  const speechLangMap: Record<SupportedLanguage, string> = {
+    kn: 'kn-IN',
+    hi: 'hi-IN',
+    mr: 'mr-IN',
+    te: 'te-IN',
+    en: 'en-US'
+  };
 
   // Sync external loading state to voice state
   useEffect(() => {
@@ -88,12 +100,13 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
     };
   }, [voiceState]);
 
-  // Clean up
+  // Clean up timers, recognition and audio on unmount
   useEffect(() => {
     return () => {
+      stopAnyAudio();
       if (timerRef.current) clearInterval(timerRef.current);
       if (recognitionRef.current) {
-        try { recognitionRef.current.stop(); } catch (e) {}
+        try { recognitionRef.current.abort(); } catch (e) {}
       }
     };
   }, []);
@@ -112,13 +125,244 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
     { title: dict.recentQ4, time: '09:32 AM' }
   ];
 
-  const startVoiceRecording = async () => {
-    setLiveTranscript(null);
-    audioChunksRef.current = [];
+  // Stop any currently playing audio or speech synthesis
+  const stopAnyAudio = () => {
+    if (currentAudioRef.current) {
+      try {
+        currentAudioRef.current.pause();
+        currentAudioRef.current.currentTime = 0;
+      } catch (e) {}
+      currentAudioRef.current = null;
+    }
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      try {
+        window.speechSynthesis.cancel();
+      } catch (e) {}
+    }
+    setVoiceState((prev) => (prev === 'speaking' ? 'idle' : prev));
+  };
+
+  // Dual-Layer Audio Playback Engine
+  const playAudioMessage = (msg: ChatMessage) => {
+    if (speakerMuted) return;
+
+    stopAnyAudio();
+
+    // Primary Layer: Backend/Sarvam Audio Stream (Base64)
+    if (msg.audioBase64) {
+      try {
+        const audioUrl = `data:${msg.audioFormat || 'audio/wav'};base64,${msg.audioBase64}`;
+        const audio = new Audio(audioUrl);
+        currentAudioRef.current = audio;
+        setVoiceState('speaking');
+
+        audio.onended = () => {
+          setVoiceState('idle');
+          currentAudioRef.current = null;
+        };
+
+        audio.onerror = () => {
+          currentAudioRef.current = null;
+          playNativeSpeechSynthesis(msg.content);
+        };
+
+        audio.play().catch((err) => {
+          console.warn('HTML5 Audio playback blocked, attempting SpeechSynthesis:', err);
+          currentAudioRef.current = null;
+          playNativeSpeechSynthesis(msg.content);
+        });
+        return;
+      } catch (e) {
+        console.warn('Audio construction failed, falling back to Web Speech:', e);
+      }
+    }
+
+    // Secondary Layer (Zero-Cost Native Fallback): window.speechSynthesis
+    playNativeSpeechSynthesis(msg.content);
+  };
+
+  // Browser-native SpeechSynthesis fallback
+  const playNativeSpeechSynthesis = (text: string) => {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
+      setVoiceState('idle');
+      return;
+    }
 
     try {
+      window.speechSynthesis.cancel();
+
+      // Clean markdown, links, asterisks, brackets for natural spoken audio
+      const cleanText = text
+        .replace(/https?:\/\/\S+/g, '')
+        .replace(/[*#_~`]/g, '')
+        .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+        .replace(/[\(\)\{\}\<\>]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+      if (!cleanText) {
+        setVoiceState('idle');
+        return;
+      }
+
+      const utterance = new SpeechSynthesisUtterance(cleanText);
+      const targetLang = speechLangMap[language] || 'kn-IN';
+      utterance.lang = targetLang;
+      utterance.rate = 0.94; // slightly relaxed cadence for clear farmer comprehension
+      utterance.pitch = 1.0;
+
+      // Select localized voice if installed on device
+      const voices = window.speechSynthesis.getVoices();
+      if (voices && voices.length > 0) {
+        const matchingVoice = voices.find(
+          (v) =>
+            v.lang.toLowerCase() === targetLang.toLowerCase() ||
+            v.lang.toLowerCase().replace('_', '-').startsWith(language)
+        );
+        if (matchingVoice) {
+          utterance.voice = matchingVoice;
+        }
+      }
+
+      setVoiceState('speaking');
+
+      utterance.onend = () => {
+        setVoiceState('idle');
+      };
+
+      utterance.onerror = (e) => {
+        console.warn('SpeechSynthesis utterance error:', e);
+        setVoiceState('idle');
+      };
+
+      window.speechSynthesis.speak(utterance);
+    } catch (err) {
+      console.error('SpeechSynthesis exception:', err);
+      setVoiceState('idle');
+    }
+  };
+
+  // Auto-play incoming assistant messages when not muted
+  useEffect(() => {
+    if (messages.length === 0) return;
+    const latest = messages[messages.length - 1];
+
+    if (
+      latest.role === 'assistant' &&
+      latest.id !== 'welcome-init' &&
+      latest.id !== lastSpokenMsgIdRef.current &&
+      !speakerMuted
+    ) {
+      lastSpokenMsgIdRef.current = latest.id;
+      playAudioMessage(latest);
+    }
+  }, [messages, speakerMuted]);
+
+  // Handle speaker mute toggle
+  useEffect(() => {
+    if (speakerMuted) {
+      stopAnyAudio();
+    }
+  }, [speakerMuted]);
+
+  // Primary: Client-Side Instantaneous Browser Speech Recognition
+  const startVoiceRecording = () => {
+    stopAnyAudio();
+    setLiveTranscript(null);
+    accumulatedTranscriptRef.current = '';
+
+    const SpeechRecognition =
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+
+    if (SpeechRecognition) {
+      try {
+        if (recognitionRef.current) {
+          try { recognitionRef.current.abort(); } catch (e) {}
+        }
+
+        const recognition = new SpeechRecognition();
+        recognitionRef.current = recognition;
+        const targetLang = speechLangMap[language] || 'kn-IN';
+        recognition.lang = targetLang;
+        recognition.interimResults = true;
+        recognition.continuous = false;
+        recognition.maxAlternatives = 1;
+
+        recognition.onstart = () => {
+          setVoiceState('listening');
+          setRecordingSeconds(0);
+          if (timerRef.current) clearInterval(timerRef.current);
+          timerRef.current = setInterval(() => {
+            setRecordingSeconds((prev) => prev + 1);
+          }, 1000);
+        };
+
+        recognition.onresult = (event: any) => {
+          let interim = '';
+          let final = '';
+          for (let i = 0; i < event.results.length; i++) {
+            const item = event.results[i];
+            if (item.isFinal) {
+              final += item[0].transcript;
+            } else {
+              interim += item[0].transcript;
+            }
+          }
+          const spoken = (final || interim).trim();
+          accumulatedTranscriptRef.current = spoken;
+          setLiveTranscript(spoken);
+          setInputText(spoken);
+        };
+
+        recognition.onerror = (event: any) => {
+          console.warn('SpeechRecognition error:', event.error);
+          if (timerRef.current) clearInterval(timerRef.current);
+
+          if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+            setVoiceState('error');
+            setLiveTranscript('Microphone permission denied. Please allow microphone access in your browser.');
+            setTimeout(() => setVoiceState('idle'), 4000);
+          } else if (event.error === 'no-speech') {
+            setVoiceState('idle');
+          } else {
+            // Attempt secondary MediaRecorder fallback
+            fallbackMediaRecorderSTT();
+          }
+        };
+
+        recognition.onend = () => {
+          if (timerRef.current) clearInterval(timerRef.current);
+          const finalSpoken = accumulatedTranscriptRef.current.trim();
+          if (finalSpoken) {
+            setVoiceState('processing');
+            onSendMessage(finalSpoken);
+            setInputText('');
+            setTimeout(() => setLiveTranscript(null), 3000);
+          } else {
+            setVoiceState('idle');
+          }
+        };
+
+        recognition.start();
+        return;
+      } catch (err) {
+        console.warn('Failed to start SpeechRecognition directly, trying fallback:', err);
+        fallbackMediaRecorderSTT();
+      }
+    } else {
+      // Secondary fallback if browser has no SpeechRecognition
+      fallbackMediaRecorderSTT();
+    }
+  };
+
+  // Secondary Fallback: MediaRecorder stream sent to backend /api/voice/stt
+  const fallbackMediaRecorderSTT = async () => {
+    try {
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        throw new Error('MediaDevices not supported');
+        setVoiceState('error');
+        setLiveTranscript('Microphone capture not supported in this browser. Please type.');
+        setTimeout(() => setVoiceState('idle'), 3500);
+        return;
       }
 
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -126,6 +370,7 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
         mimeType: MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : ''
       });
       mediaRecorderRef.current = mediaRecorder;
+      audioChunksRef.current = [];
 
       mediaRecorder.ondataavailable = (event) => {
         if (event.data.size > 0) {
@@ -136,19 +381,34 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
       mediaRecorder.onstop = async () => {
         stream.getTracks().forEach((track) => track.stop());
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
-        await processCapturedAudio(audioBlob);
+        setVoiceState('processing');
+        try {
+          const result = await sendAudioForSTT(audioBlob, language);
+          if (result && result.transcript && result.transcript.trim()) {
+            const text = result.transcript.trim();
+            setLiveTranscript(text);
+            onSendMessage(text);
+          } else {
+            setVoiceState('idle');
+          }
+        } catch (err) {
+          console.error('Backend STT failed:', err);
+          setVoiceState('idle');
+        }
       };
 
       mediaRecorder.start(250);
       setVoiceState('listening');
       setRecordingSeconds(0);
-
+      if (timerRef.current) clearInterval(timerRef.current);
       timerRef.current = setInterval(() => {
         setRecordingSeconds((prev) => prev + 1);
       }, 1000);
     } catch (err) {
-      console.warn('Falling back to Web Speech recognition:', err);
-      startBrowserWebSpeech();
+      console.warn('MediaRecorder permission error:', err);
+      setVoiceState('error');
+      setLiveTranscript('Microphone permission was not granted. Please type.');
+      setTimeout(() => setVoiceState('idle'), 3500);
     }
   };
 
@@ -157,101 +417,36 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
       clearInterval(timerRef.current);
       timerRef.current = null;
     }
+
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop();
+      } catch (e) {}
+    }
+
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
-      mediaRecorderRef.current.stop();
+      try {
+        mediaRecorderRef.current.stop();
+      } catch (e) {}
     }
-    setVoiceState('processing');
-  };
-
-  const processCapturedAudio = async (audioBlob: Blob) => {
-    setVoiceState('processing');
-    try {
-      const result = await sendAudioForSTT(audioBlob, language);
-      if (result && result.transcript && result.transcript.trim()) {
-        const text = result.transcript.trim();
-        setLiveTranscript(text);
-        setInputText(text);
-        setVoiceState('idle');
-        onSendMessage(text);
-      } else {
-        startBrowserWebSpeech();
-      }
-    } catch (e) {
-      console.error('Audio STT failure:', e);
-      startBrowserWebSpeech();
-    }
-  };
-
-  const startBrowserWebSpeech = () => {
-    const SpeechRecognition =
-      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-
-    if (!SpeechRecognition) {
-      setVoiceState('error');
-      alert(language === 'kn' ? 'ಧ್ವನಿ ಗುರುತಿಸುವಿಕೆ ಲಭ್ಯವಿಲ್ಲ, ಟೈಪ್ ಮಾಡಿ.' : 'Voice recognition unavailable, please type.');
-      return;
-    }
-
-    try {
-      const recognition = new SpeechRecognition();
-      recognitionRef.current = recognition;
-      const speechLangMap: Record<string, string> = {
-        kn: 'kn-IN',
-        en: 'en-IN',
-        hi: 'hi-IN',
-        te: 'te-IN',
-        mr: 'mr-IN'
-      };
-      recognition.lang = speechLangMap[language] || 'en-IN';
-      recognition.interimResults = true;
-      recognition.continuous = false;
-
-      setVoiceState('listening');
-      setRecordingSeconds(0);
-      timerRef.current = setInterval(() => {
-        setRecordingSeconds((prev) => prev + 1);
-      }, 1000);
-
-      recognition.onresult = (e: any) => {
-        const transcript = Array.from(e.results)
-          .map((r: any) => r[0].transcript)
-          .join('');
-        setLiveTranscript(transcript);
-        setInputText(transcript);
-      };
-
-      recognition.onerror = () => {
-        setVoiceState('error');
-        if (timerRef.current) clearInterval(timerRef.current);
-      };
-
-      recognition.onend = () => {
-        if (timerRef.current) clearInterval(timerRef.current);
-        setVoiceState('idle');
-        if (inputText.trim()) {
-          onSendMessage(inputText.trim());
-        }
-      };
-
-      recognition.start();
-    } catch (e) {
-      setVoiceState('error');
-    }
-  };
-
-  const handleSendText = () => {
-    if (!inputText.trim() || isLoading) return;
-    onSendMessage(inputText.trim());
-    setInputText('');
-    setLiveTranscript(null);
   };
 
   const handleOrbClick = () => {
     if (voiceState === 'listening') {
       stopVoiceRecording();
-    } else {
+    } else if (voiceState === 'speaking') {
+      stopAnyAudio();
+    } else if (voiceState === 'idle' || voiceState === 'error') {
       startVoiceRecording();
     }
+  };
+
+  const handleSendText = () => {
+    if (!inputText.trim() || isLoading) return;
+    stopAnyAudio();
+    onSendMessage(inputText.trim());
+    setInputText('');
+    setLiveTranscript(null);
   };
 
   const getStateText = () => {
@@ -366,6 +561,8 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
                         <Mic className="w-10 h-10 text-white animate-pulse" />
                       ) : voiceState === 'processing' ? (
                         <Loader2 className="w-10 h-10 text-emerald-200 animate-spin" />
+                      ) : voiceState === 'speaking' ? (
+                        <Volume2 className="w-10 h-10 text-white animate-bounce" />
                       ) : (
                         <Sprout className="w-11 h-11 text-emerald-100 stroke-[2.4]" />
                       )}
@@ -409,6 +606,10 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
               >
                 {voiceState === 'listening' ? (
                   <MicOff className="w-4 h-4 text-rose-400 animate-pulse" />
+                ) : voiceState === 'speaking' ? (
+                  <Volume2 className="w-4 h-4 text-lime-400 animate-pulse" />
+                ) : voiceState === 'processing' ? (
+                  <Loader2 className="w-4 h-4 text-emerald-400 animate-spin" />
                 ) : (
                   <Mic className="w-4 h-4 text-emerald-400" />
                 )}
@@ -555,10 +756,20 @@ export const LuminousVoiceCore: React.FC<LuminousVoiceCoreProps> = ({
             {/* Real-time Dialogue History Bubble */}
             {messages.length > 0 && (
               <div className="pt-3 border-t border-emerald-800/50">
-                <span className="text-[11px] font-bold text-emerald-400 block mb-1.5 flex items-center space-x-1">
-                  <Activity className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
-                  <span>{dict.latestAiResponseLabel}:</span>
-                </span>
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[11px] font-bold text-emerald-400 flex items-center space-x-1">
+                    <Activity className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
+                    <span>{dict.latestAiResponseLabel}:</span>
+                  </span>
+                  <button
+                    onClick={() => playAudioMessage(messages[messages.length - 1])}
+                    className="p-1 px-2 rounded-lg bg-emerald-900/60 hover:bg-emerald-800 text-emerald-200 text-[10px] font-bold flex items-center space-x-1 border border-emerald-700/50 transition cursor-pointer"
+                    title={dict.playVoice || 'Listen'}
+                  >
+                    <Volume2 className="w-3 h-3 text-lime-400" />
+                    <span>{dict.playVoice || 'Listen'}</span>
+                  </button>
+                </div>
                 <div className="text-xs text-emerald-100/90 bg-emerald-950/80 p-3.5 rounded-2xl border border-emerald-600/40 leading-relaxed max-h-40 overflow-y-auto shadow-inner">
                   {messages[messages.length - 1].content}
                 </div>

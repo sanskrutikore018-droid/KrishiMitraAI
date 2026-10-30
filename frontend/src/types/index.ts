@@ -68,6 +68,7 @@ export interface ChatMessage {
   role: 'user' | 'assistant' | 'system';
   content: string;
   audioBase64?: string | null;
+  audioFormat?: string | null;
   timestamp: string;
 }
 

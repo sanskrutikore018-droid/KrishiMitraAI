@@ -28,25 +28,116 @@ export const VoiceInputBar: React.FC<VoiceInputBarProps> = ({
   const audioChunksRef = useRef<Blob[]>([]);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const recognitionRef = useRef<any>(null);
+  const accumulatedTranscriptRef = useRef<string>('');
 
-  // Clear timer on unmount
+  const speechLangMap: Record<Language, string> = {
+    kn: 'kn-IN',
+    hi: 'hi-IN',
+    mr: 'mr-IN',
+    te: 'te-IN',
+    en: 'en-US'
+  };
+
+  // Clear timer and recognition on unmount
   useEffect(() => {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
       if (recognitionRef.current) {
-        try { recognitionRef.current.stop(); } catch (e) {}
+        try { recognitionRef.current.abort(); } catch (e) {}
       }
     };
   }, []);
 
-  const startRecording = async () => {
+  // Primary: Client-Side Browser Speech Recognition
+  const startRecording = () => {
     setPreviewTranscript(null);
-    audioChunksRef.current = [];
+    accumulatedTranscriptRef.current = '';
 
-    // Try MediaRecorder API first
+    const SpeechRecognition =
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+
+    if (SpeechRecognition) {
+      try {
+        if (recognitionRef.current) {
+          try { recognitionRef.current.abort(); } catch (e) {}
+        }
+
+        const recognition = new SpeechRecognition();
+        recognitionRef.current = recognition;
+        recognition.lang = speechLangMap[language] || 'kn-IN';
+        recognition.interimResults = true;
+        recognition.continuous = false;
+        recognition.maxAlternatives = 1;
+
+        recognition.onstart = () => {
+          setIsRecording(true);
+          setRecordingSeconds(0);
+          if (timerRef.current) clearInterval(timerRef.current);
+          timerRef.current = setInterval(() => {
+            setRecordingSeconds((prev) => prev + 1);
+          }, 1000);
+        };
+
+        recognition.onresult = (event: any) => {
+          let interim = '';
+          let final = '';
+          for (let i = 0; i < event.results.length; i++) {
+            const item = event.results[i];
+            if (item.isFinal) {
+              final += item[0].transcript;
+            } else {
+              interim += item[0].transcript;
+            }
+          }
+          const spoken = (final || interim).trim();
+          accumulatedTranscriptRef.current = spoken;
+          setPreviewTranscript(spoken);
+          setInputText(spoken);
+        };
+
+        recognition.onerror = (e: any) => {
+          console.warn('SpeechRecognition error:', e.error);
+          if (timerRef.current) clearInterval(timerRef.current);
+          if (e.error === 'no-speech') {
+            setIsRecording(false);
+          } else {
+            fallbackMediaRecorder();
+          }
+        };
+
+        recognition.onend = () => {
+          setIsRecording(false);
+          if (timerRef.current) clearInterval(timerRef.current);
+          const finalSpoken = accumulatedTranscriptRef.current.trim();
+          if (finalSpoken) {
+            setInputText(finalSpoken);
+            setPreviewTranscript(finalSpoken);
+          }
+        };
+
+        recognition.start();
+        return;
+      } catch (err) {
+        console.warn('Direct SpeechRecognition failed, falling back to MediaRecorder:', err);
+        fallbackMediaRecorder();
+      }
+    } else {
+      fallbackMediaRecorder();
+    }
+  };
+
+  // Secondary Fallback: MediaRecorder
+  const fallbackMediaRecorder = async () => {
+    audioChunksRef.current = [];
     try {
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        throw new Error('MediaDevices not supported');
+        alert(
+          language === 'kn'
+            ? 'ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಧ್ವನಿ ಗುರುತಿಸುವಿಕೆ ಲಭ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ಪಠ್ಯದಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ.'
+            : 'Speech recognition is not supported in this browser. Please type your message.'
+        );
+        setIsRecording(false);
+        return;
       }
 
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -62,7 +153,6 @@ export const VoiceInputBar: React.FC<VoiceInputBarProps> = ({
       };
 
       mediaRecorder.onstop = async () => {
-        // Stop audio tracks
         stream.getTracks().forEach((track) => track.stop());
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
         await handleAudioCaptured(audioBlob);
@@ -76,8 +166,8 @@ export const VoiceInputBar: React.FC<VoiceInputBarProps> = ({
         setRecordingSeconds((prev) => prev + 1);
       }, 1000);
     } catch (err) {
-      console.warn('MediaRecorder error or mic permission denied, falling back to Web Speech API:', err);
-      startBrowserWebSpeech();
+      console.warn('MediaRecorder error or mic permission denied:', err);
+      setIsRecording(false);
     }
   };
 
@@ -87,8 +177,12 @@ export const VoiceInputBar: React.FC<VoiceInputBarProps> = ({
       timerRef.current = null;
     }
 
+    if (recognitionRef.current) {
+      try { recognitionRef.current.stop(); } catch (e) {}
+    }
+
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
-      mediaRecorderRef.current.stop();
+      try { mediaRecorderRef.current.stop(); } catch (e) {}
     }
     setIsRecording(false);
   };
@@ -98,13 +192,14 @@ export const VoiceInputBar: React.FC<VoiceInputBarProps> = ({
       clearInterval(timerRef.current);
       timerRef.current = null;
     }
-    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
-      mediaRecorderRef.current.stop();
-    }
     if (recognitionRef.current) {
       try { recognitionRef.current.abort(); } catch (e) {}
     }
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+      try { mediaRecorderRef.current.stop(); } catch (e) {}
+    }
     audioChunksRef.current = [];
+    accumulatedTranscriptRef.current = '';
     setIsRecording(false);
     setPreviewTranscript(null);
   };
@@ -112,74 +207,15 @@ export const VoiceInputBar: React.FC<VoiceInputBarProps> = ({
   const handleAudioCaptured = async (audioBlob: Blob) => {
     setIsProcessingAudio(true);
     try {
-      // 1. Call Sarvam AI STT backend endpoint
       const result = await sendAudioForSTT(audioBlob, language);
-
       if (result && result.transcript && result.transcript.trim().length > 0) {
         setPreviewTranscript(result.transcript.trim());
         setInputText(result.transcript.trim());
-      } else {
-        // Sarvam fallback required or missing key -> activate browser speech recognition
-        console.info('Sarvam STT returned empty or required fallback. Using browser Web Speech.');
-        startBrowserWebSpeech();
       }
     } catch (err) {
       console.error('Error sending audio to backend:', err);
-      startBrowserWebSpeech();
     } finally {
       setIsProcessingAudio(false);
-    }
-  };
-
-  const startBrowserWebSpeech = () => {
-    const SpeechRecognition =
-      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-
-    if (!SpeechRecognition) {
-      alert(
-        language === 'kn'
-          ? 'ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಧ್ವನಿ ಗುರುತಿಸುವಿಕೆ ಲಭ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ಪಠ್ಯದಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ.'
-          : 'Speech recognition is not supported in this browser. Please type your message.'
-      );
-      return;
-    }
-
-    try {
-      const recognition = new SpeechRecognition();
-      recognitionRef.current = recognition;
-      recognition.lang = language === 'kn' ? 'kn-IN' : 'en-IN';
-      recognition.interimResults = true;
-      recognition.continuous = false;
-
-      setIsRecording(true);
-      setRecordingSeconds(0);
-      timerRef.current = setInterval(() => {
-        setRecordingSeconds((prev) => prev + 1);
-      }, 1000);
-
-      recognition.onresult = (event: any) => {
-        const transcript = Array.from(event.results)
-          .map((res: any) => res[0].transcript)
-          .join('');
-        setPreviewTranscript(transcript);
-        setInputText(transcript);
-      };
-
-      recognition.onerror = (e: any) => {
-        console.warn('Browser Speech recognition error:', e);
-        setIsRecording(false);
-        if (timerRef.current) clearInterval(timerRef.current);
-      };
-
-      recognition.onend = () => {
-        setIsRecording(false);
-        if (timerRef.current) clearInterval(timerRef.current);
-      };
-
-      recognition.start();
-    } catch (e) {
-      console.error('Failed to start SpeechRecognition:', e);
-      setIsRecording(false);
     }
   };
 

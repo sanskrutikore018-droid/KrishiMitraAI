@@ -11,6 +11,26 @@ logger = logging.getLogger(__name__)
 SARVAM_STT_URL = "https://api.sarvam.ai/speech-to-text"
 SARVAM_TTS_URL = "https://api.sarvam.ai/text-to-speech"
 
+SARVAM_LANG_MAP = {
+    "kn": "kn-IN",
+    "hi": "hi-IN",
+    "mr": "mr-IN",
+    "te": "te-IN",
+    "en": "en-IN"
+}
+
+SARVAM_SPEAKER_MAP = {
+    "kn-IN": "meera",
+    "hi-IN": "swara",
+    "mr-IN": "swara",
+    "te-IN": "ananya",
+    "en-IN": "arvind"
+}
+
+def resolve_sarvam_lang(code: str) -> str:
+    cleaned = code.lower().split("-")[0]
+    return SARVAM_LANG_MAP.get(cleaned, "kn-IN")
+
 class SarvamVoiceService:
 
     @classmethod
@@ -23,11 +43,12 @@ class SarvamVoiceService:
     @classmethod
     async def speech_to_text(cls, audio_bytes: bytes, filename: str = "audio.wav", language_code: str = "kn-IN") -> STTResponse:
         api_key = cls.get_api_key()
+        lang_param = resolve_sarvam_lang(language_code)
         if not api_key:
             logger.info("Sarvam API key not configured; client should use browser Web Speech API fallback.")
             return STTResponse(
                 transcript="",
-                language_code=language_code,
+                language_code=lang_param,
                 confidence=0.0,
                 provider="fallback_browser_required"
             )
@@ -37,9 +58,6 @@ class SarvamVoiceService:
         }
 
         try:
-            # Map standard short codes to Sarvam language codes
-            lang_param = "kn-IN" if "kn" in language_code.lower() else "en-IN"
-
             files = {
                 "file": (filename, audio_bytes, "audio/wav")
             }
@@ -92,8 +110,8 @@ class SarvamVoiceService:
             "Content-Type": "application/json"
         }
 
-        target_lang = "kn-IN" if language == "kn" else "en-IN"
-        chosen_speaker = speaker or ("meera" if language == "kn" else "arvind")
+        target_lang = resolve_sarvam_lang(language)
+        chosen_speaker = speaker or SARVAM_SPEAKER_MAP.get(target_lang, "meera")
 
         payload = {
             "inputs": [text[:500]], # Sarvam TTS limit

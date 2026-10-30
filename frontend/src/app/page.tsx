@@ -117,6 +117,7 @@ export default function Home() {
         role: 'assistant',
         content: response.response_text,
         audioBase64: response.response_audio_base64 || null,
+        audioFormat: response.audio_format || 'audio/wav',
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
       setMessages((prev) => [...prev, assistantMsg]);

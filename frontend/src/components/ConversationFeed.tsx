@@ -80,9 +80,27 @@ export const ConversationFeed: React.FC<ConversationFeedProps> = ({
     if (!('speechSynthesis' in window)) return;
     window.speechSynthesis.cancel();
 
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = language === 'kn' ? 'kn-IN' : 'en-IN';
-    utterance.rate = 0.95;
+    // Clean markdown formatting, asterisks, URLs
+    const cleanText = text
+      .replace(/https?:\/\/\S+/g, '')
+      .replace(/[*#_~`]/g, '')
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+      .replace(/[\(\)\{\}\<\>]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    if (!cleanText) return;
+
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    const speechLangMap: Record<string, string> = {
+      kn: 'kn-IN',
+      hi: 'hi-IN',
+      mr: 'mr-IN',
+      te: 'te-IN',
+      en: 'en-US'
+    };
+    utterance.lang = speechLangMap[language] || 'kn-IN';
+    utterance.rate = 0.94;
     utterance.pitch = 1.0;
 
     if (msgId) setCurrentPlayingId(msgId);
