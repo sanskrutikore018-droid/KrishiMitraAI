@@ -43,24 +43,24 @@ KANNADA_DISTRICT_MAP = {
 }
 
 KANNADA_CROP_KEYWORDS = {
-    "ಭತ್ತ": "paddy", "ಅಕ್ಕಿ": "paddy", "bhatta": "paddy", "rice": "paddy", "paddy": "paddy",
-    "ರಾಗಿ": "ragi", "ragi": "ragi",
-    "ಕಬ್ಬು": "sugarcane", "kabbu": "sugarcane", "sugarcane": "sugarcane",
-    "ಜೋಳ": "jowar", "jola": "jowar", "jowar": "jowar",
-    "ಮೆಕ್ಕೆಜೋಳ": "maize", "maize": "maize", "corn": "maize",
-    "ಹತ್ತಿ": "cotton", "hatti": "cotton", "cotton": "cotton",
-    "ಶೇಂಗಾ": "groundnut", "ಕಡಲೆಕಾಯಿ": "groundnut", "groundnut": "groundnut", "peanut": "groundnut",
+    "ಭತ್ತ": "paddy", "ಭತ್ತದ": "paddy", "ಅಕ್ಕಿ": "paddy", "bhatta": "paddy", "rice": "paddy", "paddy": "paddy",
+    "ರಾಗಿ": "ragi", "ರಾಗಿಯ": "ragi", "ragi": "ragi",
+    "ಕಬ್ಬು": "sugarcane", "ಕಬ್ಬಿನ": "sugarcane", "kabbu": "sugarcane", "sugarcane": "sugarcane",
+    "ಜೋಳ": "jowar", "ಜೋಳದ": "jowar", "jola": "jowar", "jowar": "jowar",
+    "ಮೆಕ್ಕೆಜೋಳ": "maize", "ಮೆಕ್ಕೆಜೋಳದ": "maize", "maize": "maize", "corn": "maize",
+    "ಹತ್ತಿ": "cotton", "ಹತ್ತಿಯ": "cotton", "hatti": "cotton", "cotton": "cotton",
+    "ಶೇಂಗಾ": "groundnut", "ಶೇಂಗಾದ": "groundnut", "ಕಡಲೆಕಾಯಿ": "groundnut", "groundnut": "groundnut", "peanut": "groundnut",
     "ಸೂರ್ಯಕಾಂತಿ": "sunflower", "sunflower": "sunflower",
     "ಸೋಯಾಬೀನ್": "soybean", "soyabean": "soybean",
-    "ತೊಗರಿ": "tur", "togari": "tur", "tur": "tur",
-    "ಕಡಲೆ": "gram", "kadale": "gram", "gram": "gram", "chickpea": "gram",
+    "ತೊಗರಿ": "tur", "ತೊಗರಿಯ": "tur", "togari": "tur", "tur": "tur",
+    "ಕಡಲೆ": "gram", "ಕಡಲೆಯ": "gram", "kadale": "gram", "gram": "gram", "chickpea": "gram",
     "ಹೆಸರು": "moong", "hesaru": "moong", "moong": "moong",
     "ಉದ್ದು": "urad", "uddu": "urad", "urad": "urad",
     "ಈರುಳ್ಳಿ": "onion", "eerulli": "onion", "onion": "onion",
     "ಆಲೂಗಡ್ಡೆ": "potato", "aloo": "potato", "potato": "potato",
     "ಮೆಣಸಿನಕಾಯಿ": "chilli", "menasinakai": "chilli", "chilli": "chilli",
-    "ಟೊಮೆಟೊ": "tomato", "tamata": "tomato", "tomato": "tomato",
-    "ಅಡಿಕೆ": "arecanut", "adike": "arecanut", "arecanut": "arecanut",
+    "ಟೊಮೆಟೊ": "tomato", "ಟೊಮೇಟೊ": "tomato", "ತಮೋಟ": "tomato", "tamata": "tomato", "tomato": "tomato",
+    "ಅಡಿಕೆ": "arecanut", "ಅಡಿಕೆಯ": "arecanut", "adike": "arecanut", "arecanut": "arecanut",
     "ಕಾಫಿ": "coffee", "kaapi": "coffee", "coffee": "coffee",
     "ಬಾಳೆ": "banana", "bale": "banana", "banana": "banana",
     "ದಾಳಿಂಬೆ": "pomegranate", "dalimbe": "pomegranate", "pomegranate": "pomegranate",
@@ -176,7 +176,7 @@ def extract_slots_heuristic(text: str) -> Dict[str, Any]:
     ]):
         extracted["has_irrigation"] = True
     elif any(w in lower_text or w in text for w in [
-        "ಮಳೆ ಆಶ್ರಯ", "ಖುಷ್ಕಿ", "ನೀರಿಲ್ಲ",
+        "ಮಳೆ ಆಶ್ರಯ", "ಮಳೆಯಾಶ್ರಿತ", "ಮಳೆಯಾಧಾರಿತ", "ಖುಷ್ಕಿ", "ನೀರಿಲ್ಲ",
         "बारिश पर आधारित", "वर्षा आधारित", "असिंचित", "सूखा", "पानी नहीं है",
         "पावसावर", "कोरडवाहू", "जिरायत", "पाणी नाही",
         "rainfed", "dryland", "no water"

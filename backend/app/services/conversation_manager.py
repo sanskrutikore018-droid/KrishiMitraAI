@@ -87,40 +87,52 @@ QUICK_REPLIES = {
 AGRONOMIC_ADVISORY = {
     "tomato_disease": {
         "kn": (
-            "ಟೊಮೆಟೊ ಎಲೆಗಳು ಹಳದಿಯಾಗುವುದು ಮತ್ತು ಚುಕ್ಕೆಗಳು ಕಾಣಿಸಿಕೊಳ್ಳುವುದು ಸಾಮಾನ್ಯವಾಗಿ 'ಮುಂಚಿನ ಅಂಗಮಾರಿ' (Early Blight) "
-            "ಅಥವಾ 'ಸೆಪ್ಟೋರಿಯಾ ಎಲೆ ಚುಕ್ಕೆ' (Septoria Leaf Spot) ಶಿಲೀಂಧ್ರ ರೋಗದ ಲಕ್ಷಣವಾಗಿದೆ. "
-            "ಪರಿಹಾರ ಕ್ರಮಗಳು: \n"
-            "1. ಸೋಂಕಿತ ಕೆಳಗಿನ ಎಲೆಗಳನ್ನು ಕಿತ್ತು ನಾಶಪಡಿಸಿ.\n"
-            "2. ನೀರನ್ನು ಗಿಡದ ಮೇಲಿಂದ ಹಾಕದೆ ಬುಡಕ್ಕೆ ಮಾತ್ರ ಹಾಯಿಸಿ.\n"
-            "3. ಜೈವಿಕ ನಿಯಂತ್ರಣಕ್ಕೆ 'ಟ್ರೈಕೋಡರ್ಮಾ ವಿರಿಡೆ' (Trichoderma) ಅಥವಾ ಮ್ಯಾಂಕೋಜೆಬ್ (Mancozeb 2g/L) ಸಿಂಪಡಿಸಿ.\n"
-            "4. ಬೇವಿನ ಎಣ್ಣೆ (Neem Oil 5ml/L) ಕೀಟ ಹತೋಟಿಗೆ ಬಳಸಿ."
+            "ಟೊಮೆಟೊ ಎಲೆಗಳು ಹಳದಿಯಾಗುವುದು ಸಾಮಾನ್ಯವಾಗಿ 'ಮುಂಚಿನ ಅಂಗಮಾರಿ' (Early Blight) "
+            "ಅಥವಾ 'ಸೆಪ್ಟೋರಿಯಾ ಎಲೆ ಚುಕ್ಕೆ' (Septoria Leaf Spot) ಶಿಲೀಂಧ್ರ ರೋಗದ ಲಕ್ಷಣವಾಗಿದೆ.\n\n"
+            "ಪರಿಹಾರ ಕ್ರಮಗಳು (UAS ಧಾರವಾಡ & ಬೆಂಗಳೂರು ಕೃಷಿ ವಿವಿ ಶಿಫಾರಸು):\n"
+            "1. ಸೋಂಕಿತ ಕೆಳಗಿನ ಎಲೆಗಳನ್ನು ಕಿತ್ತು ತಕ್ಷಣ ನಾಶಪಡಿಸಿ (ತೋಟದಿಂದ ದೂರ ಹಾಕಿ).\n"
+            "2. ನೀರನ್ನು ಗಿಡದ ಮೇಲಿಂದ ಸಿಂಪಡಿಸದೆ, ಬುಡಕ್ಕೆ ಮಾತ್ರ ಹನಿ ನೀರಾವರಿ ಮೂಲಕ ಕೊಡಿ.\n"
+            "3. ಜೈವಿಕ ನಿಯಂತ್ರಣಕ್ಕೆ 'ಟ್ರೈಕೋಡರ್ಮಾ ವಿರಿಡೆ' (Trichoderma viride 5g/L) ಅಥವಾ ಮ್ಯಾಂಕೋಜೆಬ್ (Mancozeb 2g/L) ಸಂಜೆ ವೇಳೆ ಸಿಂಪಡಿಸಿ.\n"
+            "4. ರಸಹೀರುವ ಕೀಟಗಳ ನಿಯಂತ್ರಣಕ್ಕೆ ಬೇವಿನ ಎಣ್ಣೆ (Neem Oil 5ml/L) ಬಳಸಿ.\n\n"
+            "ರೋಗದ ನಿಖರ ಹಂತ ತಿಳಿಯಲು ಉಪಯುಕ್ತ ಪ್ರಶ್ನೆಗಳು:\n"
+            "• ಹಳದಿ ಬಣ್ಣವು ಕೆಳಗಿನ ಹಳೆಯ ಎಲೆಗಳಲ್ಲಿ ಪ್ರಾರಂಭವಾಗಿದೆಯೇ ಅಥವಾ ಮೇಲಿನ ಹೊಸ ಕುಡಿಗಳಲ್ಲೇ?\n"
+            "• ಎಲೆಗಳ ಮೇಲೆ ಕಪ್ಪು ಅಥವಾ ಕಂದು ಬಣ್ಣದ ವೃತ್ತಾಕಾರದ ಚುಕ್ಕೆಗಳು ಕಾಣಿಸುತ್ತಿವೆಯೇ?"
         ),
         "hi": (
             "टमाटर के पौधों में पत्तियों का पीला पड़ना और छोटे धब्बे आना मुख्य रूप से 'अगेती झुलसा' (Early Blight) "
-            "या पर्ण चित्ती (Leaf Spot) फफूंद रोग का लक्षण है। \n"
-            "सुरक्षात्मक उपाय:\n"
-            "1. संक्रमित निचली पत्तियों को तुरंत हटाकर नष्ट करें।\n"
-            "2. पत्तियों पर पानी डालने के बजाय सीधे जड़ों में पानी दें।\n"
-            "3. जैविक उपचार के लिए ट्राइकोडर्मा विरिडे या मेंकोज़ेब (2 ग्राम प्रति लीटर पानी) का छिड़काव करें।\n"
-            "4. कीटों से बचाव के लिए नीम तेल (5 मिली/लीटर) का प्रयोग करें।"
+            "या पर्ण चित्ती (Leaf Spot) फफूंद रोग का लक्षण है।\n\n"
+            "सुरक्षात्मक उपाय (ICAR एवं कृषि विवि दिशानिर्देश):\n"
+            "1. संक्रमित निचली पत्तियों को तुरंत हटाकर खेत से दूर नष्ट करें।\n"
+            "2. पत्तियों पर पानी डालने के बजाय सीधे जड़ों में ड्रिप द्वारा पानी दें।\n"
+            "3. जैविक उपचार के लिए ट्राइकोडर्मा विरिडे या मेंकोज़ेब (Mancozeb 2 ग्राम प्रति लीटर पानी) का छिड़काव करें।\n"
+            "4. रस चूसने वाले कीटों से बचाव के लिए नीम तेल (5 मिली/लीटर) का प्रयोग करें।\n\n"
+            "रोग की सही स्थिति जानने के लिए:\n"
+            "• क्या पीलापन पुरानी निचली पत्तियों में है या नई ऊपरी कोपलों में?\n"
+            "• क्या पत्तियों पर गोल कत्थई या काले घेरे वाले धब्बे हैं?"
         ),
         "mr": (
             "टोमॅटोच्या रोपांची पाने पिवळी पडणे आणि त्यावर ठिपके येणे हे मुख्यत्वे 'करपा' (Early Blight) "
-            "किंवा बुरशीजन्य रोगाचे (Septoria Leaf Spot) लक्षण आहे.\n"
-            "उपाययोजना:\n"
-            "1. बाधित झालेली खालची पाने काढून नष्ट करा.\n"
-            "2. पानांवर पाणी न शिंपडता फक्त मुळाशी पाणी द्या.\n"
+            "किंवा बुरशीजन्य रोगाचे (Septoria Leaf Spot) लक्षण आहे.\n\n"
+            "उपाययोजना (कृषी विद्यापीठ शिफारस):\n"
+            "1. बाधित झालेली खालची पाने काढून शेताबाहेर नष्ट करा.\n"
+            "2. पानांवर पाणी न शिंपडता फक्त मुळाशी ठिबकद्वारे पाणी द्या.\n"
             "3. जैविक नियंत्रणासाठी ट्रायकोडर्मा विरिडी किंवा मॅन्कोझेब (2 ग्रॅम/लिटर) फवारा.\n"
-            "4. संरक्षणासाठी कडुनिंब तेल (5 मिली/लिटर) वापरा."
+            "4. संरक्षणासाठी कडुनिंब तेल (5 मिली/लिटर) वापरा.\n\n"
+            "रोगाची तीव्रता तपासण्यासाठी:\n"
+            "• पिवळेपणा खालच्या जुन्या पानांवर आहे की वरच्या नव्या पानांवर?\n"
+            "• पानांवर काळपट-तपकिरी वर्तुळाकार ठिपके दिसत आहेत का?"
         ),
         "en": (
             "Yellowing leaves with small spots and stunted growth in tomato plants commonly indicate 'Early Blight' "
-            "(Alternaria solani) or Septoria leaf spot fungal infection.\n"
-            "Recommended Protection Steps:\n"
+            "(Alternaria solani) or Septoria leaf spot fungal infection.\n\n"
+            "Recommended Protection Steps (ICAR & UAS Dharwad Guidelines):\n"
             "1. Prune and destroy infected lower leaves immediately to stop spore spread.\n"
             "2. Water at the base of the plant using drip irrigation; avoid wetting foliage.\n"
             "3. Spray Trichoderma viride bio-fungicide or Mancozeb/Copper Oxychloride (2g/L).\n"
-            "4. Apply neem oil (5ml/L) as a safe organic deterrent against sap-sucking pests."
+            "4. Apply neem oil (5ml/L) as a safe organic deterrent against sap-sucking pests.\n\n"
+            "To confirm the exact disease stage:\n"
+            "• Are older lower leaves turning yellow first, or newly sprouted top shoots?\n"
+            "• Do the spots have dark concentric target-like rings?"
         )
     },
     "general_schemes": {
@@ -155,14 +167,20 @@ def detect_advisory_inquiry(message: str) -> Optional[str]:
     """Detects if farmer's query contains a specific agricultural problem or scheme question."""
     lowered = message.lower()
     
-    # Pure Kannada keywords:
-    # ಟೊಮೆಟೊ, ಹಳದಿ, ಎಲೆ, ಚುಕ್ಕೆ, ರೋಗ, ಕೀಟ, ಬೆಳೆ, ಪರಿಹಾರ, ಔಷಧ, ರೋಗಲಕ್ಷಣ
-    kn_crops = ["ಟೊಮೆಟೊ", "ಗಿಡ", "ಬೆಳೆ"]
-    kn_symptoms = ["ಹಳದಿ", "ಎಲೆ", "ಚುಕ್ಕೆ", "ರೋಗ", "ಕೀಟ", "ಬೆಳವಣಿಗೆ", "ಪರಿಹಾರ", "ಔಷಧ"]
+    # Pure Kannada & Regional Dialect keywords (North Karnataka, South Karnataka, Coastal):
+    kn_crops = [
+        "ಟೊಮೆಟೊ", "ಟೊಮೇಟೊ", "ತಮೋಟ", "ಗಿಡ", "ಗಿಡದ", "ಗಿಡಗಳು", "ಬೆಳೆ", "ಬೆಳಿ",
+        "ಹೊಲ", "ಗದ್ದೆ", "ತೋಟ", "ತೊಗರಿ", "ಹತ್ತಿ", "ಕಬ್ಬು", "ಭತ್ತ"
+    ]
+    kn_symptoms = [
+        "ಹಳದಿ", "ಎಲೆ", "ಎಲಿ", "ಆಗ್ತಾ ಇದೆ", "ಆಗ್ಯಾವ", "ಚುಕ್ಕೆ", "ಚುಕ್ಕೆಗಳು", "ಬಿದ್ದಾವ",
+        "ರೋಗ", "ಕೀಟ", "ಹುಳ", "ಹುಳ ಹತ್ತೇತಿ", "ಬೆಳವಣಿಗೆ", "ಕುಂಠಿತ", "ಪರಿಹಾರ", "ಔಷಧ",
+        "ಏನು ಮಾಡ್ಬೇಕು", "ಏನ್ ಮಾಡ್ಬೇಕ್ರಿ", "ರಕ್ಷಣೆ"
+    ]
     
     # Check for tomato disease / yellow leaves / spots across languages
     tomato_crop_terms = [
-        "tomato", "ಟೊಮೆಟೊ", "टमाटर", "टोमॅटो", "tomatoes"
+        "tomato", "ಟೊಮೆಟೊ", "ಟೊಮೇಟೊ", "ತಮೋಟ", "टमाटर", "टोमॅटो", "tomatoes"
     ]
     disease_keywords = [
         "yellow", "leaves", "spots", "growth", "slow", "blight", "fungus", "protect", "disease", "pest", "leaf",
